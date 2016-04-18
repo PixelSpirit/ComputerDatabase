@@ -1,0 +1,41 @@
+
+### Eclipse ###
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+### Project ###
+Servers
+RemoteSystemsTempFiles
+ComputerDatabase/build
+
+# Eclipse Core
+.project
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# sbteclipse plugin
+.target
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
