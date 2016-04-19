@@ -8,32 +8,40 @@ import model.Computer;
 
 public class ComputerMapper implements Mapper<Computer> {
 	
-	private static final String id = "id";
-	private static final String name = "name";
-	private static final String introduced = "introduced";
-	private static final String discontinued = "discontinued";
-	private static final String companyId = "company_id";
+	private static final String ID = "id";
+	private static final String NAME = "name";
+	private static final String INTRODUCED = "introduced";
+	private static final String DISCONTINUED = "discontinued";
+	private static final String COMPANY_ID = "company_id";
 	
+	private static ComputerMapper _instance = null;
 	
-	public ComputerMapper() {
+	private ComputerMapper() {
 		super();
+	}
+	
+	synchronized public static ComputerMapper getInstance() {
+		if(_instance == null) {
+			_instance = new ComputerMapper();
+		}
+		return _instance;
 	}
 
 	@Override
 	public void map(Computer entity, RowSet databaseRow) throws SQLException {
-		databaseRow.setString(name, entity.getName());
-		databaseRow.setTimestamp(introduced, entity.getIntroduced());
-		databaseRow.setTimestamp(discontinued, entity.getDiscontinued());
-		databaseRow.setLong(companyId, entity.getCompanyId());
+		databaseRow.setString(NAME, entity.getName());
+		databaseRow.setTimestamp(INTRODUCED, entity.getIntroduced());
+		databaseRow.setTimestamp(DISCONTINUED, entity.getDiscontinued());
+		databaseRow.setLong(COMPANY_ID, entity.getCompanyId());
 	}
 
 	@Override
 	public Computer unmap(RowSet databaseRow) throws SQLException {
-		Computer entity = new Computer(databaseRow.getLong(id));
-		entity.setName(databaseRow.getString(name));
-		entity.setIntroduced(databaseRow.getTimestamp(introduced));
-		entity.setDiscontinued(databaseRow.getTimestamp(discontinued));
-		entity.setCompanyId(databaseRow.getLong(companyId));
+		Computer entity = new Computer(databaseRow.getLong(ID));
+		entity.setName(databaseRow.getString(NAME));
+		entity.setIntroduced(databaseRow.getTimestamp(INTRODUCED));
+		entity.setDiscontinued(databaseRow.getTimestamp(DISCONTINUED));
+		entity.setCompanyId(databaseRow.getLong(COMPANY_ID));
 		return entity;
 	}
 
