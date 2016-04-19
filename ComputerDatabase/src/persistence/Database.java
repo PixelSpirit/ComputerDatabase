@@ -9,17 +9,17 @@ import com.sun.rowset.JdbcRowSetImpl;
 
 public class Database {
 	
-	private static String user = "admincdb";
-	private static String password = "qwerty1234";
-	private static String url = "jdbc:mysql://localhost:3306/computer-database-db";
+	private static final String USER = "admincdb";
+	private static final String PASSWORD = "qwerty1234";
+	private static final String URL = "jdbc:mysql://localhost:3306/computer-database-db";
 	
 	public static void initRowSet(RowSet rowset) throws SQLException {
-		rowset.setUrl(url);
-		rowset.setUsername(user);
-		rowset.setPassword(password);
+		rowset.setUrl(URL);
+		rowset.setUsername(USER);
+		rowset.setPassword(PASSWORD);
 	}
 	
-	public static RowSet getFreshRowSet() throws SQLException {
+	public static JdbcRowSet getFreshRowSet() throws SQLException {
 		JdbcRowSet rowset = new JdbcRowSetImpl();
 		initRowSet(rowset);
 		return rowset;
