@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import javax.sql.RowSet;
 
 /**
- * Permets to acces to the database to control the mapping
- * of a table as an entity
+ * Permits to access to the database to control the mapping
+ * of a table as an entity.
  * @param <T> The type of the entity that represents a table
  */
 public abstract class DAO<T> implements AutoCloseable {

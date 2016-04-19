@@ -7,12 +7,12 @@ public class Computer {
 	long id = 0;
 	String name = null;
 	Timestamp introduced = null;
-	Timestamp discountinued = null;
+	Timestamp discontinued = null;
 	Long companyId = null;
 
 	
 	
-	public Computer(int id) {
+	public Computer(long id) {
 		this.id = id;
 	}
 
@@ -45,14 +45,13 @@ public class Computer {
 		this.introduced = introduced;
 	}
 
-
-	public Timestamp getDiscountinued() {
-		return discountinued;
+	public Timestamp getDiscontinued() {
+		return discontinued;
 	}
 
 
-	public void setDiscountinued(Timestamp discountinued) {
-		this.discountinued = discountinued;
+	public void setDiscontinued(Timestamp discountinued) {
+		this.discontinued = discountinued;
 	}
 
 
