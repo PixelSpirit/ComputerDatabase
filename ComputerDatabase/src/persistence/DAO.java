@@ -41,10 +41,10 @@ public abstract class DAO<T> implements AutoCloseable {
 	public abstract T remove(long id) throws SQLException;
 	
 	/**
-	 * Add the given entity in the database.
+	 * Insert the given entity in the database.
 	 * @param entity The entity to add in the database
 	 */
-	public abstract void add(T entity) throws SQLException;
+	public abstract void insert(T entity) throws SQLException;
 	
 	/**
 	 * Find the entity that match the given id and update it
