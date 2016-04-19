@@ -63,5 +63,13 @@ public class Computer {
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
+
+	@Override
+	public String toString() {
+		return name + " (" + id + ", " +
+				introduced + ", " + discontinued + ", " + companyId + ")";   
+	}
+	
+	
 	
 }
