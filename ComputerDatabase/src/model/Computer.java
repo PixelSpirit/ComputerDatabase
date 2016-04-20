@@ -65,13 +65,11 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return String.format("(%d, '%s', '%s', '%s', %d)", 
-				id, 
-				name, 
-				introduced.toString(), 
-				discontinued.toString(), 
-				companyId
-				);
+		return "(" + id + ", " +
+				name + ", " +
+				introduced + ", " +
+				discontinued + ", " +
+				companyId + ")";
 	}
 	
 	
