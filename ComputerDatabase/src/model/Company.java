@@ -6,7 +6,7 @@ public class Company {
 
 	String name = null;
 
-	public Company(int id) {
+	public Company(long id) {
 		this.id = id;
 	}
 
@@ -14,7 +14,7 @@ public class Company {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
