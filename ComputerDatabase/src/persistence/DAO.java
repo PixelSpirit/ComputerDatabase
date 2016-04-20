@@ -35,9 +35,8 @@ public abstract class DAO<T> implements AutoCloseable {
 	 * Remove the entity that match the given id from
 	 * the database and returns it.
 	 * @param id The entity's id
-	 * @return The entity that has been removed
 	 */
-	public abstract T remove(long id) throws SQLException;
+	public abstract void remove(long id) throws SQLException;
 	
 	/**
 	 * Insert the given entity in the database.

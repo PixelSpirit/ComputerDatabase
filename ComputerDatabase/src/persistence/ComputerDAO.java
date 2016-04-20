@@ -18,6 +18,14 @@ public class ComputerDAO extends DAO<Computer> {
 	private static final String INSERT_QUERY =
 		"INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 	
+	private static final String DELETE_QUERY =
+		"DELETE FROM computer WHERE id=?";
+	
+	private static final String UPDATE_QUERY =
+		"UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
+	
+	
+	
 	public ComputerDAO() throws SQLException {
 		super();
 	}
@@ -36,9 +44,11 @@ public class ComputerDAO extends DAO<Computer> {
 	}
 
 	@Override
-	public Computer remove(long id) throws SQLException {
-		return null;
-		// TODO
+	public void remove(long id) throws SQLException {
+		try(PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		}
 	}
 
 	@Override
@@ -58,8 +68,18 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer update(long id, Computer updateValue) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			ComputerMapper.getInstance().map(updateValue, stmt);
+			stmt.setLong(5, id);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
+			}
+			else{
+				throw new SQLException("No key was found");
+			}
+		}
 	}
 		
 
