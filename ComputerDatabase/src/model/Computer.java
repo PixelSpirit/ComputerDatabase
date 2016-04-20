@@ -34,9 +34,7 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	insert(c);
-	System.out.println(r
-
+	
 	public Timestamp getIntroduced() {
 		return introduced;
 	}
