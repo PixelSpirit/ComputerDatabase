@@ -28,7 +28,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return String.format("(%d, '%s')", id, name);
+		return "(" + id + ", " + name + ")";
 	}
 
 }
