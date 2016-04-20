@@ -26,8 +26,7 @@ public class CompanyMapper implements Mapper<Company> {
 	
 	@Override
 	public void map(Company entity, PreparedStatement stmt) throws SQLException {
-		stmt.setLong(1, entity.getId());
-		stmt.setString(2, entity.getName());
+		stmt.setString(1, entity.getName());
 	}
 
 	@Override
