@@ -30,7 +30,12 @@ public class ComputerMapper implements Mapper<Computer> {
 
 	@Override
 	public String map(Computer entity) throws SQLException {
-		return entity.toString();
+		return String.format("('%s', '%s', '%s', %d)", 
+					entity.getName(), 
+					entity.getIntroduced().toString(), 
+					entity.getDiscontinued().toString(), 
+					entity.getCompanyId()
+				);
 	}
 
 	@Override

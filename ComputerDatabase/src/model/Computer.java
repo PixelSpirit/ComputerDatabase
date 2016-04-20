@@ -34,7 +34,8 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	insert(c);
+	System.out.println(r
 
 	public Timestamp getIntroduced() {
 		return introduced;
@@ -66,7 +67,13 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return String.format("('%s', '%s', '%s', %d)", name, introduced.toString(), discontinued.toString(), companyId);
+		return String.format("(%d, '%s', '%s', '%s', %d)", 
+				id, 
+				name, 
+				introduced.toString(), 
+				discontinued.toString(), 
+				companyId
+				);
 	}
 	
 	
