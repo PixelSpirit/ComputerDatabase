@@ -3,6 +3,7 @@ package persistence;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.xml.validation.Schema;
 
@@ -36,24 +37,30 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer remove(long id) throws SQLException {
+		return null;
+		// TODO
+	}
+
+	@Override
+	public Computer insert(Computer entity) throws SQLException {
+		try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			ComputerMapper.getInstance().map(entity, stmt);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
+			}
+			else{
+				throw new SQLException("No key was found");
+			}
+		}
+	}
+
+	@Override
+	public Computer update(long id, Computer updateValue) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void insert(Computer entity) throws SQLException {
-		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public boolean update(long id, Computer updateValue) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	
-	
 
 }

@@ -1,5 +1,6 @@
 package mapper;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,12 +13,11 @@ import javax.sql.RowSet;
 public interface Mapper<T> {
 	
 	/**
-	 * Converts an entity into a string that will represent the value
-	 * field of an update or insert database query. 
+	 * Fill the given PreparedStatement with the mapped entity.
 	 * @param entity The entity to convert into a database row
-	 * @return The value SQL query's field string
+	 * @param stmt The PreparedStatement to fill
 	 */
-	public String map(T entity) throws SQLException;
+	public void map(T entity, PreparedStatement stmt) throws SQLException;
 	
 	/**
 	 * Converts a database row into an entity.

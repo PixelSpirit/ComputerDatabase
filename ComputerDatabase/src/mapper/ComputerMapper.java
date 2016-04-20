@@ -1,5 +1,6 @@
 package mapper;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,13 +30,12 @@ public class ComputerMapper implements Mapper<Computer> {
 	}
 
 	@Override
-	public String map(Computer entity) throws SQLException {
-		return String.format("('%s', '%s', '%s', %d)", 
-					entity.getName(), 
-					entity.getIntroduced().toString(), 
-					entity.getDiscontinued().toString(), 
-					entity.getCompanyId()
-				);
+	public void map(Computer entity, PreparedStatement stmt) throws SQLException {
+		stmt.setString(1, entity.getName());
+		stmt.setTimestamp(2, entity.getIntroduced());
+		stmt.setTimestamp(3, entity.getDiscontinued());
+		stmt.setLong(4, entity.getCompanyId());
+		
 	}
 
 	@Override
