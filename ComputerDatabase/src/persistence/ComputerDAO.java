@@ -1,6 +1,10 @@
 package persistence;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.xml.validation.Schema;
 
 import mapper.ComputerMapper;
 import model.Computer;
@@ -22,11 +26,12 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer find(long id) throws SQLException {
-		rowset.setCommand(FIND_QUERY);
-		rowset.setLong(1, id);
-		rowset.execute();
-		rowset.first();
-		return ComputerMapper.getInstance().unmap(rowset);
+		try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
+			stmt.setLong(1, id);
+			ResultSet result = stmt.executeQuery();
+			result.first();
+			return ComputerMapper.getInstance().unmap(result);
+		}
 	}
 
 	@Override

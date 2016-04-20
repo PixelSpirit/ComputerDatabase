@@ -1,8 +1,7 @@
 package persistence;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-
-import javax.sql.RowSet;
 
 /**
  * Permits to access to the database to control the mapping
@@ -11,15 +10,15 @@ import javax.sql.RowSet;
  */
 public abstract class DAO<T> implements AutoCloseable {
 	
-	protected RowSet rowset = null;
+	protected Connection connect = null;
 	
 	public DAO() throws SQLException {
-		this.rowset = Database.getFreshRowSet();
+		this.connect = Database.getFreshConnection();
 	}
 	
 	@Override
 	public void close() throws Exception {
-		this.rowset.close();
+		this.connect.close();
 	}
 	
 

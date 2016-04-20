@@ -1,5 +1,6 @@
 package mapper;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.RowSet;
@@ -11,18 +12,19 @@ import javax.sql.RowSet;
 public interface Mapper<T> {
 	
 	/**
-	 * Writes the given entity's data into the database row
+	 * Converts an entity into a string that will represent the value
+	 * field of an update or insert database query. 
 	 * @param entity The entity to convert into a database row
-	 * @param databaseRow The database row to update
+	 * @return The value SQL query's field string
 	 */
-	public void map(T entity, RowSet databaseRow) throws SQLException;
+	public String map(T entity) throws SQLException;
 	
 	/**
-	 * Convert a database row into an entity
+	 * Converts a database row into an entity.
 	 * @param databaseRow The database row to convert into an entity
 	 * @return The resulted entity
 	 */
-	public T unmap(RowSet databaseRow) throws SQLException;
+	public T unmap(ResultSet databaseRow) throws SQLException;
 	
 	
 }
