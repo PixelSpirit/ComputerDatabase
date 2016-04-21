@@ -4,17 +4,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
 
 
 public class ComputerMapper implements Mapper<Computer> {
 	
-	private static final String ID = "id";
-	private static final String NAME = "name";
-	private static final String INTRODUCED = "introduced";
-	private static final String DISCONTINUED = "discontinued";
-	private static final String COMPANY_ID = "company_id";
+	private static final String ID = "cptr.id";
+	private static final String NAME = "cptr.name";
+	private static final String INTRODUCED = "cptr.introduced";
+	private static final String DISCONTINUED = "cptr.discontinued";
+	private static final String COMPANY_ID = "cpn.id";
+	private static final String COMPANY_NAME = "cpn.name";
 	
 	
 	/* Singleton */
@@ -40,20 +42,24 @@ public class ComputerMapper implements Mapper<Computer> {
 		stmt.setString(1, entity.getName());
 		stmt.setTimestamp(2, entity.getIntroduced());
 		stmt.setTimestamp(3, entity.getDiscontinued());
-		stmt.setLong(4, entity.getCompanyId());
+		stmt.setLong(4, entity.getCompany().getId());
 		
 	}
 
 	@Override
 	public Computer unmap(ResultSet databaseRow) throws SQLException {
-		Computer entity = new Computer.Builder()
+		Company cpn = new Company(
+				databaseRow.getLong(COMPANY_ID),
+				databaseRow.getString(COMPANY_NAME)
+				);
+		Computer cpt = new Computer.Builder()
 			.id(databaseRow.getLong(ID))
 			.name(databaseRow.getString(NAME))
 			.introduced(databaseRow.getTimestamp(INTRODUCED))
 			.discontinued(databaseRow.getTimestamp(DISCONTINUED))
-			.companyId(databaseRow.getLong(COMPANY_ID))
+			.company(cpn)
 			.build();
-		return entity;
+		return cpt;
 	}
 
 }

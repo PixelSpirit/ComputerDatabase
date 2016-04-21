@@ -13,10 +13,14 @@ import com.excilys.model.Computer;
 public class ComputerDAO extends DAO<Computer> {
 
 	private static final String FIND_QUERY =
-			"SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=?";
+			"SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
+			+ "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id "
+			+ "WHERE cptr.id=?";
 
 	private static final String FIND_ALL_QUERY =
-			"SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ? OFFSET ?";
+			"SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
+			+ "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id "
+			+ "LIMIT ? OFFSET ?";
 
 	private static final String INSERT_QUERY =
 			"INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";

@@ -8,74 +8,74 @@ public class Computer {
 	String name;
 	Timestamp introduced;
 	Timestamp discontinued;
-	Long companyId;
-	
-	
+	Company company;
+
+
 	/* Builder */
-	
+
 	public static class Builder {
 		long id;
 		String name;
 		Timestamp introduced;
 		Timestamp discontinued;
-		Long companyId;
-		
+		Company company;
+
 		public Builder(){
 			this.id = -1;
 		}
-		
+
 		public Builder id(long l){
 			this.id = l;
 			return this;
 		}
-		
+
 		public Builder name(String s){
 			this.name = s;
 			return this;
 		}
-		
+
 		public Builder introduced(Timestamp t){
 			this.introduced = t;
 			return this;
 		}
-		
+
 		public Builder discontinued(Timestamp t){
 			this.discontinued = t;
 			return this;
 		}
-		
-		public Builder companyId(Long l){
-			this.companyId = l;
+
+		public Builder company(Company c){
+			this.company = c;
 			return this;
 		}
-		
+
 		public Computer build(){
 			return new Computer(this);
 		}
 	}
-	
-	
+
+
 	/* Constructors */
-	
+
 	public Computer() {
 		this.id = -1;
 		this.name = null;
 		this.introduced = null;
 		this.discontinued = null;
-		this.companyId = null;
+		this.company = null;
 	}
-	
+
 	public Computer(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
 		this.discontinued = builder.discontinued;
-		this.companyId = builder.companyId;
+		this.company = builder.company;
 	}
-	
-	
+
+
 	/* Getters and getters */
-	
+
 	public long getId() {
 		return id;
 	}
@@ -94,7 +94,7 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public Timestamp getIntroduced() {
 		return introduced;
 	}
@@ -114,32 +114,32 @@ public class Computer {
 	}
 
 
-	public Long getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
 
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	
+
 	/* Object */
-	
+
 	@Override
 	public String toString() {
 		return "(" + id + ", " +
 				name + ", " +
 				introduced + ", " +
 				discontinued + ", " +
-				companyId + ")";
+				company + ")";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -156,10 +156,10 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (companyId == null) {
-			if (other.companyId != null)
+		if (company == null) {
+			if (other.company != null)
 				return false;
-		} else if (!companyId.equals(other.companyId))
+		} else if (!company.equals(other.company))
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
@@ -180,5 +180,5 @@ public class Computer {
 			return false;
 		return true;
 	}
-		
+
 }

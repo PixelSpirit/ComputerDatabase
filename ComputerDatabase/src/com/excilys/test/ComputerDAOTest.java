@@ -14,7 +14,6 @@ public class ComputerDAOTest {
 				.name("LambdaY")
 				.introduced(Timestamp.valueOf("2010-01-01 00:00:01.0"))
 				.discontinued(Timestamp.valueOf("2016-01-01 00:00:01.0"))
-				.companyId(new Long(42))
 				.build();
 		return entity;
 	}
