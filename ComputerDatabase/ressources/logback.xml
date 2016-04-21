@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
 <configuration>
-
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>ComputerDatabase.log</file>
 
@@ -19,5 +20,4 @@
 	<root level="DEBUG">
 		<appender-ref ref="FILE" />
 	</root>
-
 </configuration>
