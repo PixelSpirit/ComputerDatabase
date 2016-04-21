@@ -1,28 +1,14 @@
 package persistence;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  * Permits to access to the database to control the mapping
  * of a table as an entity.
  * @param <T> The type of the entity that represents a table
  */
-public abstract class DAO<T> implements AutoCloseable {
-	
-	protected Connection connect = null;
-	
-	public DAO() throws SQLException {
-		this.connect = Database.getFreshConnection();
-	}
-	
-	@Override
-	public void close() throws Exception {
-		this.connect.close();
-	}
-	
-
-	/* DAO Specification */
+public abstract class DAO<T> {
 	
 	/**
 	 * Finds the entity that match the given id.
@@ -30,6 +16,14 @@ public abstract class DAO<T> implements AutoCloseable {
 	 * @return The required entity
 	 */
 	public abstract T find(long id) throws SQLException;
+	
+	/**
+	 * Finds n elements from the offset in the databases.
+	 * @param n The maximum number of elements that must be found
+	 * @param offset The first 
+	 * @return
+	 */
+	public abstract LinkedList<T> findSeveral(int n, int offset) throws SQLException;
 	
 	/**
 	 * Remove the entity that match the given id from

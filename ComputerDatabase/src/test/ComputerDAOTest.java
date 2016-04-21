@@ -19,7 +19,8 @@ public class ComputerDAOTest {
 	}
 	
 	public static void testFind(){
-		try(ComputerDAO cdao = new ComputerDAO()){
+		ComputerDAO cdao = ComputerDAO.getInstance();
+		try{
 			Computer c = cdao.find(575);
 			System.out.println(c);
 		}
@@ -32,7 +33,8 @@ public class ComputerDAOTest {
 	}
 	
 	public static void testInsert(){
-		try(ComputerDAO cdao = new ComputerDAO()){
+		ComputerDAO cdao = ComputerDAO.getInstance();
+		try{
 			Computer c = freshComputer();
 			Computer res = cdao.insert(c);
 			System.out.println(res);
