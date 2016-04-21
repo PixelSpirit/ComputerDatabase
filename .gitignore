@@ -39,3 +39,5 @@ ComputerDatabase/build
 # Code Recommenders
 .recommenders/
 
+# Logging
+ComputerDatabase/ComputerDatabase.log
