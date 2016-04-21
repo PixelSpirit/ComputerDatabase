@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.sql.RowSet;
-
 /**
  * Permits to map a database result into an entity and vice versa.
   * @param <T> The type of the entity to map into a table row

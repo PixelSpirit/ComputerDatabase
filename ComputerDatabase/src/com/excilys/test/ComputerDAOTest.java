@@ -2,7 +2,6 @@ package com.excilys.test;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
