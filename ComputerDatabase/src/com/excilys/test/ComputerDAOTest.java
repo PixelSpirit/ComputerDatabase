@@ -1,11 +1,11 @@
-package test;
+package com.excilys.test;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import model.Computer;
-import persistence.ComputerDAO;
+import com.excilys.model.Computer;
+import com.excilys.persistence.ComputerDAO;
 
 public class ComputerDAOTest {
 	

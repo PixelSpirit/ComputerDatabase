@@ -1,11 +1,11 @@
-package test;
+package com.excilys.test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import persistence.Database;
+import com.excilys.persistence.Database;
 
 public class DatabaseTest {
 	

@@ -1,4 +1,4 @@
-package ui;
+package com.excilys.ui;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 
-import model.Computer;
-import service.ComputerServices;
+import com.excilys.model.Computer;
+import com.excilys.service.ComputerServices;
 
 public class ComputerCreationMenu extends Menu {
 

@@ -1,4 +1,4 @@
-package mapper;
+package com.excilys.mapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.RowSet;
 
-import model.Computer;
+import com.excilys.model.Computer;
 
 public class ComputerMapper implements Mapper<Computer> {
 	

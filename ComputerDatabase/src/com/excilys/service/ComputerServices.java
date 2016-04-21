@@ -1,11 +1,11 @@
-package service;
+package com.excilys.service;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import model.Computer;
-import persistence.ComputerDAO;
-import persistence.DAO;
+import com.excilys.model.Computer;
+import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.DAO;
 
 public class ComputerServices {
 	

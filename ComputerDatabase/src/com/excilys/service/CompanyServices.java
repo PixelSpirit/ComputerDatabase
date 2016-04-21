@@ -1,11 +1,11 @@
-package service;
+package com.excilys.service;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import model.Company;
-import persistence.CompanyDAO;
-import persistence.DAO;
+import com.excilys.model.Company;
+import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.DAO;
 
 public class CompanyServices {
 	

@@ -1,4 +1,4 @@
-package persistence;
+package com.excilys.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,72 +7,70 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import mapper.CompanyMapper;
-import mapper.ComputerMapper;
-import model.Company;
-import model.Computer;
+import javax.xml.validation.Schema;
 
-public class CompanyDAO extends DAO<Company>{
+import com.excilys.mapper.ComputerMapper;
+import com.excilys.model.Computer;
+
+public class ComputerDAO extends DAO<Computer> {
 
 	private static final String FIND_QUERY =
-			"SELECT id, name FROM company WHERE id=?";
-	
+			"SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=?";
+
 	private static final String FIND_ALL_QUERY =
-			"SELECT id, name FROM company LIMIT ? OFFSET ?";
+			"SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ? OFFSET ?";
 
 	private static final String INSERT_QUERY =
-			"INSERT INTO company (name) VALUES (?)";
+			"INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
 	private static final String DELETE_QUERY =
-			"DELETE FROM company WHERE id=?";
+			"DELETE FROM computer WHERE id=?";
 
 	private static final String UPDATE_QUERY =
-			"UPDATE company SET name=? WHERE id=?";
+			"UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 
+
+
+	private static ComputerDAO _instance = null;
 	
-	/* Singleton */
-	
-	private static CompanyDAO _instance = null;
-	
-	private CompanyDAO() {
+	private ComputerDAO() {
 		super();
 	}
 	
-	synchronized public static CompanyDAO getInstance(){
+	synchronized public static ComputerDAO getInstance(){
 		if(_instance == null){
-			_instance = new CompanyDAO();
+			_instance = new ComputerDAO();
 		}
 		return _instance;
 	}
-	
-	
-	
+
+
 	/* DAO Functionalities */
 
 	@Override
-	public Company find(long id) throws SQLException {
+	public Computer find(long id) throws SQLException {
 		try(Connection connect = Database.getFreshConnection()){
 			try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
 				stmt.setLong(1, id);
 				ResultSet result = stmt.executeQuery();
 				result.first();
-				return CompanyMapper.getInstance().unmap(result);
+				return ComputerMapper.getInstance().unmap(result);
 			}
 		}
 	}
 
 	@Override
-	public LinkedList<Company> findSeveral(int n, int offset) throws SQLException {
+	public LinkedList<Computer> findSeveral(int n, int offset) throws SQLException {
 		try(Connection connect = Database.getFreshConnection()){
 			try(PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
 				stmt.setInt(1, n);
 				stmt.setInt(2, offset);
 				ResultSet results = stmt.executeQuery();
-				LinkedList<Company> companies = new LinkedList<>();
+				LinkedList<Computer> computers = new LinkedList<>();
 				while(results.next()){
-					companies.add(CompanyMapper.getInstance().unmap(results));
+					computers.add(ComputerMapper.getInstance().unmap(results));
 				}
-				return companies;
+				return computers;
 			}
 		}
 	}
@@ -89,10 +87,10 @@ public class CompanyDAO extends DAO<Company>{
 	}
 
 	@Override
-	public Company insert(Company entity) throws SQLException {
+	public Computer insert(Computer entity) throws SQLException {
 		try(Connection connect = Database.getFreshConnection()){
 			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				CompanyMapper.getInstance().map(entity, stmt);
+				ComputerMapper.getInstance().map(entity, stmt);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.first()){
@@ -106,11 +104,11 @@ public class CompanyDAO extends DAO<Company>{
 	}
 
 	@Override
-	public Company update(long id, Company updateValue) throws SQLException {
+	public Computer update(long id, Computer updateValue) throws SQLException {
 		try(Connection connect = Database.getFreshConnection()){
 			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				CompanyMapper.getInstance().map(updateValue, stmt);
-				stmt.setLong(2, id);
+				ComputerMapper.getInstance().map(updateValue, stmt);
+				stmt.setLong(5, id);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.first()){
@@ -122,7 +120,6 @@ public class CompanyDAO extends DAO<Company>{
 			}
 		}
 	}
-
 
 
 

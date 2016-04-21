@@ -1,8 +1,8 @@
-package test;
+package com.excilys.test;
 
 import java.sql.Timestamp;
 
-import model.Computer;
+import com.excilys.model.Computer;
 
 public class ComputerTest {
 	

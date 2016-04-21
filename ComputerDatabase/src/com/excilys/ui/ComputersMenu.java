@@ -1,8 +1,8 @@
-package ui;
+package com.excilys.ui;
 
 import java.util.InputMismatchException;
 
-import service.ComputerServices;
+import com.excilys.service.ComputerServices;
 
 public class ComputersMenu extends Menu {
 		

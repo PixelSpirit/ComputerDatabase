@@ -1,4 +1,4 @@
-package persistence;
+package com.excilys.persistence;
 
 import java.sql.SQLException;
 import java.util.LinkedList;

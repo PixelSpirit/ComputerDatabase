@@ -1,10 +1,10 @@
-package mapper;
+package com.excilys.mapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.Company;
+import com.excilys.model.Company;
 
 public class CompanyMapper implements Mapper<Company> {
 	

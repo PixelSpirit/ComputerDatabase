@@ -1,8 +1,8 @@
-package ui;
+package com.excilys.ui;
 
 import java.util.InputMismatchException;
 
-import service.CompanyServices;
+import com.excilys.service.CompanyServices;
 
 public class ComponentsMenu extends Menu {
 		

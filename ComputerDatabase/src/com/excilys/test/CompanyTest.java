@@ -1,6 +1,6 @@
-package test;
+package com.excilys.test;
 
-import model.Company;
+import com.excilys.model.Company;
 
 public class CompanyTest {
 	

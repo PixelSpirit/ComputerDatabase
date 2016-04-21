@@ -1,4 +1,4 @@
-package ui;
+package com.excilys.ui;
 
 import java.util.InputMismatchException;
 
