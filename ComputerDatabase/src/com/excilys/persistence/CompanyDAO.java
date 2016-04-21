@@ -7,8 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
+import com.excilys.service.ComputerServices;
 
 public class CompanyDAO extends DAO<Company>{
 
@@ -26,7 +30,9 @@ public class CompanyDAO extends DAO<Company>{
 
 	private static final String UPDATE_QUERY =
 			"UPDATE company SET name=? WHERE id=?";
-
+	
+	
+	private Logger logger = LoggerFactory.getLogger(ComputerServices.class);
 	
 	/* Singleton */
 	
@@ -52,6 +58,7 @@ public class CompanyDAO extends DAO<Company>{
 		try(Connection connect = Database.getFreshConnection()){
 			try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
 				stmt.setLong(1, id);
+				logger.info("<SQL Query> Selecting company where id = " + id);
 				ResultSet result = stmt.executeQuery();
 				result.first();
 				return CompanyMapper.getInstance().unmap(result);

@@ -6,10 +6,13 @@ import java.sql.SQLException;
 
 import com.excilys.model.Company;
 
+
 public class CompanyMapper implements Mapper<Company> {
 	
 	private static final String ID = "id";
 	private static final String NAME = "name";
+	
+	/* Singleton */
 
 	private static CompanyMapper _instance = null;
 	
@@ -23,6 +26,9 @@ public class CompanyMapper implements Mapper<Company> {
 		}
 		return _instance;
 	}
+	
+	
+	/* Mapper */
 	
 	@Override
 	public void map(Company entity, PreparedStatement stmt) throws SQLException {

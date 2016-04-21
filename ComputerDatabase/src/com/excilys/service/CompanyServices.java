@@ -3,13 +3,24 @@ package com.excilys.service;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.DAO;
 
+/**
+ * Groups the different services to use companies
+ */
 public class CompanyServices {
 	
-	DAO<Company> dao = CompanyDAO.getInstance();
+	/**
+	 * The access to comapanie's DAO
+	 */
+	private DAO<Company> dao = CompanyDAO.getInstance();
+	
+	private Logger logger = LoggerFactory.getLogger(CompanyServices.class);
 	
 	/* Singleton */
 	
@@ -27,6 +38,11 @@ public class CompanyServices {
 	
 	/* Functionalities */
 	
+	/**
+	 * Prints the size companies from the from-th company found by the DAO
+	 * @param from The number of the first company to print
+	 * @param size The number of companies to print
+	 */
 	public void printCompanies(int from, int size){
 		LinkedList<Company> companies;
 		try {
@@ -37,7 +53,7 @@ public class CompanyServices {
 				System.out.println(company);
 			}
 		} catch (SQLException e) {
-			//TODO Log error
+			logger.error(e.getSQLState());
 			System.err.println("Database communication error : Companies can't be printed");
 		}
 	}

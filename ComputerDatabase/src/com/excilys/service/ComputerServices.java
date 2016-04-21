@@ -3,13 +3,24 @@ package com.excilys.service;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.DAO;
 
+/**
+ * Groups the different services to use computers
+ */
 public class ComputerServices {
 	
+	/**
+	 * The access to comapanie's DAO
+	 */
 	DAO<Computer> dao = ComputerDAO.getInstance();
+	
+	private Logger logger = LoggerFactory.getLogger(ComputerServices.class);
 	
 	/* Singleton */
 	
@@ -27,6 +38,11 @@ public class ComputerServices {
 	
 	/* Functionalities */
 	
+	/**
+	 * Prints the size computers from the from-th company found by the DAO
+	 * @param from The number of the first computer to print
+	 * @param size The number of computers to print
+	 */
 	public void printComputers(int from, int size){
 		LinkedList<Computer> computers;
 		try {
@@ -37,7 +53,7 @@ public class ComputerServices {
 				System.out.println(computer);
 			}
 		} catch (SQLException e) {
-			//TODO Log error
+			logger.error(e.getSQLState());
 			System.err.println("Database communication error : Computer can't be printed");
 		}
 	}
@@ -46,7 +62,7 @@ public class ComputerServices {
 		try {
 			dao.insert(c);
 		} catch (SQLException e) {
-			//TODO Log error
+			logger.error(e.getSQLState());
 			System.err.println("Database communication error : Computer can't be added");
 		}
 	}
@@ -55,7 +71,7 @@ public class ComputerServices {
 		try{
 			dao.update(id, freshValue);
 		} catch (SQLException e){
-			//TODO Log error
+			logger.error(e.getSQLState());
 			System.err.println("Database communication error : Computer can't be updated");
 		}
 	}
