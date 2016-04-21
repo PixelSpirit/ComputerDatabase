@@ -68,7 +68,7 @@ public class ComputerCreationMenu extends Menu {
 
 	@Override
 	protected void printContent() {
-		Computer computer = new Computer(-1);
+		Computer computer = new Computer();
 		computer.setName(createName());
 		Timestamp introduced;
 		Timestamp discontinued;

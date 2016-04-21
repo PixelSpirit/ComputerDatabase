@@ -4,18 +4,78 @@ import java.sql.Timestamp;
 
 public class Computer {
 
-	long id = 0;
-	String name = null;
-	Timestamp introduced = null;
-	Timestamp discontinued = null;
-	Long companyId = null;
-
+	long id;
+	String name;
+	Timestamp introduced;
+	Timestamp discontinued;
+	Long companyId;
 	
 	
-	public Computer(long id) {
-		this.id = id;
+	/* Builder */
+	
+	public static class Builder {
+		long id;
+		String name;
+		Timestamp introduced;
+		Timestamp discontinued;
+		Long companyId;
+		
+		public Builder(){
+			this.id = -1;
+		}
+		
+		public Builder id(long l){
+			this.id = l;
+			return this;
+		}
+		
+		public Builder name(String s){
+			this.name = s;
+			return this;
+		}
+		
+		public Builder introduced(Timestamp t){
+			this.introduced = t;
+			return this;
+		}
+		
+		public Builder discontinued(Timestamp t){
+			this.discontinued = t;
+			return this;
+		}
+		
+		public Builder companyId(Long l){
+			this.companyId = l;
+			return this;
+		}
+		
+		public Computer build(){
+			return new Computer(this);
+		}
 	}
-
+	
+	
+	/* Constructors */
+	
+	public Computer() {
+		this.id = -1;
+		this.name = null;
+		this.introduced = null;
+		this.discontinued = null;
+		this.companyId = null;
+	}
+	
+	public Computer(Builder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+		this.introduced = builder.introduced;
+		this.discontinued = builder.discontinued;
+		this.companyId = builder.companyId;
+	}
+	
+	
+	/* Getters and getters */
+	
 	public long getId() {
 		return id;
 	}
@@ -63,6 +123,9 @@ public class Computer {
 		this.companyId = companyId;
 	}
 
+	
+	/* Object */
+	
 	@Override
 	public String toString() {
 		return "(" + id + ", " +

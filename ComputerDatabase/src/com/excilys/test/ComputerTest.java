@@ -7,12 +7,14 @@ import com.excilys.model.Computer;
 public class ComputerTest {
 	
 	public static void toStringTest(){
-		Computer c = new Computer(0);
-		c.setName("LambdaY");
-		c.setIntroduced(Timestamp.valueOf("2010-01-01 00:00:01.0"));
-		c.setDiscontinued(Timestamp.valueOf("2016-01-01 00:00:01.0"));
-		c.setCompanyId(new Long(42));
-		System.out.println(c);
+		Computer entity = new Computer.Builder()
+				.id(3)
+				.name("LambdaY")
+				.introduced(Timestamp.valueOf("2010-01-01 00:00:01.0"))
+				.discontinued(Timestamp.valueOf("2016-01-01 00:00:01.0"))
+				.companyId(new Long(42))
+				.build();
+		System.out.println(entity);
 	}
 	
 	public static void main(String[] args){

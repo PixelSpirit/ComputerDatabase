@@ -46,11 +46,13 @@ public class ComputerMapper implements Mapper<Computer> {
 
 	@Override
 	public Computer unmap(ResultSet databaseRow) throws SQLException {
-		Computer entity = new Computer(databaseRow.getLong(ID));
-		entity.setName(databaseRow.getString(NAME));
-		entity.setIntroduced(databaseRow.getTimestamp(INTRODUCED));
-		entity.setDiscontinued(databaseRow.getTimestamp(DISCONTINUED));
-		entity.setCompanyId(databaseRow.getLong(COMPANY_ID));
+		Computer entity = new Computer.Builder()
+			.id(databaseRow.getLong(ID))
+			.name(databaseRow.getString(NAME))
+			.introduced(databaseRow.getTimestamp(INTRODUCED))
+			.discontinued(databaseRow.getTimestamp(DISCONTINUED))
+			.companyId(databaseRow.getLong(COMPANY_ID))
+			.build();
 		return entity;
 	}
 
