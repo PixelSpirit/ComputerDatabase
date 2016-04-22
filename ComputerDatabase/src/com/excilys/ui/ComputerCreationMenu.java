@@ -1,12 +1,15 @@
 package com.excilys.ui;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
+import com.excilys.service.CompanyServices;
 import com.excilys.service.ComputerServices;
 
 public class ComputerCreationMenu extends Menu {
@@ -51,25 +54,26 @@ public class ComputerCreationMenu extends Menu {
 		return stamp;
 	}
 	
-	private static Long createCompanyId(){
-		Long id = null;
-		while(id == null){
+
+	private static Company createCompany(){
+		Company company = null;
+		while(company == null){
 			try{
 				System.out.print("Enter Company's id > ");
-				id = Long.parseLong(scanner.nextLine());
+				Long id = Long.parseLong(scanner.nextLine());
+				company = CompanyServices.getInstance().find(id);
 				//TODO : Check if the ID is valid !
-				//TODO : It must be better with a name !
 			} catch(InputMismatchException e){
 				System.err.println("Invalid date format");
+			} catch (SQLException e) {
+				System.err.println("Can't acces database");
 			}
 		}
-		return id;
+		return company;
 	}
-
-	@Override
-	protected void printContent() {
-		Computer computer = new Computer();
-		computer.setName(createName());
+	
+	private static Computer createComputer(){
+		String name = createName();
 		Timestamp introduced;
 		Timestamp discontinued;
 		boolean firstIteration = true;
@@ -80,10 +84,18 @@ public class ComputerCreationMenu extends Menu {
 				System.err.println("Introducing data must be before the discountinuing date !");
 			firstIteration = false;
 		} while(introduced.after(discontinued));
-		computer.setIntroduced(introduced);
-		computer.setDiscontinued(discontinued);
-		computer.setCompanyId(createCompanyId());
-		ComputerServices.getInstance().addNewComputer(computer);
+		Company company = createCompany();
+		return new Computer.Builder()
+			.name(name)
+			.introduced(introduced)
+			.discontinued(discontinued)
+			.company(company)
+			.build();
+	}
+
+	@Override
+	protected void printContent() {
+		ComputerServices.getInstance().addNewComputer(createComputer());
 		System.out.println("Computer was succefully added");
 	}
 
