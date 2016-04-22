@@ -1,7 +1,6 @@
 package com.excilys.ui;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -37,21 +36,20 @@ public class ComputerCreationMenu extends Menu {
 		return scanner.nextLine();
 	}
 	
-	private static Timestamp createDate(String title) {
-		Timestamp stamp = null;
+	private static LocalDateTime createDate(String title) {
+		LocalDateTime date = null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		while(stamp == null){
+		while(date == null){
 			try{
 				System.out.print("Enter the " + title + " date > ");
 				String format = scanner.nextLine();
-				LocalDateTime date = LocalDateTime.parse(format, formatter);
-				stamp = Timestamp.valueOf(date);
+				date = LocalDateTime.parse(format, formatter);
 			} catch (DateTimeParseException e){
 				//TODO : log
 				System.err.println("Invalid date format");
 			}
 		}
-		return stamp;
+		return date;
 	}
 	
 
@@ -74,8 +72,8 @@ public class ComputerCreationMenu extends Menu {
 	
 	private static Computer createComputer(){
 		String name = createName();
-		Timestamp introduced;
-		Timestamp discontinued;
+		LocalDateTime introduced;
+		LocalDateTime discontinued;
 		boolean firstIteration = true;
 		do{
 			introduced = createDate("introducing");
@@ -83,7 +81,7 @@ public class ComputerCreationMenu extends Menu {
 			if(!firstIteration)
 				System.err.println("Introducing data must be before the discountinuing date !");
 			firstIteration = false;
-		} while(introduced.after(discontinued));
+		} while(introduced.isAfter(discontinued));
 		Company company = createCompany();
 		return new Computer.Builder()
 			.name(name)

@@ -1,13 +1,13 @@
 package com.excilys.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Computer {
 
 	long id;
 	String name;
-	Timestamp introduced;
-	Timestamp discontinued;
+	LocalDateTime introduced;
+	LocalDateTime discontinued;
 	Company company;
 
 
@@ -16,8 +16,8 @@ public class Computer {
 	public static class Builder {
 		long id;
 		String name;
-		Timestamp introduced;
-		Timestamp discontinued;
+		LocalDateTime introduced;
+		LocalDateTime discontinued;
 		Company company;
 
 		public Builder(){
@@ -38,12 +38,12 @@ public class Computer {
 			return this;
 		}
 
-		public Builder introduced(Timestamp t){
+		public Builder introduced(LocalDateTime t){
 			this.introduced = t;
 			return this;
 		}
 
-		public Builder discontinued(Timestamp t){
+		public Builder discontinued(LocalDateTime t){
 			this.discontinued = t;
 			return this;
 		}
@@ -99,21 +99,21 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Timestamp getIntroduced() {
+	public LocalDateTime getIntroduced() {
 		return introduced;
 	}
 
 
-	public void setIntroduced(Timestamp introduced) {
+	public void setIntroduced(LocalDateTime introduced) {
 		this.introduced = introduced;
 	}
 
-	public Timestamp getDiscontinued() {
+	public LocalDateTime getDiscontinued() {
 		return discontinued;
 	}
 
 
-	public void setDiscontinued(Timestamp discountinued) {
+	public void setDiscontinued(LocalDateTime discountinued) {
 		this.discontinued = discountinued;
 	}
 
