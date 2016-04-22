@@ -124,7 +124,7 @@ public class ComputerCreationMenu extends Menu {
 					printInvalidCommand();
 				}
 			}
-			catch(InputMismatchException e){
+			catch(NumberFormatException e){
 				printInvalidCommand();
 			}
 		}

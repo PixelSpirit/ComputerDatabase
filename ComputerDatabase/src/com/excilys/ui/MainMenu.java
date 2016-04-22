@@ -1,7 +1,5 @@
 package com.excilys.ui;
 
-import java.util.InputMismatchException;
-
 public class MainMenu extends Menu {
 	
 	/* Singleton */
@@ -54,7 +52,7 @@ public class MainMenu extends Menu {
 					printInvalidCommand();
 				}
 			}
-			catch(InputMismatchException e){
+			catch(NumberFormatException e){
 				printInvalidCommand();
 			}
 		}

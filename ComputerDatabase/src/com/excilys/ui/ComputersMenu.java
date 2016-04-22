@@ -1,7 +1,5 @@
 package com.excilys.ui;
 
-import java.util.InputMismatchException;
-
 import com.excilys.service.ComputerServices;
 
 public class ComputersMenu extends Menu {
@@ -79,7 +77,7 @@ public class ComputersMenu extends Menu {
 					printInvalidCommand();
 				}
 			}
-			catch(InputMismatchException e){
+			catch(NumberFormatException e){
 				printInvalidCommand();
 			}
 		}
