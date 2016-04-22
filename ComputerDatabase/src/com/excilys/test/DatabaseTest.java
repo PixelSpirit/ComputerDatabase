@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.excilys.persistence.Database;
+import com.excilys.persistence.ConnectionFactory;
 
 public class DatabaseTest {
 	
 	static public void connectionTest(){
-		try (Connection connect = Database.getFreshConnection()){
+		try (Connection connect = ConnectionFactory.get()){
 			try (PreparedStatement stmt = connect.prepareStatement("SELECT * FROM computer")){
 				ResultSet res = stmt.executeQuery();
 				while(res.next()){

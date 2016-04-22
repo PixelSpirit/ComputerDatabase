@@ -57,7 +57,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer find(long id) throws SQLException {
-		try(Connection connect = Database.getFreshConnection()){
+		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
 				stmt.setLong(1, id);
 				ResultSet result = stmt.executeQuery();
@@ -69,7 +69,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public LinkedList<Computer> findSeveral(int n, int offset) throws SQLException {
-		try(Connection connect = Database.getFreshConnection()){
+		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
 				stmt.setInt(1, n);
 				stmt.setInt(2, offset);
@@ -86,7 +86,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public void remove(long id) throws SQLException {
-		try(Connection connect = Database.getFreshConnection()){
+		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
 				stmt.setLong(1, id);
 				stmt.executeUpdate();
@@ -96,7 +96,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer insert(Computer entity) throws SQLException {
-		try(Connection connect = Database.getFreshConnection()){
+		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
 				ComputerMapper.getInstance().map(entity, stmt);
 				stmt.executeUpdate();
@@ -113,7 +113,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer update(long id, Computer updateValue) throws SQLException {
-		try(Connection connect = Database.getFreshConnection()){
+		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
 				ComputerMapper.getInstance().map(updateValue, stmt);
 				stmt.setLong(5, id);

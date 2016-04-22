@@ -7,7 +7,7 @@ import java.sql.SQLException;
 /**
  * Gives an access to the computer database
  */
-public class Database {
+public class ConnectionFactory {
 	
 	private static final String USER = "admincdb";
 	private static final String PASSWORD = "qwerty1234";
@@ -18,7 +18,7 @@ public class Database {
 	 * @return a fresh connection to the database
 	 * @throws SQLException if the database has encounter an error
 	 */
-	public static Connection getFreshConnection() throws SQLException {
+	public static Connection get() throws SQLException {
 		return DriverManager.getConnection(URL, USER, PASSWORD);
 	}
 }
