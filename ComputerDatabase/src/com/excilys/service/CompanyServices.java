@@ -57,4 +57,8 @@ public class CompanyServices {
 			System.err.println("Database communication error : Companies can't be printed");
 		}
 	}
+	
+	public Company find(long id) throws SQLException {
+		return dao.find(id);
+	}
 }
