@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Permits to map a database result into an entity and vice versa.
   * @param <T> The type of the entity to map into a table row
  */
-public interface Mapper<T> {
+public interface DAOMappable<T> {
 	
 	/**
 	 * Fill the given PreparedStatement with the mapped entity.

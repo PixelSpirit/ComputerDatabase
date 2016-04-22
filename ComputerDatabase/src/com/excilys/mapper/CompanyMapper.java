@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.excilys.model.Company;
 
 
-public class CompanyMapper implements Mapper<Company> {
+public class CompanyMapper implements DAOMappable<Company> {
 	
 	private static final String ID = "id";
 	private static final String NAME = "name";

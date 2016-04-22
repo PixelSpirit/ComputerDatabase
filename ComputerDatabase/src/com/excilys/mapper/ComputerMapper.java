@@ -10,7 +10,7 @@ import com.excilys.model.Computer;
 
 
 
-public class ComputerMapper implements Mapper<Computer> {
+public class ComputerMapper implements DAOMappable<Computer> {
 	
 	private static final String ID = "cptr.id";
 	private static final String NAME = "cptr.name";
