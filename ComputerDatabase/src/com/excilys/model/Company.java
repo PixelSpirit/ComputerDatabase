@@ -2,9 +2,8 @@ package com.excilys.model;
 
 public class Company {
 
-	long id;
-
-	String name = null;
+	private long id;
+	private String name = null;
 
 	
 	/* Constructors */

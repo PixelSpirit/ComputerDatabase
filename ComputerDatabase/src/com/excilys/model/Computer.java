@@ -1,24 +1,27 @@
 package com.excilys.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Computer {
 
-	long id;
-	String name;
-	LocalDateTime introduced;
-	LocalDateTime discontinued;
-	Company company;
+	private long id;
+	private String name;
+	private LocalDateTime introduced;
+	private LocalDateTime discontinued;
+	private Company company;
+	
+	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
 	/* Builder */
 
 	public static class Builder {
-		long id;
-		String name;
-		LocalDateTime introduced;
-		LocalDateTime discontinued;
-		Company company;
+		private long id;
+		private String name;
+		private LocalDateTime introduced;
+		private LocalDateTime discontinued;
+		private Company company;
 
 		public Builder(){
 			this.id = -1;
