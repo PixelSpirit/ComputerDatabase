@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ConnectionException;
-import com.excilys.persistence.DAO;
+import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.DAOException;
 
 /**
@@ -19,7 +19,7 @@ public class CompanyServices {
 	/**
 	 * The access to comapanie's DAO
 	 */
-	private DAO<Company> dao = CompanyDAO.getInstance();
+	private AbstractDAO<Company> dao = CompanyDAO.getInstance();
 	
 	private Logger logger = LoggerFactory.getLogger(CompanyServices.class);
 	

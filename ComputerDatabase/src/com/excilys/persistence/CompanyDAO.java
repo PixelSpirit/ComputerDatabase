@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 
-public class CompanyDAO extends DAO<Company>{
+public class CompanyDAO extends AbstractDAO<Company>{
 
 	private static final String FIND_QUERY =
 			"SELECT id, name FROM company WHERE id=?";

@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * of a table as an entity.
  * @param <T> The type of the entity that represents a table
  */
-public abstract class DAO<T> {
+public abstract class AbstractDAO<T> {
 	
 	/**
 	 * Finds the entity that match the given id.

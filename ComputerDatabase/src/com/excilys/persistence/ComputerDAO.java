@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 
-public class ComputerDAO extends DAO<Computer> {
+public class ComputerDAO extends AbstractDAO<Computer> {
 
 	private static final String FIND_QUERY =
 			"SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
