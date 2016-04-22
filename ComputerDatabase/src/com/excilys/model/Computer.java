@@ -22,6 +22,10 @@ public class Computer {
 
 		public Builder(){
 			this.id = -1;
+			this.name = null;
+			this.introduced = null;
+			this.discontinued = null;
+			this.company = null;
 		}
 
 		public Builder id(long l){
