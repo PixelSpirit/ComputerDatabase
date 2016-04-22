@@ -1,7 +1,6 @@
 package com.excilys.ui;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 
@@ -48,12 +47,11 @@ public class ComputerCreationMenu extends Menu {
 	
 	private static LocalDateTime createDate(String title) {
 		LocalDateTime date = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		while(date == null){
 			try{
 				System.out.print("Enter the " + title + " date > ");
 				String format = scanner.nextLine();
-				date = LocalDateTime.parse(format, formatter);
+				date = LocalDateTime.parse(format, Computer.formatter);
 			} catch (DateTimeParseException e){
 				System.err.println("Invalid date format");
 			}

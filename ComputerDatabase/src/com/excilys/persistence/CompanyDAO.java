@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.service.ComputerServices;
 
 public class CompanyDAO extends DAO<Company>{
 
