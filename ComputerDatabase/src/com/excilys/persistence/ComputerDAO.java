@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.ComputerMapper;
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
 public class ComputerDAO extends AbstractDAO<Computer> {
@@ -84,7 +86,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 			stmt.setInt(1, n);
 			stmt.setInt(2, offset);
 			ResultSet results = stmt.executeQuery();
-			LinkedList<Computer> computers = new LinkedList<>();
+			ArrayList<Computer> computers = new ArrayList<>(n);
 			while(results.next()){
 				computers.add(mapper.unmap(results));
 			}

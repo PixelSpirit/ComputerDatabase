@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class CompanyDAO extends AbstractDAO<Company>{
 			stmt.setInt(1, n);
 			stmt.setInt(2, offset);
 			ResultSet results = stmt.executeQuery();
-			LinkedList<Company> companies = new LinkedList<>();
+			ArrayList<Company> companies = new ArrayList<>(n);
 			while(results.next()){
 				companies.add(mapper.unmap(results));
 			}
