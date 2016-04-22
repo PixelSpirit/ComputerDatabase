@@ -26,9 +26,6 @@ public class ComputerDAOTest {
 			Computer c = cdao.find(575);
 			System.out.println(c);
 		}
-		catch (SQLException e){
-			e.printStackTrace();
-		}
 		catch (Exception e){
 			e.printStackTrace();
 		}
@@ -40,9 +37,6 @@ public class ComputerDAOTest {
 			Computer c = freshComputer();
 			Computer res = cdao.insert(c);
 			System.out.println(res);
-		}
-		catch (SQLException e){
-			e.printStackTrace();
 		}
 		catch (Exception e){
 			e.printStackTrace();

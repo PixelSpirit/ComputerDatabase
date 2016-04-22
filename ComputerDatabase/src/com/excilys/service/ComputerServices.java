@@ -1,6 +1,5 @@
 package com.excilys.service;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.slf4j.Logger;
@@ -8,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.DAO;
+import com.excilys.persistence.DAOException;
 
 /**
  * Groups the different services to use computers
@@ -46,8 +47,9 @@ public class ComputerServices {
 	 * Prints the size computers from the from-th company found by the DAO
 	 * @param from The number of the first computer to print
 	 * @param size The number of computers to print
+	 * @throws ServiceException 
 	 */
-	public void printComputers(int from, int size){
+	public void printComputers(int from, int size) throws ServiceException{
 		LinkedList<Computer> computers;
 		try {
 			computers = dao.findSeveral(size, from);
@@ -56,27 +58,30 @@ public class ComputerServices {
 			for (Computer computer : computers) {
 				System.out.println(computer);
 			}
-		} catch (SQLException e) {
-			logger.error(e.getSQLState());
-			System.err.println("Database communication error : Computer can't be printed");
+		} catch (ConnectionException | DAOException e) {
+			logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+			logger.warn("[Throw] <ServiceException>");
+			throw new ServiceException(e);
 		}
 	}
 	
-	public void addNewComputer(Computer c){
+	public void addNewComputer(Computer c) throws ServiceException{
 		try {
 			dao.insert(c);
-		} catch (SQLException e) {
-			logger.error(e.getSQLState());
-			System.err.println("Database communication error : Computer can't be added");
+		} catch (ConnectionException | DAOException e) {
+			logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+			logger.warn("[Throw] <ServiceException>");
+			throw new ServiceException(e);
 		}
 	}
 	
-	public void updateComputer(long id, Computer freshValue){
+	public void updateComputer(long id, Computer freshValue) throws ServiceException{
 		try{
 			dao.update(id, freshValue);
-		} catch (SQLException e){
-			logger.error(e.getSQLState());
-			System.err.println("Database communication error : Computer can't be updated");
+		} catch (ConnectionException | DAOException e) {
+			logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+			logger.warn("[Throw] <ServiceException>");
+			throw new ServiceException(e);
 		}
 	}
 

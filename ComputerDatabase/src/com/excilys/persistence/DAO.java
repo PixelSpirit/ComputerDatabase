@@ -1,6 +1,5 @@
 package com.excilys.persistence;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 
 /**
@@ -14,31 +13,38 @@ public abstract class DAO<T> {
 	 * Finds the entity that match the given id.
 	 * @param id The entity's id
 	 * @return The required entity
+	 * @throws ConnectionException if the connection to the database was refused
+	 * @throws DAOException if no query can be done on database
 	 */
-	public abstract T find(long id) throws SQLException;
+	public abstract T find(long id) throws ConnectionException, DAOException;
 	
 	/**
 	 * Finds n elements from the offset in the databases.
 	 * @param n The maximum number of elements that must be found
 	 * @param offset The first 
-	 * @return
+	 * @throws ConnectionException if the connection to the database was refused
+	 * @throws DAOException if no query can be done on database
+	 * @return the list of the desired entities
 	 */
-	public abstract LinkedList<T> findSeveral(int n, int offset) throws SQLException;
+	public abstract LinkedList<T> findSeveral(int n, int offset) throws ConnectionException, DAOException;
 	
 	/**
 	 * Remove the entity that match the given id from
 	 * the database and returns it.
 	 * @param id The entity's id
+	 * @throws ConnectionException if the connection to the database was refused
+	 * @throws DAOException if no query can be done on database
 	 */
-	public abstract void remove(long id) throws SQLException;
+	public abstract void remove(long id) throws ConnectionException, DAOException;
 	
 	/**
 	 * Insert the given entity in the database.
 	 * @param entity The entity to add in the database
 	 * @return The entity that has been inserted
-
+	 * @throws ConnectionException if the connection to the database was refused
+	 * @throws DAOException if no query can be done on database
 	 */
-	public abstract T insert(T entity) throws SQLException;
+	public abstract T insert(T entity) throws ConnectionException, DAOException;
 	
 	/**
 	 * Find the entity that match the given id and update it
@@ -47,8 +53,10 @@ public abstract class DAO<T> {
 	 * @param updateValue The new value that will have the desired
 	 * entity.
 	 * @return The entity that has been updated
+	 * @throws ConnectionException if the connection to the database was refused
+	 * @throws DAOException if no query can be done on database
 	 */
-	public abstract T update(long id, T updateValue) throws SQLException;
+	public abstract T update(long id, T updateValue) throws ConnectionException, DAOException;
 
 	
 }

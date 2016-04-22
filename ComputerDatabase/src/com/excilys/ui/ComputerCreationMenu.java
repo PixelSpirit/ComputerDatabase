@@ -1,18 +1,24 @@
 package com.excilys.ui;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyServices;
 import com.excilys.service.ComputerServices;
+import com.excilys.service.ServiceException;
 
 public class ComputerCreationMenu extends Menu {
 
+	
+	private Logger logger = LoggerFactory.getLogger(ComputerCreationMenu.class);
+	
 	/* Singleton */
 
 	private static ComputerCreationMenu _instance;
@@ -49,7 +55,6 @@ public class ComputerCreationMenu extends Menu {
 				String format = scanner.nextLine();
 				date = LocalDateTime.parse(format, formatter);
 			} catch (DateTimeParseException e){
-				//TODO : log
 				System.err.println("Invalid date format");
 			}
 		}
@@ -57,7 +62,7 @@ public class ComputerCreationMenu extends Menu {
 	}
 	
 
-	private static Company createCompany(){
+	private static Company createCompany() throws ServiceException{
 		Company company = null;
 		while(company == null){
 			try{
@@ -67,14 +72,12 @@ public class ComputerCreationMenu extends Menu {
 				//TODO : Check if the ID is valid !
 			} catch(InputMismatchException e){
 				System.err.println("Invalid date format");
-			} catch (SQLException e) {
-				System.err.println("Can't acces database");
 			}
 		}
 		return company;
 	}
 	
-	private static Computer createComputer(){
+	private static Computer createComputer() throws ServiceException{
 		String name = createName();
 		LocalDateTime introduced;
 		LocalDateTime discontinued;
@@ -97,7 +100,12 @@ public class ComputerCreationMenu extends Menu {
 
 	@Override
 	protected void printContent() {
-		ComputerServices.getInstance().addNewComputer(createComputer());
+		try {
+			ComputerServices.getInstance().addNewComputer(createComputer());
+		} catch (ServiceException e) {
+			logger.error("[Catch] <ServiceException>");
+			System.err.println("The computer was not added...");
+		}
 		System.out.println("Computer was succefully added");
 	}
 

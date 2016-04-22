@@ -1,6 +1,5 @@
 package com.excilys.service;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.slf4j.Logger;
@@ -8,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.DAO;
+import com.excilys.persistence.DAOException;
 
 /**
  * Groups the different services to use companies
@@ -47,8 +48,10 @@ public class CompanyServices {
 	 * Prints the size companies from the from-th company found by the DAO
 	 * @param from The number of the first company to print
 	 * @param size The number of companies to print
+	 * @throws ServiceException If a connection problem or a DAO problem was
+	 * encounter 
 	 */
-	public void printCompanies(int from, int size){
+	public void printCompanies(int from, int size) throws ServiceException {
 		LinkedList<Company> companies;
 		try {
 			companies = dao.findSeveral(size, from);
@@ -57,13 +60,20 @@ public class CompanyServices {
 			for (Company company : companies) {
 				System.out.println(company);
 			}
-		} catch (SQLException e) {
-			logger.error(e.getSQLState());
-			System.err.println("Database communication error : Companies can't be printed");
+		} catch (ConnectionException | DAOException e) {
+			logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+			logger.warn("[Throw] <ServiceException>");
+			throw new ServiceException(e);
 		}
 	}
 	
-	public Company find(long id) throws SQLException {
-		return dao.find(id);
+	public Company find(long id) throws ServiceException {
+		try {
+			return dao.find(id);
+		} catch (ConnectionException | DAOException e) {
+			logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+			logger.warn("[Throw] <ServiceException>");
+			throw new ServiceException(e);
+		} 
 	}
 }

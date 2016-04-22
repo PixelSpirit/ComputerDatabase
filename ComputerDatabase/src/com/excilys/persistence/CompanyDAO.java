@@ -32,7 +32,7 @@ public class CompanyDAO extends DAO<Company>{
 			"UPDATE company SET name=? WHERE id=?";
 	
 	
-	private Logger logger = LoggerFactory.getLogger(ComputerServices.class);
+	private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	
 	private CompanyMapper mapper = CompanyMapper.getInstance();
 	
@@ -60,77 +60,93 @@ public class CompanyDAO extends DAO<Company>{
 	/* DAO Functionalities */
 
 	@Override
-	public Company find(long id) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
-				stmt.setLong(1, id);
-				logger.info("<SQL Query> Selecting company where id = " + id);
-				ResultSet result = stmt.executeQuery();
-				result.first();
-				return mapper.unmap(result);
+	public Company find(long id) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
+			stmt.setLong(1, id);
+			logger.info("<SQL Query> Selecting company where id = " + id);
+			ResultSet result = stmt.executeQuery();
+			result.first();
+			return mapper.unmap(result); 
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
+	}
+
+	@Override
+	public LinkedList<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
+			stmt.setInt(1, n);
+			stmt.setInt(2, offset);
+			ResultSet results = stmt.executeQuery();
+			LinkedList<Company> companies = new LinkedList<>();
+			while(results.next()){
+				companies.add(mapper.unmap(results));
 			}
+			return companies;
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		}
+	}
+
+
+	@Override
+	public void remove(long id) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
 		}
 	}
 
 	@Override
-	public LinkedList<Company> findSeveral(int n, int offset) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
-				stmt.setInt(1, n);
-				stmt.setInt(2, offset);
-				ResultSet results = stmt.executeQuery();
-				LinkedList<Company> companies = new LinkedList<>();
-				while(results.next()){
-					companies.add(mapper.unmap(results));
-				}
-				return companies;
+	public Company insert(Company entity) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			mapper.map(entity, stmt);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
 			}
-		}
-	}
-
-
-	@Override
-	public void remove(long id) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
-				stmt.setLong(1, id);
-				stmt.executeUpdate();
+			else{
+				throw new SQLException("No key was found");
 			}
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
 		}
 	}
 
 	@Override
-	public Company insert(Company entity) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				mapper.map(entity, stmt);
-				stmt.executeUpdate();
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.first()){
-					return find(rs.getLong(1));
-				}
-				else{
-					throw new SQLException("No key was found");
-				}
+	public Company update(long id, Company updateValue) throws  ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			mapper.map(updateValue, stmt);
+			stmt.setLong(2, id);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
 			}
-		}
-	}
+			else{
+				throw new SQLException("No key was found");
 
-	@Override
-	public Company update(long id, Company updateValue) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				mapper.map(updateValue, stmt);
-				stmt.setLong(2, id);
-				stmt.executeUpdate();
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.first()){
-					return find(rs.getLong(1));
-				}
-				else{
-					throw new SQLException("No key was found");
-				}
-			}
+			} 
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
 		}
 	}
 

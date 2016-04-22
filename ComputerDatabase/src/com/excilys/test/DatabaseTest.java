@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.ConnectionFactory;
 
 public class DatabaseTest {
@@ -20,6 +21,8 @@ public class DatabaseTest {
 		}
 		catch (SQLException e){
 			e.printStackTrace();
+		} catch (ConnectionException e1) {
+			e1.printStackTrace();
 		}
 	}
 	

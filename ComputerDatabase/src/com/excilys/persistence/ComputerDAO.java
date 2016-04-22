@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 
@@ -32,6 +35,7 @@ public class ComputerDAO extends DAO<Computer> {
 			"UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 
 	
+	private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
 	private ComputerMapper mapper = ComputerMapper.getInstance();
 
@@ -58,77 +62,92 @@ public class ComputerDAO extends DAO<Computer> {
 	/* DAO Functionalities */
 
 	@Override
-	public Computer find(long id) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
-				stmt.setLong(1, id);
-				ResultSet result = stmt.executeQuery();
-				result.first();
-				return mapper.unmap(result);
-			}
-		}
+	public Computer find(long id) throws ConnectionException, DAOException{
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)){
+			stmt.setLong(1, id);
+			ResultSet result = stmt.executeQuery();
+			result.first();
+			return mapper.unmap(result);
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
 	}
 
 	@Override
-	public LinkedList<Computer> findSeveral(int n, int offset) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
-				stmt.setInt(1, n);
-				stmt.setInt(2, offset);
-				ResultSet results = stmt.executeQuery();
-				LinkedList<Computer> computers = new LinkedList<>();
-				while(results.next()){
-					computers.add(mapper.unmap(results));
-				}
-				return computers;
+	public LinkedList<Computer> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
+			stmt.setInt(1, n);
+			stmt.setInt(2, offset);
+			ResultSet results = stmt.executeQuery();
+			LinkedList<Computer> computers = new LinkedList<>();
+			while(results.next()){
+				computers.add(mapper.unmap(results));
 			}
-		}
+			return computers;
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
 	}
 
 
 	@Override
-	public void remove(long id) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
-				stmt.setLong(1, id);
-				stmt.executeUpdate();
-			}
-		}
+	public void remove(long id) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)){
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
 	}
 
 	@Override
-	public Computer insert(Computer entity) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				mapper.map(entity, stmt);
-				stmt.executeUpdate();
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.first()){
-					return find(rs.getLong(1));
-				}
-				else{
-					throw new SQLException("No key was found");
-				}
+	public Computer insert(Computer entity) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			mapper.map(entity, stmt);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
 			}
-		}
+			else{
+				throw new SQLException("No key was found");
+			}
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
 	}
 
 	@Override
-	public Computer update(long id, Computer updateValue) throws SQLException {
-		try(Connection connect = ConnectionFactory.get()){
-			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				mapper.map(updateValue, stmt);
-				stmt.setLong(5, id);
-				stmt.executeUpdate();
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.first()){
-					return find(rs.getLong(1));
-				}
-				else{
-					throw new SQLException("No key was found");
-				}
+	public Computer update(long id, Computer updateValue) throws ConnectionException, DAOException {
+		try(Connection connect = ConnectionFactory.get();
+				PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
+			mapper.map(updateValue, stmt);
+			stmt.setLong(5, id);
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.first()){
+				return find(rs.getLong(1));
 			}
-		}
+			else{
+				throw new SQLException("No key was found");
+			}
+		} catch (SQLException e) {
+			logger.error("[Catch] <SQLException> " + e.getMessage());
+			logger.warn("[Throw] <DAOException>");
+			throw new DAOException(e);
+		} 
 	}
 
 

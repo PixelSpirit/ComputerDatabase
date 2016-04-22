@@ -23,13 +23,15 @@ public class ConnectionFactory {
 	 * Returns a fresh connection to the database
 	 * @return a fresh connection to the database
 	 * @throws ConnectionException 
-	 * @throws SQLException if the database has encounter an error
+	 * @throws ConnectionException if no connection is reachable
 	 */
 	public static Connection get() throws ConnectionException {
 		try {
 			return DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (SQLException e) {
-			logger.error("<SQLException> Can't connect to database !");
+			logger.error("[Catch] <SQLException> Can't connect to database !");
+			logger.error(e.getSQLState());
+			logger.warn("[Throw] <ConnectionException>");
 			throw new ConnectionException(e);
 		}
 	}

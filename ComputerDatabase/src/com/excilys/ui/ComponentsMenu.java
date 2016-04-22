@@ -1,12 +1,17 @@
 package com.excilys.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.service.CompanyServices;
+import com.excilys.service.ServiceException;
 
 public class ComponentsMenu extends Menu {
 		
-	int size;
-	int pageNumber;
+	private int size;
+	private int pageNumber;
 
+	private Logger logger = LoggerFactory.getLogger(ComponentsMenu.class);
 
 	/* Singleton */
 
@@ -34,7 +39,12 @@ public class ComponentsMenu extends Menu {
 
 	@Override
 	protected void printContent() {
-		CompanyServices.getInstance().printCompanies(pageNumber * size, size);
+		try {
+			CompanyServices.getInstance().printCompanies(pageNumber * size, size);
+		} catch (ServiceException e) {
+			logger.error("[Catch] <ServiceException>");
+			System.err.println("Companies can not be printed...");
+		}
 	}
 
 	@Override
