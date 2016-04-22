@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import com.excilys.mapper.CompanyMapper;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 
