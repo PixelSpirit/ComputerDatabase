@@ -1,14 +1,14 @@
 package com.excilys.service;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Company;
+import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ConnectionException;
-import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.DAOException;
 
 /**
@@ -52,7 +52,7 @@ public class CompanyServices {
 	 * encounter 
 	 */
 	public void printCompanies(int from, int size) throws ServiceException {
-		LinkedList<Company> companies;
+		List<Company> companies;
 		try {
 			companies = dao.findSeveral(size, from);
 			System.out.println("Companies :");

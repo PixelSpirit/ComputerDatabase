@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +76,7 @@ public class CompanyDAO extends AbstractDAO<Company>{
 	}
 
 	@Override
-	public LinkedList<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+	public List<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
 		try(Connection connect = ConnectionFactory.get();
 				PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)){
 			stmt.setInt(1, n);

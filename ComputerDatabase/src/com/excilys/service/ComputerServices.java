@@ -1,14 +1,14 @@
 package com.excilys.service;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Computer;
+import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.ConnectionException;
-import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.DAOException;
 
 /**
@@ -50,7 +50,7 @@ public class ComputerServices {
 	 * @throws ServiceException 
 	 */
 	public void printComputers(int from, int size) throws ServiceException{
-		LinkedList<Computer> computers;
+		List<Computer> computers;
 		try {
 			computers = dao.findSeveral(size, from);
 			System.out.println("Computers :");

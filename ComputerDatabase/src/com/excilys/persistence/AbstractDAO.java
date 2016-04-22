@@ -1,6 +1,6 @@
 package com.excilys.persistence;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Permits to access to the database to control the mapping
@@ -26,7 +26,7 @@ public abstract class AbstractDAO<T> {
 	 * @throws DAOException if no query can be done on database
 	 * @return the list of the desired entities
 	 */
-	public abstract LinkedList<T> findSeveral(int n, int offset) throws ConnectionException, DAOException;
+	public abstract List<T> findSeveral(int n, int offset) throws ConnectionException, DAOException;
 	
 	/**
 	 * Remove the entity that match the given id from
