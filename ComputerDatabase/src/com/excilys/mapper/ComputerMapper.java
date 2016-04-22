@@ -3,6 +3,7 @@ package com.excilys.mapper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -42,7 +43,12 @@ public class ComputerMapper implements Mapper<Computer> {
 		stmt.setString(1, entity.getName());
 		stmt.setTimestamp(2, entity.getIntroduced());
 		stmt.setTimestamp(3, entity.getDiscontinued());
-		stmt.setLong(4, entity.getCompany().getId());
+		if (entity.getCompany() != null) {
+			stmt.setLong(4, entity.getCompany().getId());
+		}
+		else {
+			stmt.setNull(4, java.sql.Types.BIGINT);  
+		}
 		
 	}
 
