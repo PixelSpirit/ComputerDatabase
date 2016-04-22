@@ -34,6 +34,8 @@ public class CompanyDAO extends DAO<Company>{
 	
 	private Logger logger = LoggerFactory.getLogger(ComputerServices.class);
 	
+	private CompanyMapper mapper = CompanyMapper.getInstance();
+	
 	/* Singleton */
 	
 	private static CompanyDAO _instance = null;
@@ -65,7 +67,7 @@ public class CompanyDAO extends DAO<Company>{
 				logger.info("<SQL Query> Selecting company where id = " + id);
 				ResultSet result = stmt.executeQuery();
 				result.first();
-				return CompanyMapper.getInstance().unmap(result);
+				return mapper.unmap(result);
 			}
 		}
 	}
@@ -79,7 +81,7 @@ public class CompanyDAO extends DAO<Company>{
 				ResultSet results = stmt.executeQuery();
 				LinkedList<Company> companies = new LinkedList<>();
 				while(results.next()){
-					companies.add(CompanyMapper.getInstance().unmap(results));
+					companies.add(mapper.unmap(results));
 				}
 				return companies;
 			}
@@ -101,7 +103,7 @@ public class CompanyDAO extends DAO<Company>{
 	public Company insert(Company entity) throws SQLException {
 		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				CompanyMapper.getInstance().map(entity, stmt);
+				mapper.map(entity, stmt);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.first()){
@@ -118,7 +120,7 @@ public class CompanyDAO extends DAO<Company>{
 	public Company update(long id, Company updateValue) throws SQLException {
 		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				CompanyMapper.getInstance().map(updateValue, stmt);
+				mapper.map(updateValue, stmt);
 				stmt.setLong(2, id);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();

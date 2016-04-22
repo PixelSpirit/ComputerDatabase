@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 
@@ -31,7 +32,9 @@ public class ComputerDAO extends DAO<Computer> {
 	private static final String UPDATE_QUERY =
 			"UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 
-
+	
+	
+	private ComputerMapper mapper = ComputerMapper.getInstance();
 
 	/* Singleton */
 	
@@ -62,7 +65,7 @@ public class ComputerDAO extends DAO<Computer> {
 				stmt.setLong(1, id);
 				ResultSet result = stmt.executeQuery();
 				result.first();
-				return ComputerMapper.getInstance().unmap(result);
+				return mapper.unmap(result);
 			}
 		}
 	}
@@ -76,7 +79,7 @@ public class ComputerDAO extends DAO<Computer> {
 				ResultSet results = stmt.executeQuery();
 				LinkedList<Computer> computers = new LinkedList<>();
 				while(results.next()){
-					computers.add(ComputerMapper.getInstance().unmap(results));
+					computers.add(mapper.unmap(results));
 				}
 				return computers;
 			}
@@ -98,7 +101,7 @@ public class ComputerDAO extends DAO<Computer> {
 	public Computer insert(Computer entity) throws SQLException {
 		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				ComputerMapper.getInstance().map(entity, stmt);
+				mapper.map(entity, stmt);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.first()){
@@ -115,7 +118,7 @@ public class ComputerDAO extends DAO<Computer> {
 	public Computer update(long id, Computer updateValue) throws SQLException {
 		try(Connection connect = ConnectionFactory.get()){
 			try(PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)){
-				ComputerMapper.getInstance().map(updateValue, stmt);
+				mapper.map(updateValue, stmt);
 				stmt.setLong(5, id);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
