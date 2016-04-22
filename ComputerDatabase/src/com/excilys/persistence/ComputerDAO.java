@@ -33,15 +33,21 @@ public class ComputerDAO extends DAO<Computer> {
 
 
 
+	/* Singleton */
+	
 	private static ComputerDAO _instance = null;
 	
 	private ComputerDAO() {
 		super();
 	}
 	
-	synchronized public static ComputerDAO getInstance(){
+	public static ComputerDAO getInstance(){
 		if(_instance == null){
-			_instance = new ComputerDAO();
+			synchronized (ComputerDAO.class) {
+				if(_instance == null){
+					_instance = new ComputerDAO();
+				}
+			}
 		}
 		return _instance;
 	}

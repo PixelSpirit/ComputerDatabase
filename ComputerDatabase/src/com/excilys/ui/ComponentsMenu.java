@@ -18,9 +18,13 @@ public class ComponentsMenu extends Menu {
 		pageNumber = 0;
 	}
 
-	synchronized public static ComponentsMenu getInstance(){
+	public static ComponentsMenu getInstance(){
 		if(_instance == null){
-			_instance = new ComponentsMenu();
+			synchronized (ComponentsMenu.class) {
+				if(_instance == null){
+					_instance = new ComponentsMenu();
+				}
+			}
 		}
 		return _instance;
 	}

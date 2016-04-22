@@ -18,9 +18,13 @@ public class ComputersMenu extends Menu {
 		pageNumber = 0;
 	}
 	
-	synchronized public static ComputersMenu getInstance(){
+	public static ComputersMenu getInstance(){
 		if(_instance == null){
-			_instance = new ComputersMenu();
+			synchronized (ComputersMenu.class) {
+				if(_instance == null){
+					_instance = new ComputersMenu();
+				}
+			}
 		}
 		return _instance;
 	}

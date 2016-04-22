@@ -22,15 +22,20 @@ public class CompanyServices {
 	
 	private Logger logger = LoggerFactory.getLogger(CompanyServices.class);
 	
+	
 	/* Singleton */
 	
 	private static CompanyServices _instance;
 	
 	private CompanyServices(){}
 	
-	synchronized public static CompanyServices getInstance(){
+	public static CompanyServices getInstance(){
 		if(_instance == null){
-			_instance = new CompanyServices();
+			synchronized (CompanyServices.class) {
+				if(_instance == null){
+					_instance = new CompanyServices();
+				}
+			}
 		}
 		return _instance;
 	}

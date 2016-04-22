@@ -10,9 +10,13 @@ public class MainMenu extends Menu {
 		super(" Main Menu");
 	}
 	
-	synchronized public static MainMenu getInstance(){
+	public static MainMenu getInstance(){
 		if(_instance == null){
-			_instance = new MainMenu();
+			synchronized (MainMenu.class) {
+				if(_instance == null){
+					_instance = new MainMenu();
+				}
+			}
 		}
 		return _instance;
 	}

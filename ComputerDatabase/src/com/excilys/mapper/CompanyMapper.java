@@ -20,9 +20,13 @@ public class CompanyMapper implements Mapper<Company> {
 		super();
 	}
 	
-	synchronized public static CompanyMapper getInstance() {
-		if(_instance == null) {
-			_instance = new CompanyMapper();
+	public static CompanyMapper getInstance() {
+		if(_instance == null){
+			synchronized (CompanyMapper.class) {
+				if(_instance == null){
+					_instance = new CompanyMapper();
+				}
+			}
 		}
 		return _instance;
 	}

@@ -28,9 +28,13 @@ public class ComputerMapper implements Mapper<Computer> {
 		super();
 	}
 	
-	synchronized public static ComputerMapper getInstance() {
-		if(_instance == null) {
-			_instance = new ComputerMapper();
+	public static ComputerMapper getInstance() {
+		if(_instance == null){
+			synchronized (ComputerMapper.class) {
+				if(_instance == null){
+					_instance = new ComputerMapper();
+				}
+			}
 		}
 		return _instance;
 	}

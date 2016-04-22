@@ -21,9 +21,13 @@ public class ComputerCreationMenu extends Menu {
 		super(" Computer Creation");
 	}
 
-	synchronized public static ComputerCreationMenu getInstance(){
+	public static ComputerCreationMenu getInstance(){
 		if(_instance == null){
-			_instance = new ComputerCreationMenu();
+			synchronized (ComputerCreationMenu.class) {
+				if(_instance == null){
+					_instance = new ComputerCreationMenu();
+				}
+			}
 		}
 		return _instance;
 	}

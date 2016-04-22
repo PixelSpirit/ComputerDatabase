@@ -28,9 +28,13 @@ public class ComputerServices {
 	
 	private ComputerServices(){}
 	
-	synchronized public static ComputerServices getInstance(){
+	public static ComputerServices getInstance(){
 		if(_instance == null){
-			_instance = new ComputerServices();
+			synchronized (ComputerServices.class) {
+				if(_instance == null){
+					_instance = new ComputerServices();
+				}
+			}
 		}
 		return _instance;
 	}

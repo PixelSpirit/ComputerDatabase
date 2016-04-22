@@ -42,9 +42,13 @@ public class CompanyDAO extends DAO<Company>{
 		super();
 	}
 	
-	synchronized public static CompanyDAO getInstance(){
+	public static CompanyDAO getInstance(){
 		if(_instance == null){
-			_instance = new CompanyDAO();
+			synchronized (CompanyDAO.class) {
+				if(_instance == null){
+					_instance = new CompanyDAO();
+				}
+			}
 		}
 		return _instance;
 	}
