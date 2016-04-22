@@ -136,7 +136,7 @@ public class Computer {
 				name + ", " +
 				introduced + ", " +
 				discontinued + ", " +
-				company + ")";
+				company.getName() + ")";
 	}
 
 	@Override
