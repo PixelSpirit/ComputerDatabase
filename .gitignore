@@ -17,7 +17,7 @@ local.properties
 Servers
 RemoteSystemsTempFiles
 ComputerDatabase/build
-ComputerDatabase/test
+ComputerDatabase/target
 
 # Eclipse Core
 .project
