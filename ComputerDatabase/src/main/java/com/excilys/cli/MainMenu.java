@@ -1,4 +1,4 @@
-package com.excilys.ui;
+package com.excilys.cli;
 
 public class MainMenu extends Menu {
 

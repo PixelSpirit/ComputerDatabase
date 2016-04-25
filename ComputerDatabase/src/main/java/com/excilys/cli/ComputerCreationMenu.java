@@ -1,4 +1,4 @@
-package com.excilys.ui;
+package com.excilys.cli;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
