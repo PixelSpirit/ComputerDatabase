@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -57,8 +58,8 @@ public class ComputerMapper implements DAOMappable<Computer> {
 
 	@Override
 	public Computer unmap(ResultSet databaseRow) throws SQLException {
-		Timestamp introduced = databaseRow.getTimestamp(INTRODUCED);
-		Timestamp discontinued = databaseRow.getTimestamp(DISCONTINUED);
+		String introduced = databaseRow.getString(INTRODUCED);
+		String discontinued = databaseRow.getString(DISCONTINUED);
 		
 		Company cpn = new Company(
 				databaseRow.getLong(COMPANY_ID),
@@ -67,8 +68,8 @@ public class ComputerMapper implements DAOMappable<Computer> {
 		Computer cpt = new Computer.Builder()
 			.id(databaseRow.getLong(ID))
 			.name(databaseRow.getString(NAME))
-			.introduced((introduced != null) ? introduced.toLocalDateTime() : null)
-			.discontinued((discontinued != null) ? discontinued.toLocalDateTime() : null)
+			.introduced((introduced != null && introduced != "0000-00-00 00:00:00.0") ? LocalDateTime.parse(introduced, Computer.formatter) : null)
+			.discontinued((discontinued != null && discontinued != "0000-00-00 00:00:00.0") ? LocalDateTime.parse(discontinued, Computer.formatter) : null)
 			.company(cpn)
 			.build();
 		return cpt;

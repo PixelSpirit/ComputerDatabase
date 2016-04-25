@@ -11,7 +11,7 @@ public class Computer {
 	private LocalDateTime discontinued;
 	private Company company;
 	
-	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
 
 	/* Builder */
