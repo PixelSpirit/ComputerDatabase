@@ -1,89 +1,42 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-  http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys.computerdatabase</groupId>
-	<artifactId>ComputerDatabase</artifactId>
-	<version>v1.1.1</version>
-	<name>Computer Database project for Excilys formation</name>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-   		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-	</properties>
-	
+	<groupId>com.excilys</groupId>
+	<artifactId>cdb</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<dependencies>
-	
-	
-		<!-- Tests -->
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
-		</dependency>
+	<properties>
+		<java.version>1.8</java.version>
 
+		<servlet.version>3.1.0</servlet.version>
+		<junit.version>4.12</junit.version>
+		<mockito.version>1.10.19</mockito.version>
+		<mysql.version>6.0.2</mysql.version>
+		<logback.version>1.1.7</logback.version>
+	</properties>
 
-		<!-- Logging and slf4j -->
-		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.1.7</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.1.7</version>
-		</dependency>
-		
-		
-		<!-- SQL -->
-		
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
-		</dependency>
-
-		
-		<!-- CheckStyle -->
-		
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-checkstyle-plugin</artifactId>
-			<version>2.17</version>
-		</dependency>
-	</dependencies>
-	
 	<build>
 		<plugins>
-			
-			<!-- WebApp --> 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
 				<configuration>
-					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<!-- TomCat -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/</path>
 				</configuration>
 			</plugin>
 			
@@ -100,9 +53,68 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.excilys.ui.Main</mainClass>
+					<mainClass>com.excilys.cli.Main</mainClass>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<encoding>UTF-8</encoding>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+	</reporting>
+
+	<dependencies>
+
+		<!-- Servlet Library -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Database -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+	</dependencies>
+
 </project>
