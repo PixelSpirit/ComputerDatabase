@@ -35,7 +35,7 @@
 		</dependency>
 
 
-		<!-- Logging -->
+		<!-- Logging and slf4j -->
 		
 		<dependency>
 			<groupId>org.slf4j</groupId>
