@@ -26,6 +26,8 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private static final String UPDATE_QUERY = "UPDATE company SET name=? WHERE id=?";
 
+    private static final String COUNT_QUERY = "SELECT COUNT(id) FROM company";
+
     private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
     private CompanyMapper mapper = CompanyMapper.getInstance();
@@ -137,6 +139,23 @@ public class CompanyDAO extends AbstractDAO<Company> {
             } else {
                 throw new SQLException("No key was found");
 
+            }
+        } catch (SQLException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            logger.warn("[Throw] <DAOException>");
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public long count() throws ConnectionException, DAOException {
+        try (Connection connect = ConnectionFactory.get();
+                PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
+            ResultSet results = stmt.executeQuery();
+            if (results.first()) {
+                return results.getLong(1);
+            } else {
+                throw new DAOException("No count result");
             }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());

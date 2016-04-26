@@ -65,4 +65,11 @@ public abstract class AbstractDAO<T> {
      */
     public abstract T update(long id, T updateValue) throws ConnectionException, DAOException, NotFoundException;
 
+    /**
+     * Count the number of entities in the database.
+     * @return The number of entities
+     * @throws ConnectionException if the connection to the database was refused
+     * @throws DAOException if no query can be done on database
+     */
+    public abstract long count() throws ConnectionException, DAOException;
 }

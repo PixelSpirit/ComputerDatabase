@@ -28,6 +28,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private static final String UPDATE_QUERY = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 
+    private static final String COUNT_QUERY = "SELECT COUNT(id) FROM computer";
+
     private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
     private ComputerMapper mapper = ComputerMapper.getInstance();
@@ -142,6 +144,23 @@ public class ComputerDAO extends AbstractDAO<Computer> {
                 throw new DAOException("Insertion failed");
             }
         } catch (SQLException | NotFoundException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            logger.warn("[Throw] <DAOException>");
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public long count() throws ConnectionException, DAOException {
+        try (Connection connect = ConnectionFactory.get();
+                PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
+            ResultSet results = stmt.executeQuery();
+            if (results.first()) {
+                return results.getLong(1);
+            } else {
+                throw new DAOException("No count result");
+            }
+        } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
