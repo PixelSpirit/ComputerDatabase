@@ -60,13 +60,16 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     /* DAO Functionalities */
 
     @Override
-    public Computer find(long id) throws ConnectionException, DAOException {
+    public Computer find(long id) throws ConnectionException, DAOException, NotFoundException {
         try (Connection connect = ConnectionFactory.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
             stmt.setLong(1, id);
             ResultSet result = stmt.executeQuery();
-            result.first();
-            return mapper.unmap(result);
+            if (result.first()) {
+                return mapper.unmap(result);
+            } else {
+                throw new NotFoundException();
+            }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
@@ -116,9 +119,9 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             if (rs.first()) {
                 return find(rs.getLong(1));
             } else {
-                throw new SQLException("No key was found");
+                throw new DAOException("Insertion failed");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
@@ -136,9 +139,9 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             if (rs.first()) {
                 return find(rs.getLong(1));
             } else {
-                throw new SQLException("No key was found");
+                throw new DAOException("Insertion failed");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);

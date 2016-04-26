@@ -48,8 +48,16 @@ public class ComputerMapper implements DAOMappable<Computer> {
     @Override
     public void map(Computer entity, PreparedStatement stmt) throws SQLException {
         stmt.setString(1, entity.getName());
-        stmt.setTimestamp(2, Timestamp.valueOf(entity.getIntroduced()));
-        stmt.setTimestamp(3, Timestamp.valueOf(entity.getDiscontinued()));
+        if (entity.getIntroduced() != null) {
+            stmt.setTimestamp(2, Timestamp.valueOf(entity.getIntroduced()));
+        } else {
+            stmt.setNull(2, java.sql.Types.TIMESTAMP);
+        }
+        if (entity.getDiscontinued() != null) {
+            stmt.setTimestamp(3, Timestamp.valueOf(entity.getDiscontinued()));
+        } else {
+            stmt.setNull(3, java.sql.Types.TIMESTAMP);
+        }
         if (entity.getCompany() != null) {
             stmt.setLong(4, entity.getCompany().getId());
         } else {
@@ -61,13 +69,13 @@ public class ComputerMapper implements DAOMappable<Computer> {
     public Computer unmap(ResultSet databaseRow) throws SQLException {
         String introduced = databaseRow.getString(INTRODUCED);
         String discontinued = databaseRow.getString(DISCONTINUED);
-
-        Company cpn = new Company(databaseRow.getLong(COMPANY_ID), databaseRow.getString(COMPANY_NAME));
+        Company cpn = null;
+        if (databaseRow.getLong(COMPANY_ID) != 0) {
+            cpn = new Company(databaseRow.getLong(COMPANY_ID), databaseRow.getString(COMPANY_NAME));
+        }
         Computer cpt = new Computer.Builder().id(databaseRow.getLong(ID)).name(databaseRow.getString(NAME))
-                .introduced((introduced != null && introduced != "0000-00-00 00:00:00.0")
-                        ? LocalDateTime.parse(introduced, Computer.formatter) : null)
-                .discontinued((discontinued != null && discontinued != "0000-00-00 00:00:00.0")
-                        ? LocalDateTime.parse(discontinued, Computer.formatter) : null)
+                .introduced((introduced != null) ? LocalDateTime.parse(introduced, Computer.formatter) : null)
+                .discontinued((discontinued != null) ? LocalDateTime.parse(discontinued, Computer.formatter) : null)
                 .company(cpn).build();
         return cpt;
     }

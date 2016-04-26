@@ -11,6 +11,7 @@ import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.NotFoundException;
 import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
@@ -86,7 +87,7 @@ public class ComputerCreationMenu extends Menu {
                 Long id = Long.parseLong(scanner.nextLine());
                 company = new SimpleServices<>(CompanyDAO.getInstance()).find(id);
                 // TODO : Check if the ID is valid !
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | NotFoundException e) {
                 System.err.println("Invalid date format");
             }
         }

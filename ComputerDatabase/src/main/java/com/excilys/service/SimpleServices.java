@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.DAOException;
+import com.excilys.persistence.NotFoundException;
 
 /**
  * A service that gives direct access to DAO.
@@ -32,7 +33,7 @@ public class SimpleServices<T> extends AbstractService<T> {
     /* AbstractService */
 
     @Override
-    public T find(long id) throws ServiceException {
+    public T find(long id) throws ServiceException, NotFoundException {
         try {
             return dao.find(id);
         } catch (ConnectionException | DAOException e) {
@@ -82,6 +83,9 @@ public class SimpleServices<T> extends AbstractService<T> {
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
             logger.warn("[Throw] <ServiceException>");
+            throw new ServiceException(e);
+        } catch (NotFoundException e) {
+            logger.warn("[Catch] <" + e.getClass().getSimpleName() + ">");
             throw new ServiceException(e);
         }
     }

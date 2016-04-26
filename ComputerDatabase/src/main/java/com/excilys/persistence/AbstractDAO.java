@@ -17,17 +17,18 @@ public abstract class AbstractDAO<T> {
      * @return The required entity
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
+     * @throws NotFoundException if no result was found
      */
-    public abstract T find(long id) throws ConnectionException, DAOException;
+    public abstract T find(long id) throws ConnectionException, DAOException, NotFoundException;
 
     /**
      * Finds n elements from the offset in the databases.
      *
      * @param n The maximum number of elements that must be found
      * @param offset The first
+     * @return the list of the desired entities
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
-     * @return the list of the desired entities
      */
     public abstract List<T> findSeveral(int n, int offset) throws ConnectionException, DAOException;
 
@@ -60,7 +61,8 @@ public abstract class AbstractDAO<T> {
      * @return The entity that has been updated
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
+     * @throws NotFoundException if no result was found
      */
-    public abstract T update(long id, T updateValue) throws ConnectionException, DAOException;
+    public abstract T update(long id, T updateValue) throws ConnectionException, DAOException, NotFoundException;
 
 }
