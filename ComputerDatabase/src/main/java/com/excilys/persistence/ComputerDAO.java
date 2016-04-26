@@ -124,7 +124,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
                 throw new DAOException("Insertion failed");
             }
         } catch (SQLException | NotFoundException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }

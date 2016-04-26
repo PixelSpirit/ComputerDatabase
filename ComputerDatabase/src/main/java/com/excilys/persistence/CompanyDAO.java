@@ -60,14 +60,17 @@ public class CompanyDAO extends AbstractDAO<Company> {
     /* DAO Functionalities */
 
     @Override
-    public Company find(long id) throws ConnectionException, DAOException {
+    public Company find(long id) throws ConnectionException, DAOException, NotFoundException {
         try (Connection connect = ConnectionFactory.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
             stmt.setLong(1, id);
             logger.info("<SQL Query> Selecting company where id = " + id);
             ResultSet result = stmt.executeQuery();
-            result.first();
-            return mapper.unmap(result);
+            if (result.first()) {
+                return mapper.unmap(result);
+            } else {
+                throw new NotFoundException();
+            }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
@@ -117,10 +120,10 @@ public class CompanyDAO extends AbstractDAO<Company> {
             if (rs.first()) {
                 return find(rs.getLong(1));
             } else {
-                throw new SQLException("No key was found");
+                throw new DAOException("Insertion failed");
             }
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
+        } catch (SQLException | NotFoundException e) {
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
@@ -137,11 +140,10 @@ public class CompanyDAO extends AbstractDAO<Company> {
             if (rs.first()) {
                 return find(rs.getLong(1));
             } else {
-                throw new SQLException("No key was found");
-
+                throw new DAOException("Insertion failed");
             }
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
+        } catch (SQLException | NotFoundException e) {
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
