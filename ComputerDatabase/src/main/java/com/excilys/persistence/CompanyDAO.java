@@ -73,7 +73,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -92,7 +91,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             return companies;
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -105,7 +103,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             stmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -124,7 +121,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             }
         } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -144,7 +140,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             }
         } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -161,7 +156,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
             }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }

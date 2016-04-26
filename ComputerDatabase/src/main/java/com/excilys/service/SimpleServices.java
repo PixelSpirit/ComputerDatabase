@@ -38,7 +38,6 @@ public class SimpleServices<T> extends AbstractService<T> {
             return dao.find(id);
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            logger.warn("[Throw] <ServiceException>");
             throw new ServiceException(e);
         }
     }
@@ -49,7 +48,6 @@ public class SimpleServices<T> extends AbstractService<T> {
             return dao.findSeveral(n, offset);
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            logger.warn("[Throw] <ServiceException>");
             throw new ServiceException(e);
         }
     }
@@ -60,7 +58,6 @@ public class SimpleServices<T> extends AbstractService<T> {
             dao.remove(id);
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            logger.warn("[Throw] <ServiceException>");
             throw new ServiceException(e);
         }
     }
@@ -71,7 +68,6 @@ public class SimpleServices<T> extends AbstractService<T> {
             return dao.insert(entity);
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            logger.warn("[Throw] <ServiceException>");
             throw new ServiceException(e);
         }
     }
@@ -82,7 +78,6 @@ public class SimpleServices<T> extends AbstractService<T> {
             return dao.update(id, updateValue);
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            logger.warn("[Throw] <ServiceException>");
             throw new ServiceException(e);
         } catch (NotFoundException e) {
             logger.warn("[Catch] <" + e.getClass().getSimpleName() + ">");

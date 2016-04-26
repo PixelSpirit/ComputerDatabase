@@ -74,7 +74,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -93,7 +92,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             return computers;
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -106,7 +104,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             stmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -125,7 +122,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             }
         } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -145,7 +141,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             }
         } catch (SQLException | NotFoundException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
@@ -162,7 +157,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             }
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
-            logger.warn("[Throw] <DAOException>");
             throw new DAOException(e);
         }
     }
