@@ -62,4 +62,10 @@ public abstract class AbstractService<T> {
      */
     public abstract T update(long id, T updateValue) throws ServiceException;
 
+    /**
+     * @return The number of entity that handle the service
+     * @throws ServiceException if the service isn't available
+     */
+    public abstract long count() throws ServiceException;
+
 }

@@ -90,4 +90,14 @@ public class SimpleServices<T> extends AbstractService<T> {
         }
     }
 
+    @Override
+    public long count() throws ServiceException {
+        try {
+            return dao.count();
+        } catch (ConnectionException | DAOException e) {
+            logger.warn("[Catch] <" + e.getClass().getSimpleName() + ">");
+            throw new ServiceException(e);
+        }
+    }
+
 }
