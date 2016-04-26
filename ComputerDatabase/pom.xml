@@ -10,12 +10,12 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-
 		<servlet.version>3.1.0</servlet.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>1.10.19</mockito.version>
-		<mysql.version>6.0.2</mysql.version>
+		<mysql.version>5.1.38</mysql.version>
 		<logback.version>1.1.7</logback.version>
+		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 	</properties>
 
 	<build>
@@ -59,22 +59,6 @@
 			
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-					<encoding>UTF-8</encoding>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 
 	<dependencies>
 

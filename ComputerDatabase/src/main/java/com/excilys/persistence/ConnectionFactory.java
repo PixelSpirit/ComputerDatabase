@@ -1,8 +1,11 @@
 package com.excilys.persistence;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +14,6 @@ import org.slf4j.LoggerFactory;
  * Gives an access to the computer database.
  */
 public class ConnectionFactory {
-
-    private static final String USER = "admincdb";
-    private static final String PASSWORD = "qwerty1234";
-    private static final String URL = "jdbc:mysql://localhost:3306/computer-database-db";
 
     private static Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
 
@@ -27,11 +26,13 @@ public class ConnectionFactory {
      */
     public static Connection get() throws ConnectionException {
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> Can't connect to database !");
-            logger.error(e.getSQLState());
-            logger.warn("[Throw] <ConnectionException>");
+            Properties props = new Properties();
+            props.load(new FileInputStream("src/main/resources/db.properties"));
+            Class.forName(props.getProperty("DB_DRIVER"));
+            return DriverManager.getConnection(props.getProperty("DB_URL"), props.getProperty("DB_USERNAME"),
+                    props.getProperty("DB_PASSWORD"));
+        } catch (SQLException | IOException | SecurityException | ClassNotFoundException e) {
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             throw new ConnectionException(e);
         }
     }
