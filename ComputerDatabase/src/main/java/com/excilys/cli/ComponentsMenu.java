@@ -1,10 +1,14 @@
 package com.excilys.cli;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.service.CompanyServices;
+import com.excilys.model.Company;
+import com.excilys.persistence.CompanyDAO;
 import com.excilys.service.ServiceException;
+import com.excilys.service.SimpleServices;
 
 public class ComponentsMenu extends Menu {
 
@@ -45,7 +49,10 @@ public class ComponentsMenu extends Menu {
     @Override
     protected void printContent() {
         try {
-            CompanyServices.getInstance().printCompanies(pageNumber * size, size);
+            List<Company> cpns = new SimpleServices<>(CompanyDAO.getInstance()).findSeveral(size, pageNumber * size);
+            for (Company company : cpns) {
+                System.out.println(company);
+            }
         } catch (ServiceException e) {
             logger.error("[Catch] <ServiceException>");
             System.err.println("Companies can not be printed...");

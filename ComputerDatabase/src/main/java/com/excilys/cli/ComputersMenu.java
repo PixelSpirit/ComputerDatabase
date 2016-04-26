@@ -1,10 +1,14 @@
 package com.excilys.cli;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.service.ComputerServices;
+import com.excilys.model.Computer;
+import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.ServiceException;
+import com.excilys.service.SimpleServices;
 
 public class ComputersMenu extends Menu {
 
@@ -45,7 +49,10 @@ public class ComputersMenu extends Menu {
     @Override
     protected void printContent() {
         try {
-            ComputerServices.getInstance().printComputers(pageNumber * size, size);
+            List<Computer> cpts = new SimpleServices<>(ComputerDAO.getInstance()).findSeveral(size, pageNumber * size);
+            for (Computer computer : cpts) {
+                System.out.println(computer);
+            }
         } catch (ServiceException e) {
             logger.error("[Catch] <ServiceException>");
             System.err.println("Computers can not be printed...");
