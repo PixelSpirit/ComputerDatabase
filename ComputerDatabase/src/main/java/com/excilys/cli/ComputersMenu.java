@@ -77,8 +77,16 @@ public class ComputersMenu extends Menu {
             try {
                 switch (Integer.parseInt(scanner.nextLine())) {
                 case 0:
-                    // TODO check that we are not at the limit !
-                    pageNumber++;
+                    try {
+                        if (new SimpleServices<>(ComputerDAO.getInstance()).count() >= pageNumber * size) {
+                            pageNumber++;
+                        } else {
+                            System.err.println("No more computers");
+                        }
+                    } catch (ServiceException e) {
+                        logger.error("[Catch] <ServiceException>");
+                        System.err.println("service unavailable");
+                    }
                     isValid = true;
                     break;
                 case 1:

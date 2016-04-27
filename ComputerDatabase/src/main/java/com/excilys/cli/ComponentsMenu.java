@@ -75,10 +75,16 @@ public class ComponentsMenu extends Menu {
             try {
                 switch (scanner.nextInt()) {
                 case 0:
-                    // TODO check that we are not at the limit !
-                    pageNumber++;
-                    isValid = true;
-                    break;
+                    try {
+                        if (new SimpleServices<>(CompanyDAO.getInstance()).count() >= pageNumber * size) {
+                            pageNumber++;
+                        } else {
+                            System.err.println("No more companies");
+                        }
+                    } catch (ServiceException e) {
+                        logger.error("[Catch] <ServiceException>");
+                        System.err.println("service unavailable");
+                    }
                 case 1:
                     if (pageNumber > 0) {
                         pageNumber--;

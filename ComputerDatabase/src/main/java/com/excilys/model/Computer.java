@@ -207,7 +207,11 @@ public class Computer {
 
     @Override
     public String toString() {
-        return "(" + id + ", " + name + ", " + introduced + ", " + discontinued + ", " + company.getName() + ")";
+        String s = "(" + id + ", " + name + ", " + introduced + ", " + discontinued;
+        if (company != null) {
+            s += ", " + company.getName();
+        }
+        return s + ")";
     }
 
     @Override
