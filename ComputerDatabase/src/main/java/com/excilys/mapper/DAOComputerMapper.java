@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
-public class ComputerMapper implements DAOMappable<Computer> {
+public class DAOComputerMapper implements DAOMappable<Computer> {
 
     private static final String ID = "cptr.id";
     private static final String NAME = "cptr.name";
@@ -20,23 +20,23 @@ public class ComputerMapper implements DAOMappable<Computer> {
 
     /* Singleton */
 
-    private static ComputerMapper instance = null;
+    private static DAOComputerMapper instance = null;
 
     /**
      * Constructs a ComputerMapper.
      */
-    private ComputerMapper() {
+    private DAOComputerMapper() {
         super();
     }
 
     /**
      * @return The unique instance of a ComputerMapper.
      */
-    public static ComputerMapper getInstance() {
+    public static DAOComputerMapper getInstance() {
         if (instance == null) {
-            synchronized (ComputerMapper.class) {
+            synchronized (DAOComputerMapper.class) {
                 if (instance == null) {
-                    instance = new ComputerMapper();
+                    instance = new DAOComputerMapper();
                 }
             }
         }

@@ -6,30 +6,30 @@ import java.sql.SQLException;
 
 import com.excilys.model.Company;
 
-public class CompanyMapper implements DAOMappable<Company> {
+public class DAOCompanyMapper implements DAOMappable<Company> {
 
     private static final String ID = "id";
     private static final String NAME = "name";
 
     /* Singleton */
 
-    private static CompanyMapper instance = null;
+    private static DAOCompanyMapper instance = null;
 
     /**
      * Constructs a CompanyMapper.
      */
-    private CompanyMapper() {
+    private DAOCompanyMapper() {
         super();
     }
 
     /**
      * @return The unique instance of a CompanyMapper.
      */
-    public static CompanyMapper getInstance() {
+    public static DAOCompanyMapper getInstance() {
         if (instance == null) {
-            synchronized (CompanyMapper.class) {
+            synchronized (DAOCompanyMapper.class) {
                 if (instance == null) {
-                    instance = new CompanyMapper();
+                    instance = new DAOCompanyMapper();
                 }
             }
         }

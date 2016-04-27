@@ -11,7 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.DAOComputerMapper;
 import com.excilys.model.Computer;
 
 public class ComputerDAO extends AbstractDAO<Computer> {
@@ -32,7 +32,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-    private ComputerMapper mapper = ComputerMapper.getInstance();
+    private DAOComputerMapper mapper = DAOComputerMapper.getInstance();
 
     /* Singleton */
 

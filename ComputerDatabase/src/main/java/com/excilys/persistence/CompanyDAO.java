@@ -11,7 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.mapper.CompanyMapper;
+import com.excilys.mapper.DAOCompanyMapper;
 import com.excilys.model.Company;
 
 public class CompanyDAO extends AbstractDAO<Company> {
@@ -30,7 +30,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-    private CompanyMapper mapper = CompanyMapper.getInstance();
+    private DAOCompanyMapper mapper = DAOCompanyMapper.getInstance();
 
     /* Singleton */
 
