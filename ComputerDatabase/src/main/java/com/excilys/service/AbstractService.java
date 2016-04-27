@@ -1,7 +1,6 @@
 package com.excilys.service;
 
-import java.util.List;
-
+import com.excilys.model.Page;
 import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.NotFoundException;
 
@@ -25,13 +24,13 @@ public abstract class AbstractService<T> {
     /**
      * Finds n elements from the offset in the databases.
      *
-     * @param n The maximum number of elements that must be found
-     * @param offset The first
-     * @return the list of the desired entities
+     * @param number The number of the page
+     * @param size The size of the page
+     * @return the page containing the list of the desired entities
      * @throws ConnectionException if the connection to the database was refused
      * @throws ServiceException if the service isn't available
      */
-    public abstract List<T> findSeveral(int n, int offset) throws ServiceException;
+    public abstract Page<T> findPage(int number, int size) throws ServiceException;
 
     /**
      * Remove the entity that match the given id from the database and returns

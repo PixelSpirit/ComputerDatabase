@@ -1,10 +1,9 @@
 package com.excilys.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.model.Page;
 import com.excilys.persistence.AbstractDAO;
 import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.DAOException;
@@ -43,9 +42,9 @@ public class SimpleServices<T> extends AbstractService<T> {
     }
 
     @Override
-    public List<T> findSeveral(int n, int offset) throws ServiceException {
+    public Page<T> findPage(int number, int size) throws ServiceException {
         try {
-            return dao.findSeveral(n, offset);
+            return new Page<>(number, size, dao.findSeveral(size, number * size));
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
             throw new ServiceException(e);

@@ -3,7 +3,7 @@
   <display-name>ComputerDatabase</display-name>
   <servlet>
     <servlet-name>ComputersServlet</servlet-name>
-    <servlet-class>ComputersServlet</servlet-class>
+    <servlet-class>com.excilys.controlers.ComputersServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ComputersServlet</servlet-name>

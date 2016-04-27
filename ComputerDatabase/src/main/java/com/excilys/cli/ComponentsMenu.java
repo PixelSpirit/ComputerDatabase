@@ -1,19 +1,22 @@
 package com.excilys.cli;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Company;
+import com.excilys.model.Page;
 import com.excilys.persistence.CompanyDAO;
+import com.excilys.service.AbstractService;
 import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
 public class ComponentsMenu extends Menu {
 
-    private int size;
-    private int pageNumber;
+    private static final int SIZE = 10;
+
+    private Page<Company> page;
+
+    private AbstractService<Company> service;
 
     private Logger logger = LoggerFactory.getLogger(ComponentsMenu.class);
 
@@ -26,8 +29,13 @@ public class ComponentsMenu extends Menu {
      */
     private ComponentsMenu() {
         super(" Components Menu");
-        size = 10;
-        pageNumber = 0;
+        service = new SimpleServices<>(CompanyDAO.getInstance());
+        try {
+            page = service.findPage(0, SIZE);
+        } catch (ServiceException e) {
+            logger.error("[Catch] <ServiceException>");
+            page = new Page<Company>(0, SIZE, null);
+        }
     }
 
     /**
@@ -48,20 +56,18 @@ public class ComponentsMenu extends Menu {
 
     @Override
     protected void printContent() {
-        try {
-            List<Company> cpns = new SimpleServices<>(CompanyDAO.getInstance()).findSeveral(size, pageNumber * size);
-            for (Company company : cpns) {
+        if (page.getContent() != null) {
+            for (Company company : page.getContent()) {
                 System.out.println(company);
             }
-        } catch (ServiceException e) {
-            logger.error("[Catch] <ServiceException>");
-            System.err.println("Companies can not be printed...");
+        } else {
+            System.err.println("Computers can not be printed...");
         }
     }
 
     @Override
     protected void printOptions() {
-        System.out.println("Page " + pageNumber + " :");
+        System.out.println("Page " + page.getNumber() + " :");
         System.out.println(" 0 - Print next companies");
         System.out.println(" 1 - Print previous companies");
         System.out.println(" 2 - Return to Main Menu");
@@ -76,18 +82,27 @@ public class ComponentsMenu extends Menu {
                 switch (scanner.nextInt()) {
                 case 0:
                     try {
-                        if (new SimpleServices<>(CompanyDAO.getInstance()).count() >= pageNumber * size) {
-                            pageNumber++;
+                        if (service.count() >= page.getNumber() * page.getSize()) {
+                            page = service.findPage(page.getNumber() + 1, SIZE);
                         } else {
-                            System.err.println("No more companies");
+                            System.err.println("No more computers");
                         }
                     } catch (ServiceException e) {
                         logger.error("[Catch] <ServiceException>");
+                        page = new Page<Company>(page.getNumber() + 1, SIZE, null);
                         System.err.println("service unavailable");
                     }
+                    isValid = true;
+                    break;
                 case 1:
-                    if (pageNumber > 0) {
-                        pageNumber--;
+                    if (page.getNumber() > 0) {
+                        try {
+                            page = service.findPage(page.getNumber() - 1, SIZE);
+                        } catch (ServiceException e) {
+                            logger.error("[Catch] <ServiceException>");
+                            page = new Page<Company>(page.getNumber() - 1, SIZE, null);
+                            System.err.println("service unavailable");
+                        }
                     }
                     isValid = true;
                     break;
