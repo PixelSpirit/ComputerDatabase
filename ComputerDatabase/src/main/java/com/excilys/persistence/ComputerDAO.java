@@ -133,13 +133,9 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             mapper.map(updateValue, stmt);
             stmt.setLong(5, id);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.first()) {
-                return find(rs.getLong(1));
-            } else {
-                throw new DAOException("Insertion failed");
-            }
-        } catch (SQLException | NotFoundException e) {
+            updateValue.setId(id);
+            return updateValue;
+        } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             throw new DAOException(e);
         }
