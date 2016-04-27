@@ -1,4 +1,4 @@
-package com.excilys.service;
+package com.excilys.model;
 
 import java.util.List;
 
@@ -9,22 +9,22 @@ import java.util.List;
 public class Page<T> {
 
     /**
-     * The number of the page
+     * The number of the page.
      */
     private int number;
 
     /**
-     * The number of elements presents in the page
+     * The number of elements presents in the page.
      */
     private int size;
 
     /**
-     * The elements of the page
+     * The elements of the page.
      */
     private List<T> content;
 
     /**
-     * Constructs a page
+     * Constructs a page.
      * @param number The number of the page
      * @param size The number of elements presents in the page
      * @param content The elements of the page
