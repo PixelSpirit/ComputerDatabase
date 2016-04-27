@@ -1,6 +1,7 @@
 package com.excilys.controlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Computer;
+import com.excilys.model.DTOComputer;
+import com.excilys.model.Page;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
@@ -22,8 +26,6 @@ public class ComputersServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
-    // private SimpleServices<Company> companyService = new
-    // SimpleServices<>(CompanyDAO.getInstance());
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 
@@ -31,14 +33,26 @@ public class ComputersServlet extends HttpServlet {
         request.setAttribute("computerNumber", computerService.count());
     }
 
+    private Page<DTOComputer> fromComputers(Page<Computer> page) {
+        DTOComputerMapper mapper = DTOComputerMapper.getInstance();
+        Page<DTOComputer> dtoPage = new Page<DTOComputer>(page.getNumber(), page.getSize(),
+                new ArrayList<>(page.getContent().size()));
+        for (Computer computer : page.getContent()) {
+            dtoPage.getContent().add(mapper.map(computer));
+        }
+        return dtoPage;
+    }
+
     private void savePage(HttpServletRequest request) throws ServiceException {
         try {
             int number = Integer.parseInt(request.getParameter("page"));
             int size = Integer.parseInt(request.getParameter("limit"));
-            // TODO : Use DTO
-            request.setAttribute("page", computerService.findPage(number, size));
+            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(number, size));
+            request.setAttribute("page", dtoPage);
         } catch (NullPointerException | NumberFormatException e) {
-            request.setAttribute("page", computerService.findPage(0, 10));
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
+            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(0, 10));
+            request.setAttribute("page", dtoPage);
         }
     }
 

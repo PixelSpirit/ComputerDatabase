@@ -37,9 +37,15 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
 
     @Override
     public DTOComputer map(Computer object) {
-        return new DTOComputer(object.getId(), object.getName(), object.getIntroduced().toString(),
-                object.getDiscontinued().toString(), String.valueOf(object.getCompany().getId()),
-                object.getCompany().getName());
+        String introduced = (object.getIntroduced() != null) ? object.getIntroduced().toString() : "";
+        String discontinued = (object.getDiscontinued() != null) ? object.getDiscontinued().toString() : "";
+        String companyId = "";
+        String companyName = "";
+        if (object.getCompany() != null) {
+            companyId = String.valueOf(object.getCompany().getId());
+            companyName = object.getCompany().getName();
+        }
+        return new DTOComputer(object.getId(), object.getName(), introduced, discontinued, companyId, companyName);
     }
 
     @Override

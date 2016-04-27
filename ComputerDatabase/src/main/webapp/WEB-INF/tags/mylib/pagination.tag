@@ -26,14 +26,14 @@
 	</thead>
 	<!-- Browse attribute computers -->
 	<tbody id="results">
-		<c:forEach var="i" begin="0" end="${page.size}" step="1">
+		<c:forEach var="computerDTO" items="${page.content}">
 			<tr>
 				<td class="editMode"><input type="checkbox" name="cb"
 					class="cb" value="0"></td>
-				<td><a href="editComputer.html" onclick="">${page.content[i].name}</a></td>
-				<td>${page.content[i].introduced}</td>
-				<td>${page.content[i].discontinued}</td>
-				<td>${page.content[i].company.name}</td>
+				<td><a href="editComputer.html" onclick="">${computerDTO.name}</a></td>
+				<td>${computerDTO.introduced}</td>
+				<td>${computerDTO.discontinued}</td>
+				<td>${computerDTO.companyName}</td>
 			</tr>
 		</c:forEach>
 	</tbody>
