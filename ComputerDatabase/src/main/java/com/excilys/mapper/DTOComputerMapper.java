@@ -53,10 +53,12 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
         Computer.Builder builder = new Computer.Builder();
         builder = builder.id(object.getId()).name(object.getName());
         if (object.getIntroduced().equals("")) {
-            builder.introduced(LocalDateTime.parse(object.getIntroduced(), Computer.formatter));
+            builder.introduced(
+                    LocalDateTime.parse(object.getIntroduced() + " 00.00.0", Computer.formatter).toLocalDate());
         }
         if (object.getDiscontinued().equals("")) {
-            builder.discontinued(LocalDateTime.parse(object.getDiscontinued(), Computer.formatter));
+            builder.discontinued(
+                    LocalDateTime.parse(object.getDiscontinued() + " 00.00.0", Computer.formatter).toLocalDate());
         }
         if (object.getCompanyId().equals("") || object.getCompanyName().equals("")) {
             builder.company(new Company(Long.parseLong(object.getCompanyId()), object.getCompanyName()));

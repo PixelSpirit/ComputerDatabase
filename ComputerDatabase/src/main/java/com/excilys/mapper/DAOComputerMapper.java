@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -49,12 +50,12 @@ public class DAOComputerMapper implements DAOMappable<Computer> {
     public void map(Computer entity, PreparedStatement stmt) throws SQLException {
         stmt.setString(1, entity.getName());
         if (entity.getIntroduced() != null) {
-            stmt.setTimestamp(2, Timestamp.valueOf(entity.getIntroduced()));
+            stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(entity.getIntroduced(), LocalTime.MIN)));
         } else {
             stmt.setNull(2, java.sql.Types.TIMESTAMP);
         }
         if (entity.getDiscontinued() != null) {
-            stmt.setTimestamp(3, Timestamp.valueOf(entity.getDiscontinued()));
+            stmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(entity.getDiscontinued(), LocalTime.MIN)));
         } else {
             stmt.setNull(3, java.sql.Types.TIMESTAMP);
         }
@@ -74,8 +75,10 @@ public class DAOComputerMapper implements DAOMappable<Computer> {
             cpn = new Company(databaseRow.getLong(COMPANY_ID), databaseRow.getString(COMPANY_NAME));
         }
         Computer cpt = new Computer.Builder().id(databaseRow.getLong(ID)).name(databaseRow.getString(NAME))
-                .introduced((introduced != null) ? LocalDateTime.parse(introduced, Computer.formatter) : null)
-                .discontinued((discontinued != null) ? LocalDateTime.parse(discontinued, Computer.formatter) : null)
+                .introduced(
+                        (introduced != null) ? LocalDateTime.parse(introduced, Computer.formatter).toLocalDate() : null)
+                .discontinued((discontinued != null)
+                        ? LocalDateTime.parse(discontinued, Computer.formatter).toLocalDate() : null)
                 .company(cpn).build();
         return cpt;
     }

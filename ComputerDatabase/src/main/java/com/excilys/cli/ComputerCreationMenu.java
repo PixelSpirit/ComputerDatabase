@@ -1,5 +1,6 @@
 package com.excilys.cli;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
@@ -60,13 +61,13 @@ public class ComputerCreationMenu extends Menu {
      * @param title The title of the date
      * @return A date
      */
-    private static LocalDateTime createDate(String title) {
-        LocalDateTime date = null;
+    private static LocalDate createDate(String title) {
+        LocalDate date = null;
         while (date == null) {
             try {
                 System.out.print("Enter the " + title + " date > ");
                 String format = scanner.nextLine();
-                date = LocalDateTime.parse(format, Computer.formatter);
+                date = LocalDateTime.parse(format, Computer.formatter).toLocalDate();
             } catch (DateTimeParseException e) {
                 System.err.println("Invalid date format");
             }
@@ -101,8 +102,8 @@ public class ComputerCreationMenu extends Menu {
      */
     private static Computer createComputer() throws ServiceException {
         String name = createName();
-        LocalDateTime introduced;
-        LocalDateTime discontinued;
+        LocalDate introduced;
+        LocalDate discontinued;
         boolean firstIteration = true;
         do {
             introduced = createDate("introducing");

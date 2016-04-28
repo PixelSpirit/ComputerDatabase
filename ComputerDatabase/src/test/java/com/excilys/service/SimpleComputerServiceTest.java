@@ -3,7 +3,7 @@ package com.excilys.service;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class SimpleComputerServiceTest {
         cpt = Mockito.mock(Computer.class);
         when(cpt.getName()).thenReturn("Compuraptor");
         when(cpt.getCompany()).thenReturn(null);
-        when(cpt.getIntroduced()).thenReturn(LocalDateTime.of(2010, 1, 1, 0, 0));
+        when(cpt.getIntroduced()).thenReturn(LocalDate.of(2010, 1, 1));
         when(cpt.getDiscontinued()).thenReturn(null);
         id = null;
     }
@@ -79,8 +79,8 @@ public class SimpleComputerServiceTest {
 
     @Test
     public void updateTest() throws ServiceException, NotFoundException {
-        Computer cpt2 = new Computer.Builder().name("NewOne").introduced(LocalDateTime.of(2017, 1, 1, 0, 0))
-                .discontinued(LocalDateTime.of(2018, 1, 1, 0, 0)).build();
+        Computer cpt2 = new Computer.Builder().name("NewOne").introduced(LocalDate.of(2017, 1, 1))
+                .discontinued(LocalDate.of(2018, 1, 1)).build();
         Computer c = service.insert(cpt);
         service.update(c.getId(), cpt2);
         Computer res = service.find(c.getId());

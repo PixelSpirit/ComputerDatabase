@@ -1,14 +1,14 @@
 package com.excilys.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Computer {
 
     private long id;
     private String name;
-    private LocalDateTime introduced;
-    private LocalDateTime discontinued;
+    private LocalDate introduced;
+    private LocalDate discontinued;
     private Company company;
 
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
@@ -19,8 +19,8 @@ public class Computer {
 
         private long id;
         private String name;
-        private LocalDateTime introduced;
-        private LocalDateTime discontinued;
+        private LocalDate introduced;
+        private LocalDate discontinued;
         private Company company;
 
         /**
@@ -59,7 +59,7 @@ public class Computer {
          * @param introduced The new introduced date value
          * @return The current Builder
          */
-        public Builder introduced(LocalDateTime introduced) {
+        public Builder introduced(LocalDate introduced) {
             this.introduced = introduced;
             return this;
         }
@@ -69,7 +69,7 @@ public class Computer {
          * @param discontinued The new discontinued date value
          * @return The current Builder
          */
-        public Builder discontinued(LocalDateTime discontinued) {
+        public Builder discontinued(LocalDate discontinued) {
             this.discontinued = discontinued;
             return this;
         }
@@ -150,28 +150,28 @@ public class Computer {
     /**
      * @return the introduced
      */
-    public LocalDateTime getIntroduced() {
+    public LocalDate getIntroduced() {
         return introduced;
     }
 
     /**
      * @param introduced the introduced to set
      */
-    public void setIntroduced(LocalDateTime introduced) {
+    public void setIntroduced(LocalDate introduced) {
         this.introduced = introduced;
     }
 
     /**
      * @return the discontinued
      */
-    public LocalDateTime getDiscontinued() {
+    public LocalDate getDiscontinued() {
         return discontinued;
     }
 
     /**
      * @param discontinued the discontinued to set
      */
-    public void setDiscontinued(LocalDateTime discontinued) {
+    public void setDiscontinued(LocalDate discontinued) {
         this.discontinued = discontinued;
     }
 
