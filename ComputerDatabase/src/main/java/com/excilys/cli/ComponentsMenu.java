@@ -34,7 +34,7 @@ public class ComponentsMenu extends Menu {
             page = service.findPage(0, SIZE);
         } catch (ServiceException e) {
             logger.error("[Catch] <ServiceException>");
-            page = new Page<Company>(0, SIZE, null);
+            page = new Page<Company>(0, SIZE, 0, null);
         }
     }
 
@@ -89,7 +89,7 @@ public class ComponentsMenu extends Menu {
                         }
                     } catch (ServiceException e) {
                         logger.error("[Catch] <ServiceException>");
-                        page = new Page<Company>(page.getNumber() + 1, SIZE, null);
+                        page = new Page<Company>(page.getNumber() + 1, page.getMaxNumber(), SIZE, null);
                         System.err.println("service unavailable");
                     }
                     isValid = true;
@@ -100,7 +100,7 @@ public class ComponentsMenu extends Menu {
                             page = service.findPage(page.getNumber() - 1, SIZE);
                         } catch (ServiceException e) {
                             logger.error("[Catch] <ServiceException>");
-                            page = new Page<Company>(page.getNumber() - 1, SIZE, null);
+                            page = new Page<Company>(page.getNumber() - 1, page.getMaxNumber(), SIZE, null);
                             System.err.println("service unavailable");
                         }
                     }

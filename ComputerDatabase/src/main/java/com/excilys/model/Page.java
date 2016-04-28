@@ -14,6 +14,11 @@ public class Page<T> {
     private int number;
 
     /**
+     * The max number of pages.
+     */
+    private int maxNumber;
+
+    /**
      * The number of elements presents in the page.
      */
     private int size;
@@ -29,8 +34,9 @@ public class Page<T> {
      * @param size The number of elements presents in the page
      * @param content The elements of the page
      */
-    public Page(int number, int size, List<T> content) {
+    public Page(int number, int maxNumber, int size, List<T> content) {
         this.number = number;
+        this.maxNumber = maxNumber;
         this.size = size;
         this.content = content;
     }
@@ -54,6 +60,13 @@ public class Page<T> {
      */
     public List<T> getContent() {
         return content;
+    }
+
+    /**
+     * @return the maxNumber
+     */
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
 }

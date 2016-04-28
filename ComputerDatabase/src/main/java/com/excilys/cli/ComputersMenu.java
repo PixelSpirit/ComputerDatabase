@@ -34,7 +34,7 @@ public class ComputersMenu extends Menu {
             page = service.findPage(0, SIZE);
         } catch (ServiceException e) {
             logger.error("[Catch] <ServiceException>");
-            page = new Page<Computer>(0, SIZE, null);
+            page = new Page<Computer>(0, SIZE, 0, null);
         }
     }
 
@@ -91,7 +91,7 @@ public class ComputersMenu extends Menu {
                         }
                     } catch (ServiceException e) {
                         logger.error("[Catch] <ServiceException>");
-                        page = new Page<Computer>(page.getNumber() + 1, SIZE, null);
+                        page = new Page<Computer>(page.getNumber() + 1, page.getMaxNumber(), SIZE, null);
                         System.err.println("service unavailable");
                     }
                     isValid = true;
@@ -102,7 +102,7 @@ public class ComputersMenu extends Menu {
                             page = service.findPage(page.getNumber() - 1, SIZE);
                         } catch (ServiceException e) {
                             logger.error("[Catch] <ServiceException>");
-                            page = new Page<Computer>(page.getNumber() - 1, SIZE, null);
+                            page = new Page<Computer>(page.getNumber() - 1, page.getMaxNumber(), SIZE, null);
                             System.err.println("service unavailable");
                         }
                     }

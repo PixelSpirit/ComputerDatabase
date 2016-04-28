@@ -44,7 +44,7 @@ public class SimpleServices<T> extends AbstractService<T> {
     @Override
     public Page<T> findPage(int number, int size) throws ServiceException {
         try {
-            return new Page<>(number, size, dao.findSeveral(size, number * size));
+            return new Page<>(number, size, (int) dao.count() / size, dao.findSeveral(size, number * size));
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
             throw new ServiceException(e);
