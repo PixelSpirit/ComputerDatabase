@@ -35,7 +35,7 @@ public class ComputersServlet extends HttpServlet {
 
     private Page<DTOComputer> fromComputers(Page<Computer> page) {
         DTOComputerMapper mapper = DTOComputerMapper.getInstance();
-        Page<DTOComputer> dtoPage = new Page<DTOComputer>(page.getNumber(), page.getSize(),
+        Page<DTOComputer> dtoPage = new Page<DTOComputer>(page.getNumber(), page.getMaxNumber(), page.getSize(),
                 new ArrayList<>(page.getContent().size()));
         for (Computer computer : page.getContent()) {
             dtoPage.getContent().add(mapper.map(computer));
@@ -49,6 +49,9 @@ public class ComputersServlet extends HttpServlet {
             int size = Integer.parseInt(request.getParameter("limit"));
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(number, size));
             request.setAttribute("page", dtoPage);
+            System.out.println("number " + dtoPage.getNumber());
+            System.out.println("maxNumber " + dtoPage.getMaxNumber());
+            System.out.println("size " + dtoPage.getSize());
         } catch (NullPointerException | NumberFormatException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(0, 10));
