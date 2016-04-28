@@ -1,6 +1,6 @@
 package com.excilys.mapper;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -52,15 +52,13 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
     public Computer unmap(DTOComputer object) {
         Computer.Builder builder = new Computer.Builder();
         builder = builder.id(object.getId()).name(object.getName());
-        if (object.getIntroduced().equals("")) {
-            builder.introduced(
-                    LocalDateTime.parse(object.getIntroduced() + " 00.00.0", Computer.formatter).toLocalDate());
+        if (!object.getIntroduced().equals("")) {
+            builder.introduced(LocalDate.parse(object.getIntroduced()));
         }
-        if (object.getDiscontinued().equals("")) {
-            builder.discontinued(
-                    LocalDateTime.parse(object.getDiscontinued() + " 00.00.0", Computer.formatter).toLocalDate());
+        if (!object.getDiscontinued().equals("")) {
+            builder.discontinued(LocalDate.parse(object.getDiscontinued()));
         }
-        if (object.getCompanyId().equals("") || object.getCompanyName().equals("")) {
+        if (!object.getCompanyId().equals("") && !object.getCompanyName().equals("")) {
             builder.company(new Company(Long.parseLong(object.getCompanyId()), object.getCompanyName()));
         }
         return builder.build();

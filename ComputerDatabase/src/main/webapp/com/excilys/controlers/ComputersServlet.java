@@ -12,10 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.DTOComputerMapper;
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.model.DTOComputer;
 import com.excilys.model.Page;
+import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.NotFoundException;
 import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
@@ -26,6 +29,7 @@ public class ComputersServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
+    private SimpleServices<Company> companyService = new SimpleServices<>(CompanyDAO.getInstance());
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 
@@ -56,6 +60,28 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
+    private void insertComputer(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String introduced = request.getParameter("introduced");
+        String discontinued = request.getParameter("discontinued");
+        String companyId = request.getParameter("companyid");
+        String companyName = "";
+        try {
+            companyName = companyService.find(Long.parseLong(companyId)).getName();
+        } catch (NumberFormatException | NotFoundException | ServiceException e) {
+            companyId = "";
+            logger.warn("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
+        }
+        DTOComputer dtoCpt = new DTOComputer(0, name, introduced, discontinued, companyId, companyName);
+        Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
+        try {
+            computerService.insert(cpt);
+        } catch (ServiceException e) {
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
+            System.err.println("Computer was not added");
+        }
+    }
+
     /* Servlet */
 
     @Override
@@ -71,4 +97,10 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        insertComputer(request);
+        doGet(request, response);
+    }
 }
