@@ -31,6 +31,7 @@ public class Page<T> {
     /**
      * Constructs a page.
      * @param number The number of the page
+     * @param maxNumber The maximum number of pages
      * @param size The number of elements presents in the page
      * @param content The elements of the page
      */
