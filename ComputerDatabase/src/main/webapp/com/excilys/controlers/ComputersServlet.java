@@ -49,9 +49,6 @@ public class ComputersServlet extends HttpServlet {
             int size = Integer.parseInt(request.getParameter("limit"));
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(number, size));
             request.setAttribute("page", dtoPage);
-            System.out.println("number " + dtoPage.getNumber());
-            System.out.println("maxNumber " + dtoPage.getMaxNumber());
-            System.out.println("size " + dtoPage.getSize());
         } catch (NullPointerException | NumberFormatException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(0, 10));
@@ -67,7 +64,7 @@ public class ComputersServlet extends HttpServlet {
         try {
             saveComputerNumbers(request);
             savePage(request);
-            this.getServletContext().getRequestDispatcher("/views/computers.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/views/computers/computers.jsp").forward(request, response);
         } catch (ServiceException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             this.getServletContext().getRequestDispatcher("/views/404.html").forward(request, response);
