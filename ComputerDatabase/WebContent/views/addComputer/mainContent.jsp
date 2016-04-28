@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <section id="main">
 	<div class="container">
 		<div class="row">
@@ -24,6 +26,9 @@
 							<label for="companyId">Company</label> <select
 								class="form-control" id="companyId">
 								<option value="0">--</option>
+								<c:forEach var="companyDTO" items="${requestScope.allCompanies}">
+									<option value="0"><c:out value="${companyDTO.name}"></c:out></option>
+								</c:forEach>
 							</select>
 						</div>
 					</fieldset>

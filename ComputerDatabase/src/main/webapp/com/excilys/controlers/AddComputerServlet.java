@@ -1,6 +1,8 @@
 package com.excilys.controlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.mapper.DTOCompanyMapper;
 import com.excilys.model.Company;
+import com.excilys.model.DTOCompany;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
@@ -26,6 +30,12 @@ public class AddComputerServlet extends HttpServlet {
     private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 
     private void saveAllCompanies(HttpServletRequest request) throws ServiceException {
+        DTOCompanyMapper mapper = DTOCompanyMapper.getInstance();
+        List<Company> companies = companiesService.findAll();
+        List<DTOCompany> dtoCompanies = new ArrayList<>(companies.size());
+        for (Company company : companies) {
+            dtoCompanies.add(mapper.map(company));
+        }
         request.setAttribute("allCompanies", companiesService.findAll());
     }
 
