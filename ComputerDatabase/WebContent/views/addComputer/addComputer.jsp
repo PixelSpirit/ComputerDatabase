@@ -12,6 +12,7 @@
 	<%@include file="/views/addComputer/mainContent.jsp" %>
 	
 	<%@include file="/views/templates/scripts.jsp"%>
+	<script src="${pageContext.request.contextPath}/js/addcomputer.js"></script>
 
 </body>
 </html>
