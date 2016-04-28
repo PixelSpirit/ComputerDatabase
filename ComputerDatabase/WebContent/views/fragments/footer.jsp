@@ -8,9 +8,9 @@
 		
 			<!-- Previous Button -->
 			<c:if test="${requestScope.page.number > 0}">
-				<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 1}" target="Computers" /> aria-label="Previous">
+				<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 1}" target="Computers">
 					<span aria-hidden="true">&laquo;</span>
-				</a></li>
+				</m:link></li>
 			</c:if>
 			
 			<!-- Pages Button -->
@@ -18,9 +18,9 @@
 			
 				<c:when test="${requestScope.page.maxNumber <= 5}">
 					<c:forEach var="i" begin="0" end="${requestScope.page.maxNumber}" step="1">
-						<li><a href=<m:link limit="${requestScope.page.size}" page="${i}" target="Computers" /> >
+						<li><m:link limit="${requestScope.page.size}" page="${i}" target="Computers">
 							<c:out value="${i}" />
-						</a></li>
+						</m:link></li>
 					</c:forEach>
 				</c:when>
 				
@@ -31,31 +31,31 @@
 					</c:if>
 					
 					<c:if test="${requestScope.page.number > 1}">
-						<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 2}" target="Computers" /> >
+						<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 2}" target="Computers">
 							<c:out value="${requestScope.page.number - 2}" />
-						</a></li>
+						</m:link></li>
 					</c:if>
 					
 					<c:if test="${requestScope.page.number > 0}">
-						<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 1}" target="Computers" /> >
+						<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number - 1}" target="Computers" >
 							<c:out value="${requestScope.page.number - 1}" />
-						</a></li>
+						</m:link></li>
 					</c:if>
 					
-					<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number}" target="Computers" /> >
+					<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number}" target="Computers">
 							<c:out value="${requestScope.page.number}" />
-					</a></li>
+					</m:link></li>
 					
 					<c:if test="${requestScope.page.number < requestScope.page.maxNumber}">
-						<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 1}" target="Computers" /> >
+						<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 1}" target="Computers">
 							<c:out value="${requestScope.page.number + 1}" />
-						</a></li>
+						</m:link></li>
 					</c:if>
 					
 					<c:if test="${requestScope.page.number < requestScope.page.maxNumber - 1}">
-						<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 2}" target="Computers" /> >
+						<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 2}" target="Computers">
 							<c:out value="${requestScope.page.number + 2}" />
-						</a></li>
+						</m:link></li>
 					</c:if>
 					
 					<c:if test="${requestScope.page.number < requestScope.page.maxNumber - 2}">
@@ -67,9 +67,9 @@
 			
 			<!-- Next Button -->
 			<c:if test="${requestScope.page.number < requestScope.page.maxNumber}">
-				<li><a href=<m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 1}" target="Computers" /> aria-label="Next">
+				<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.number + 1}" target="Computers">
 					<span aria-hidden="true">&raquo;</span>
-				</a></li>
+				</m:link></li>
 			</c:if>
 			
 			
@@ -79,17 +79,17 @@
 
 		<!-- Limit Buttons -->
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<a href=<m:link limit="10" page="${requestScope.page.number}" target="Computers" /> >
+			<m:link limit="10" page="${requestScope.page.number}" target="Computers">
 				<button type="button" class="btn btn-default">10</button>
-			</a>
+			</m:link>
 			
-			<a href=<m:link limit="50" page="${requestScope.page.number}" target="Computers" /> >
+			<m:link limit="50" page="${requestScope.page.number}" target="Computers">
 				<button type="button" class="btn btn-default">50</button>
-			</a>
+			</m:link>
 			
-			<a href=<m:link limit="100" page="${requestScope.page.number}" target="Computers" /> >
+			<m:link limit="100" page="${requestScope.page.number}" target="Computers">
 				<button type="button" class="btn btn-default">100</button>
-			</a>
+			</m:link>
 
 		</div>
 	</div>
