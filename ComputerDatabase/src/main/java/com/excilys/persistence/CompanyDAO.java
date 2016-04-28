@@ -18,7 +18,9 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private static final String FIND_QUERY = "SELECT id, name FROM company WHERE id=?";
 
-    private static final String FIND_ALL_QUERY = "SELECT id, name FROM company LIMIT ? OFFSET ?";
+    private static final String FIND_ALL_QUERY = "SELECT id, name FROM company";
+
+    private static final String FIND_SEVERAL_QUERY = "SELECT id, name FROM company LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO company (name) VALUES (?)";
 
@@ -78,9 +80,25 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public List<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+    public List<Company> findAll() throws ConnectionException, DAOException {
         try (Connection connect = ConnectionFactory.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
+            ResultSet results = stmt.executeQuery();
+            ArrayList<Company> companies = new ArrayList<>();
+            while (results.next()) {
+                companies.add(mapper.unmap(results));
+            }
+            return companies;
+        } catch (SQLException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public List<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+        try (Connection connect = ConnectionFactory.get();
+                PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
             stmt.setInt(1, n);
             stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();

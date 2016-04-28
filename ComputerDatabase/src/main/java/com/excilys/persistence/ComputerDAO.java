@@ -20,6 +20,9 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id " + "WHERE cptr.id=?";
 
     private static final String FIND_ALL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
+            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id ";
+
+    private static final String FIND_SEVERAL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
             + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id " + "LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
@@ -79,9 +82,25 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public List<Computer> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+    public List<Computer> findAll() throws ConnectionException, DAOException {
         try (Connection connect = ConnectionFactory.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
+            ResultSet results = stmt.executeQuery();
+            ArrayList<Computer> computers = new ArrayList<>();
+            while (results.next()) {
+                computers.add(mapper.unmap(results));
+            }
+            return computers;
+        } catch (SQLException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public List<Computer> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+        try (Connection connect = ConnectionFactory.get();
+                PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
             stmt.setInt(1, n);
             stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();

@@ -22,6 +22,14 @@ public abstract class AbstractDAO<T> {
     public abstract T find(long id) throws ConnectionException, DAOException, NotFoundException;
 
     /**
+     * Finds all the element from the databases.
+     * @return the list of entities
+     * @throws ConnectionException if the connection to the database was refused
+     * @throws DAOException if no query can be done on database
+     */
+    public abstract List<T> findAll() throws ConnectionException, DAOException;
+
+    /**
      * Finds n elements from the offset in the databases.
      *
      * @param n The maximum number of elements that must be found

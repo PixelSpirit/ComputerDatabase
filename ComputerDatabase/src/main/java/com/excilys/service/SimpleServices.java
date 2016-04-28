@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,16 @@ public class SimpleServices<T> extends AbstractService<T> {
     public T find(long id) throws ServiceException, NotFoundException {
         try {
             return dao.find(id);
+        } catch (ConnectionException | DAOException e) {
+            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<T> findAll() throws ServiceException {
+        try {
+            return dao.findAll();
         } catch (ConnectionException | DAOException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
             throw new ServiceException(e);

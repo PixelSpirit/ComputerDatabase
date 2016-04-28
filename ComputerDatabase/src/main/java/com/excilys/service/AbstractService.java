@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import java.util.List;
+
 import com.excilys.model.Page;
 import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.NotFoundException;
@@ -20,6 +22,13 @@ public abstract class AbstractService<T> {
      * @throws NotFoundException if no entity was found
      */
     public abstract T find(long id) throws ServiceException, NotFoundException;
+
+    /**
+     * Finds all the elements from the databases.
+     * @return The required elements
+     * @throws ServiceException if the service isn't available
+     */
+    public abstract List<T> findAll() throws ServiceException;
 
     /**
      * Finds n elements from the offset in the databases.
