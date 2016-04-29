@@ -5,7 +5,7 @@
 
 	<groupId>com.excilys</groupId>
 	<artifactId>cdb</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -14,6 +14,8 @@
 		<junit.version>4.12</junit.version>
 		<mockito.version>1.10.19</mockito.version>
 		<mysql.version>5.1.38</mysql.version>
+		<jstl.version>1.2</jstl.version>
+		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
 		<mojo.version>1.1</mojo.version>
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
@@ -21,6 +23,8 @@
 
 	<build>
 		<plugins>
+
+			<!-- Compiler -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -31,34 +35,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- TomCat -->
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<path>/</path>
-				</configuration>
-			</plugin>
-			
-			<!-- Command Line Execution -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.codehaus.mojo</groupId> -->
-<!-- 				<artifactId>exec-maven-plugin</artifactId> -->
-<!-- 				<version>1.2.1</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>java</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 				<configuration> -->
-<!-- 					<mainClass>com.excilys.cli.Main</mainClass> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
-			
-			<!-- Use to deploye the war on tomcat -->
+			<!-- Used to deploy the war on tomcat -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
@@ -68,7 +45,7 @@
 					<server>tomcatserver</server>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
@@ -102,21 +79,34 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Logging -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
+			<scope>runtime</scope>
 		</dependency>
-		
-		<!--  JSTL  -->
+
+		<!-- JSTL -->
+
 		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 
