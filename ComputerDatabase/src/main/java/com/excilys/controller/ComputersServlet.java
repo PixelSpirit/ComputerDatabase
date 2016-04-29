@@ -120,7 +120,7 @@ public class ComputersServlet extends HttpServlet {
                     response);
         } catch (ServiceException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            this.getServletContext().getRequestDispatcher("/WEB-INF/views/404.html").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/resources/html/404.html").forward(request, response);
         }
     }
 
