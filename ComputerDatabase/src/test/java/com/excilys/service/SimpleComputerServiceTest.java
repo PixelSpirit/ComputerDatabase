@@ -79,7 +79,7 @@ public class SimpleComputerServiceTest {
 
     @Test
     public void updateTest() throws ServiceException, NotFoundException {
-        Computer cpt2 = new Computer.Builder().name("NewOne").introduced(LocalDate.of(2017, 1, 1))
+        Computer cpt2 = new Computer.Builder("NewOne").introduced(LocalDate.of(2017, 1, 1))
                 .discontinued(LocalDate.of(2018, 1, 1)).build();
         Computer c = service.insert(cpt);
         service.update(c.getId(), cpt2);

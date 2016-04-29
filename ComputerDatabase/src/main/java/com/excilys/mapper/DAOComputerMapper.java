@@ -74,7 +74,7 @@ public class DAOComputerMapper implements DAOMappable<Computer> {
         if (databaseRow.getLong(COMPANY_ID) != 0) {
             cpn = new Company(databaseRow.getLong(COMPANY_ID), databaseRow.getString(COMPANY_NAME));
         }
-        Computer cpt = new Computer.Builder().id(databaseRow.getLong(ID)).name(databaseRow.getString(NAME))
+        Computer cpt = new Computer.Builder(databaseRow.getString(NAME)).id(databaseRow.getLong(ID))
                 .introduced(
                         (introduced != null) ? LocalDateTime.parse(introduced, Computer.formatter).toLocalDate() : null)
                 .discontinued((discontinued != null)

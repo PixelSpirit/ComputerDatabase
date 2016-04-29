@@ -50,8 +50,7 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
 
     @Override
     public Computer unmap(DTOComputer object) {
-        Computer.Builder builder = new Computer.Builder();
-        builder = builder.id(object.getId()).name(object.getName());
+        Computer.Builder builder = new Computer.Builder(object.getName());
         if (!object.getIntroduced().equals("")) {
             builder.introduced(LocalDate.parse(object.getIntroduced()));
         }

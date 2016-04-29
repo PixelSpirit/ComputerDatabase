@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Computer {
 
-    private long id;
+    private Long id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
@@ -17,7 +17,7 @@ public class Computer {
 
     public static class Builder {
 
-        private long id;
+        private Long id;
         private String name;
         private LocalDate introduced;
         private LocalDate discontinued;
@@ -25,10 +25,11 @@ public class Computer {
 
         /**
          * Constructs a ComputerBuilder.
+         * @param name The computer's name
          */
-        public Builder() {
-            this.id = -1;
-            this.name = null;
+        public Builder(String name) {
+            this.name = name;
+            this.id = null;
             this.introduced = null;
             this.discontinued = null;
             this.company = null;
@@ -39,7 +40,7 @@ public class Computer {
          * @param id The new id value
          * @return The current Builder
          */
-        public Builder id(long id) {
+        public Builder id(Long id) {
             this.id = id;
             return this;
         }
@@ -96,10 +97,11 @@ public class Computer {
 
     /**
      * Constructs a Computer.
+     * @param name The computer's name
      */
-    public Computer() {
-        this.id = -1;
-        this.name = null;
+    public Computer(String name) {
+        this.id = null;
+        this.name = name;
         this.introduced = null;
         this.discontinued = null;
         this.company = null;

@@ -114,8 +114,7 @@ public class ComputerCreationMenu extends Menu {
             firstIteration = false;
         } while (introduced.isAfter(discontinued));
         Company company = createCompany();
-        return new Computer.Builder().name(name).introduced(introduced).discontinued(discontinued).company(company)
-                .build();
+        return new Computer.Builder(name).introduced(introduced).discontinued(discontinued).company(company).build();
     }
 
     @Override

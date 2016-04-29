@@ -22,14 +22,27 @@
 						step="1">
 						<li><m:link limit="${requestScope.page.size}" page="${i}"
 								target="computers">
-								<c:out value="${i}" />
+								<c:choose>
+									<c:when test="${requestScope.page.number == i}">
+										<b><i><c:out value="${i}" /></i></b>
+									</c:when>
+									<c:otherwise>
+										<c:out value="${i}" />
+									</c:otherwise>
+								</c:choose>
 							</m:link></li>
 					</c:forEach>
 				</c:when>
 
 				<c:otherwise>
+				
+					<c:if test="${requestScope.page.number > 3 }">
+						<li><m:link limit="${requestScope.page.size}" page="1" target="computers">
+								<c:out value="1" />
+							</m:link></li>
+					</c:if>
 
-					<c:if test="${requestScope.page.number > 2}">
+					<c:if test="${requestScope.page.number > 3}">
 						<li><span aria-hidden="true">&hellip;</span></li>
 					</c:if>
 
@@ -49,7 +62,7 @@
 
 					<li><m:link limit="${requestScope.page.size}"
 							page="${requestScope.page.number}" target="computers">
-							<c:out value="${requestScope.page.number}" />
+							<b><i><c:out value="${requestScope.page.number}" /></i></b>
 						</m:link></li>
 
 					<c:if
@@ -69,8 +82,14 @@
 					</c:if>
 
 					<c:if
-						test="${requestScope.page.number < requestScope.page.maxNumber - 2}">
+						test="${requestScope.page.number < requestScope.page.maxNumber - 3}">
 						<li><span aria-hidden="true">&hellip;</span></li>
+					</c:if>
+					
+					<c:if test="${requestScope.page.number < requestScope.page.maxNumber - 3 }">
+						<li><m:link limit="${requestScope.page.size}" page="${requestScope.page.maxNumber}" target="computers">
+								<c:out value="${requestScope.page.maxNumber}" />
+							</m:link></li>
 					</c:if>
 
 				</c:otherwise>
