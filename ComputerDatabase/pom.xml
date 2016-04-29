@@ -15,6 +15,7 @@
 		<mockito.version>1.10.19</mockito.version>
 		<mysql.version>5.1.38</mysql.version>
 		<logback.version>1.1.7</logback.version>
+		<mojo.version>1.1</mojo.version>
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 	</properties>
 
@@ -41,19 +42,30 @@
 			</plugin>
 			
 			<!-- Command Line Execution -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.codehaus.mojo</groupId> -->
+<!-- 				<artifactId>exec-maven-plugin</artifactId> -->
+<!-- 				<version>1.2.1</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<goals> -->
+<!-- 							<goal>java</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 				<configuration> -->
+<!-- 					<mainClass>com.excilys.cli.Main</mainClass> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+			
+			<!-- Use to deploye the war on tomcat -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>${mojo.version}</version>
 				<configuration>
-					<mainClass>com.excilys.cli.Main</mainClass>
+					<url>http://localhost:8080/manager/text</url>
+					<server>tomcatserver</server>
 				</configuration>
 			</plugin>
 			

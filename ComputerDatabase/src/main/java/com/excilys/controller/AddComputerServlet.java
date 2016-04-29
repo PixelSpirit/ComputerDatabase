@@ -1,4 +1,4 @@
-package com.excilys.controlers;
+package com.excilys.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
 /**
- * Servlet implementation class AddComputerServlet
+ * Servlet implementation class AddComputerServlet.
  */
 public class AddComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -29,6 +29,11 @@ public class AddComputerServlet extends HttpServlet {
 
     private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 
+    /**
+     * Saves all DTOCompanies reachable from services into the request context.
+     * @param request The http request
+     * @throws ServiceException if if service is unavailable
+     */
     private void saveAllCompanies(HttpServletRequest request) throws ServiceException {
         DTOCompanyMapper mapper = DTOCompanyMapper.getInstance();
         List<Company> companies = companiesService.findAll();
@@ -44,11 +49,11 @@ public class AddComputerServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             saveAllCompanies(request);
-            this.getServletContext().getRequestDispatcher("/views/addComputer/addComputer.jsp").forward(request,
+            this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer/addComputer.jsp").forward(request,
                     response);
         } catch (ServiceException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            this.getServletContext().getRequestDispatcher("/views/404.html").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/views/404.html").forward(request, response);
         }
     }
 

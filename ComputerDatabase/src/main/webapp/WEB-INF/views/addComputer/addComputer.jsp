@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html>
 
-<%@include file="/views/templates/head.jsp"%>
+<%@include file="/WEB-INF/views/templates/head.jsp"%>
 
 <body>
-	<%@include file="/views/templates/header.jsp"%>
+	<%@include file="/WEB-INF/views/templates/header.jsp"%>
 	
-	<%@include file="/views/addComputer/mainContent.jsp" %>
+	<%@include file="/WEB-INF/views/addComputer/mainContent.jsp" %>
 	
-	<%@include file="/views/templates/scripts.jsp"%>
+	<%@include file="/WEB-INF/views/templates/scripts.jsp"%>
 	<script src="${pageContext.request.contextPath}/js/addcomputer.js"></script>
 
 </body>
