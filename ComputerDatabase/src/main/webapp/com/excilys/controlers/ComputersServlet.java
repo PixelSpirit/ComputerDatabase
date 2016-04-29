@@ -82,10 +82,7 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
-    /* Servlet */
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void showPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             saveComputerNumbers(request);
@@ -97,10 +94,20 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
+    /* Servlet */
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        logger.info("ComputersServlet : [doGet]");
+        showPage(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("ComputersServlet : [doPost]");
         insertComputer(request);
-        doGet(request, response);
+        showPage(request, response);
     }
 }
