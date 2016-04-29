@@ -12,30 +12,41 @@ import org.slf4j.LoggerFactory;
 /**
  * Gives an access to the computer database.
  */
-public class ConnectionFactory {
+enum ConnectionFactory {
+    INSTANCE;
 
-    private static String propertyFile = "db.properties";
+    private static final String PROPERTY_FILE = "db.properties";
 
-    private static Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
+    private static final Properties PROPS = new Properties();
+
+    private Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
+
+    static {
+        try {
+            PROPS.load(ConnectionFactory.class.getClassLoader().getResourceAsStream(PROPERTY_FILE));
+            Class.forName(PROPS.getProperty("DB_DRIVER"));
+        } catch (ClassNotFoundException e) {
+            throw new ConnectionException();
+        } catch (IOException e) {
+            throw new ConnectionException();
+        }
+    }
 
     /**
      * Returns a fresh connection to the database.
-     *
      * @return a fresh connection to the database
      * @throws ConnectionException
      * @throws ConnectionException if no connection is reachable
      */
-    public static Connection get() throws ConnectionException {
+    public Connection get() throws ConnectionException {
         try {
-            Properties props = new Properties();
 
-            props.load(ConnectionFactory.class.getClassLoader().getResourceAsStream(propertyFile));
-            Class.forName(props.getProperty("DB_DRIVER"));
-            return DriverManager.getConnection(props.getProperty("DB_URL"), props.getProperty("DB_USERNAME"),
-                    props.getProperty("DB_PASSWORD"));
-        } catch (SQLException | IOException | SecurityException | ClassNotFoundException e) {
+            return DriverManager.getConnection(PROPS.getProperty("DB_URL"), PROPS.getProperty("DB_USERNAME"),
+                    PROPS.getProperty("DB_PASSWORD"));
+        } catch (SQLException | SecurityException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             throw new ConnectionException(e);
         }
     }
+
 }

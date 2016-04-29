@@ -1,7 +1,7 @@
 package com.excilys.persistence;
 
 @SuppressWarnings("serial")
-public class ConnectionException extends Exception {
+public class ConnectionException extends RuntimeException {
 
     /**
      * Constructs a ConnectionException.

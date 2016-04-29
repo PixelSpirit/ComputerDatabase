@@ -63,7 +63,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company find(long id) throws ConnectionException, DAOException, NotFoundException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
             stmt.setLong(1, id);
             logger.info("<SQL Query> Selecting company where id = " + id);
@@ -81,7 +81,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public List<Company> findAll() throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet results = stmt.executeQuery();
             ArrayList<Company> companies = new ArrayList<>();
@@ -97,7 +97,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public List<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
             stmt.setInt(1, n);
             stmt.setInt(2, offset);
@@ -115,7 +115,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public void remove(long id) throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -127,7 +127,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company insert(Company entity) throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(entity, stmt);
             stmt.executeUpdate();
@@ -145,7 +145,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company update(long id, Company updateValue) throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(updateValue, stmt);
             stmt.setLong(2, id);
@@ -160,7 +160,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public long count() throws ConnectionException, DAOException {
-        try (Connection connect = ConnectionFactory.get();
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
             ResultSet results = stmt.executeQuery();
             if (results.first()) {
