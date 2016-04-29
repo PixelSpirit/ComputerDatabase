@@ -2,14 +2,8 @@ package com.excilys.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.model.Page;
 import com.excilys.persistence.AbstractDAO;
-import com.excilys.persistence.ConnectionException;
-import com.excilys.persistence.DAOException;
-import com.excilys.persistence.NotFoundException;
 
 /**
  * A service that gives direct access to DAO.
@@ -20,8 +14,6 @@ public class SimpleServices<T> extends AbstractService<T> {
      * The access to comapanie's DAO.
      */
     AbstractDAO<T> dao;
-
-    private Logger logger = LoggerFactory.getLogger(SimpleServices.class);
 
     /**
      * Constructs a SimpleServices.
@@ -34,76 +26,38 @@ public class SimpleServices<T> extends AbstractService<T> {
     /* AbstractService */
 
     @Override
-    public T find(long id) throws ServiceException, NotFoundException {
-        try {
-            return dao.find(id);
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public T find(long id) {
+        return dao.find(id);
     }
 
     @Override
-    public List<T> findAll() throws ServiceException {
-        try {
-            return dao.findAll();
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public List<T> findAll() {
+        return dao.findAll();
     }
 
     @Override
-    public Page<T> findPage(int number, int size) throws ServiceException {
-        try {
-            return new Page<>(number, (int) dao.count() / size, size, dao.findSeveral(size, number * size));
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public Page<T> findPage(int number, int size) {
+        return new Page<>(number, (int) dao.count() / size, size, dao.findSeveral(size, number * size));
     }
 
     @Override
-    public void remove(long id) throws ServiceException {
-        try {
-            dao.remove(id);
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public void remove(long id) {
+        dao.remove(id);
     }
 
     @Override
-    public T insert(T entity) throws ServiceException {
-        try {
-            return dao.insert(entity);
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public T insert(T entity) {
+        return dao.insert(entity);
     }
 
     @Override
-    public T update(long id, T updateValue) throws ServiceException {
-        try {
-            return dao.update(id, updateValue);
-        } catch (ConnectionException | DAOException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        } catch (NotFoundException e) {
-            logger.warn("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public T update(long id, T updateValue) {
+        return dao.update(id, updateValue);
     }
 
     @Override
-    public long count() throws ServiceException {
-        try {
-            return dao.count();
-        } catch (ConnectionException | DAOException e) {
-            logger.warn("[Catch] <" + e.getClass().getSimpleName() + ">");
-            throw new ServiceException(e);
-        }
+    public long count() {
+        return dao.count();
     }
 
 }

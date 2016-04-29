@@ -18,8 +18,6 @@ import com.excilys.model.DTOComputer;
 import com.excilys.model.Page;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.NotFoundException;
-import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
 /**
@@ -39,7 +37,7 @@ public class ComputersServlet extends HttpServlet {
      * @param request The http request
      * @throws ServiceException if if service is unavailable
      */
-    private void saveComputerNumbers(HttpServletRequest request) throws ServiceException {
+    private void saveComputerNumbers(HttpServletRequest request) {
         request.setAttribute("computerNumber", computerService.count());
     }
 
@@ -64,7 +62,7 @@ public class ComputersServlet extends HttpServlet {
      * @param request The http request
      * @throws ServiceException if service is unavailable
      */
-    private void savePage(HttpServletRequest request) throws ServiceException {
+    private void savePage(HttpServletRequest request) {
         try {
             int number = Integer.parseInt(request.getParameter("page"));
             int size = Integer.parseInt(request.getParameter("limit"));
@@ -87,20 +85,10 @@ public class ComputersServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String companyId = request.getParameter("companyid");
         String companyName = "";
-        try {
-            companyName = companyService.find(Long.parseLong(companyId)).getName();
-        } catch (NumberFormatException | NotFoundException | ServiceException e) {
-            companyId = "";
-            logger.warn("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-        }
+        companyName = companyService.find(Long.parseLong(companyId)).getName();
         DTOComputer dtoCpt = new DTOComputer(0, name, introduced, discontinued, companyId, companyName);
         Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
-        try {
-            computerService.insert(cpt);
-        } catch (ServiceException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            System.err.println("Computer was not added");
-        }
+        computerService.insert(cpt);
     }
 
     /**
@@ -113,15 +101,10 @@ public class ComputersServlet extends HttpServlet {
      *         servlet handles the GET request
      */
     public void laodJsp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            saveComputerNumbers(request);
-            savePage(request);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
-                    response);
-        } catch (ServiceException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            this.getServletContext().getRequestDispatcher("/resources/html/404.html").forward(request, response);
-        }
+        saveComputerNumbers(request);
+        savePage(request);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
+                response);
     }
 
     /* Servlet */

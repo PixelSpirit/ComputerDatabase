@@ -47,23 +47,19 @@ public class SimpleComputerServiceTest {
     @After
     public void removeCpt() {
         if (id != null) {
-            try {
-                service.remove(id);
-            } catch (ServiceException e) {
-                System.err.println("Remove Fail");
-            }
+            service.remove(id);
         }
     }
 
     @Test
-    public void insertTest() throws ServiceException {
+    public void insertTest() {
         Computer c = service.insert(cpt);
         compareComputers(c, cpt);
         id = c.getId();
     }
 
     @Test
-    public void findTest() throws ServiceException, NotFoundException {
+    public void findTest() {
         Computer c1 = service.insert(cpt);
         Computer c2 = service.find(c1.getId());
         compareComputers(c1, c2);
@@ -71,14 +67,14 @@ public class SimpleComputerServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void removeTest() throws ServiceException, NotFoundException {
+    public void removeTest() {
         Computer c = service.insert(cpt);
         service.remove(c.getId());
         service.find(c.getId());
     }
 
     @Test
-    public void updateTest() throws ServiceException, NotFoundException {
+    public void updateTest() {
         Computer cpt2 = new Computer.Builder("NewOne").introduced(LocalDate.of(2017, 1, 1))
                 .discontinued(LocalDate.of(2018, 1, 1)).build();
         Computer c = service.insert(cpt);

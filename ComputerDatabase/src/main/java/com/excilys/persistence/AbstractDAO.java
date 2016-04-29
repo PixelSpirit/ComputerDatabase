@@ -19,7 +19,7 @@ public abstract class AbstractDAO<T> {
      * @throws DAOException if no query can be done on database
      * @throws NotFoundException if no result was found
      */
-    public abstract T find(long id) throws ConnectionException, DAOException, NotFoundException;
+    public abstract T find(long id);
 
     /**
      * Finds all the element from the databases.
@@ -27,7 +27,7 @@ public abstract class AbstractDAO<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract List<T> findAll() throws ConnectionException, DAOException;
+    public abstract List<T> findAll();
 
     /**
      * Finds n elements from the offset in the databases.
@@ -38,7 +38,7 @@ public abstract class AbstractDAO<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract List<T> findSeveral(int n, int offset) throws ConnectionException, DAOException;
+    public abstract List<T> findSeveral(int n, int offset);
 
     /**
      * Remove the entity that match the given id from the database and returns
@@ -48,7 +48,7 @@ public abstract class AbstractDAO<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract void remove(long id) throws ConnectionException, DAOException;
+    public abstract void remove(long id);
 
     /**
      * Insert the given entity in the database.
@@ -58,7 +58,7 @@ public abstract class AbstractDAO<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract T insert(T entity) throws ConnectionException, DAOException;
+    public abstract T insert(T entity);
 
     /**
      * Find the entity that match the given id and update it with the update
@@ -71,7 +71,7 @@ public abstract class AbstractDAO<T> {
      * @throws DAOException if no query can be done on database
      * @throws NotFoundException if no result was found
      */
-    public abstract T update(long id, T updateValue) throws ConnectionException, DAOException, NotFoundException;
+    public abstract T update(long id, T updateValue);
 
     /**
      * Count the number of entities in the database.
@@ -79,5 +79,5 @@ public abstract class AbstractDAO<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract long count() throws ConnectionException, DAOException;
+    public abstract long count();
 }

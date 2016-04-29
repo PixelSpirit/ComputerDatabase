@@ -65,7 +65,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     /* DAO Functionalities */
 
     @Override
-    public Computer find(long id) throws ConnectionException, DAOException, NotFoundException {
+    public Computer find(long id) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
             stmt.setLong(1, id);
@@ -82,7 +82,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public List<Computer> findAll() throws ConnectionException, DAOException {
+    public List<Computer> findAll() {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet results = stmt.executeQuery();
@@ -98,7 +98,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public List<Computer> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+    public List<Computer> findSeveral(int n, int offset) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
             stmt.setInt(1, n);
@@ -116,7 +116,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public void remove(long id) throws ConnectionException, DAOException {
+    public void remove(long id) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)) {
             stmt.setLong(1, id);
@@ -128,7 +128,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public Computer insert(Computer entity) throws ConnectionException, DAOException {
+    public Computer insert(Computer entity) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(entity, stmt);
@@ -146,7 +146,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public Computer update(long id, Computer updateValue) throws ConnectionException, DAOException {
+    public Computer update(long id, Computer updateValue) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(updateValue, stmt);
@@ -161,7 +161,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public long count() throws ConnectionException, DAOException {
+    public long count() {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
             ResultSet results = stmt.executeQuery();

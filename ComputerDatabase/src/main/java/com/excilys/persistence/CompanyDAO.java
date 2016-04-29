@@ -62,7 +62,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     /* DAO Functionalities */
 
     @Override
-    public Company find(long id) throws ConnectionException, DAOException, NotFoundException {
+    public Company find(long id) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
             stmt.setLong(1, id);
@@ -80,7 +80,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public List<Company> findAll() throws ConnectionException, DAOException {
+    public List<Company> findAll() {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet results = stmt.executeQuery();
@@ -96,7 +96,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public List<Company> findSeveral(int n, int offset) throws ConnectionException, DAOException {
+    public List<Company> findSeveral(int n, int offset) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
             stmt.setInt(1, n);
@@ -114,7 +114,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public void remove(long id) throws ConnectionException, DAOException {
+    public void remove(long id) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)) {
             stmt.setLong(1, id);
@@ -126,7 +126,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public Company insert(Company entity) throws ConnectionException, DAOException {
+    public Company insert(Company entity) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(entity, stmt);
@@ -144,7 +144,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public Company update(long id, Company updateValue) throws ConnectionException, DAOException {
+    public Company update(long id, Company updateValue) {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             mapper.map(updateValue, stmt);
@@ -159,7 +159,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public long count() throws ConnectionException, DAOException {
+    public long count() {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
             ResultSet results = stmt.executeQuery();

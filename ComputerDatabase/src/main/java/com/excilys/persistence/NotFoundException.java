@@ -1,7 +1,7 @@
 package com.excilys.persistence;
 
 @SuppressWarnings("serial")
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 
     /**
      * Constructs a DAOException.

@@ -21,14 +21,14 @@ public abstract class AbstractService<T> {
      * @throws ServiceException if the service isn't available
      * @throws NotFoundException if no entity was found
      */
-    public abstract T find(long id) throws ServiceException, NotFoundException;
+    public abstract T find(long id);
 
     /**
      * Finds all the elements from the databases.
      * @return The required elements
      * @throws ServiceException if the service isn't available
      */
-    public abstract List<T> findAll() throws ServiceException;
+    public abstract List<T> findAll();
 
     /**
      * Finds n elements from the offset in the databases.
@@ -39,7 +39,7 @@ public abstract class AbstractService<T> {
      * @throws ConnectionException if the connection to the database was refused
      * @throws ServiceException if the service isn't available
      */
-    public abstract Page<T> findPage(int number, int size) throws ServiceException;
+    public abstract Page<T> findPage(int number, int size);
 
     /**
      * Remove the entity that match the given id from the database and returns
@@ -48,7 +48,7 @@ public abstract class AbstractService<T> {
      * @param id The entity's id
      * @throws ServiceException if the service isn't available
      */
-    public abstract void remove(long id) throws ServiceException;
+    public abstract void remove(long id);
 
     /**
      * Insert the given entity in the database.
@@ -57,7 +57,7 @@ public abstract class AbstractService<T> {
      * @return The entity that has been inserted
      * @throws ServiceException if the service isn't available
      */
-    public abstract T insert(T entity) throws ServiceException;
+    public abstract T insert(T entity);
 
     /**
      * Find the entity that match the given id and update it with the update
@@ -68,12 +68,12 @@ public abstract class AbstractService<T> {
      * @return The entity that has been updated
      * @throws ServiceException if the service isn't available
      */
-    public abstract T update(long id, T updateValue) throws ServiceException;
+    public abstract T update(long id, T updateValue);
 
     /**
      * @return The number of entity that handle the service
      * @throws ServiceException if the service isn't available
      */
-    public abstract long count() throws ServiceException;
+    public abstract long count();
 
 }

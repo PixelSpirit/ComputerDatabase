@@ -5,20 +5,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.NotFoundException;
-import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
 public class ComputerCreationMenu extends Menu {
-
-    private Logger logger = LoggerFactory.getLogger(ComputerCreationMenu.class);
 
     /* Singleton */
 
@@ -80,7 +73,7 @@ public class ComputerCreationMenu extends Menu {
      * @return a fresh company
      * @throws ServiceException if an error occurs in services
      */
-    private static Company createCompany() throws ServiceException {
+    private static Company createCompany() {
         Company company = null;
         while (company == null) {
             try {
@@ -88,7 +81,7 @@ public class ComputerCreationMenu extends Menu {
                 Long id = Long.parseLong(scanner.nextLine());
                 company = new SimpleServices<>(CompanyDAO.getInstance()).find(id);
                 // TODO : Check if the ID is valid !
-            } catch (InputMismatchException | NotFoundException e) {
+            } catch (InputMismatchException e) {
                 System.err.println("Invalid date format");
             }
         }
@@ -100,7 +93,7 @@ public class ComputerCreationMenu extends Menu {
      * @return The created computer
      * @throws ServiceException if an error occurs in services
      */
-    private static Computer createComputer() throws ServiceException {
+    private static Computer createComputer() {
         String name = createName();
         LocalDate introduced;
         LocalDate discontinued;
@@ -119,12 +112,7 @@ public class ComputerCreationMenu extends Menu {
 
     @Override
     protected void printContent() {
-        try {
-            new SimpleServices<>(ComputerDAO.getInstance()).insert(createComputer());
-        } catch (ServiceException e) {
-            logger.error("[Catch] <ServiceException>");
-            System.err.println("The computer was not added...");
-        }
+        new SimpleServices<>(ComputerDAO.getInstance()).insert(createComputer());
         System.out.println("Computer was succefully added");
     }
 

@@ -1,7 +1,7 @@
 package com.excilys.persistence;
 
 @SuppressWarnings("serial")
-public class DAOException extends Exception {
+public class DAOException extends RuntimeException {
 
     /**
      * Constructs a DAOException.

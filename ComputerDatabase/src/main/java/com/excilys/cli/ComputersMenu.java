@@ -1,13 +1,9 @@
 package com.excilys.cli;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.AbstractService;
-import com.excilys.service.ServiceException;
 import com.excilys.service.SimpleServices;
 
 public class ComputersMenu extends Menu {
@@ -17,8 +13,6 @@ public class ComputersMenu extends Menu {
     private Page<Computer> page;
 
     private AbstractService<Computer> service;
-
-    private Logger logger = LoggerFactory.getLogger(ComputersMenu.class);
 
     /* Singleton */
 
@@ -30,12 +24,7 @@ public class ComputersMenu extends Menu {
     private ComputersMenu() {
         super(" Computers Menu");
         service = new SimpleServices<>(ComputerDAO.getInstance());
-        try {
-            page = service.findPage(0, SIZE);
-        } catch (ServiceException e) {
-            logger.error("[Catch] <ServiceException>");
-            page = new Page<Computer>(0, SIZE, 0, null);
-        }
+        page = service.findPage(0, SIZE);
     }
 
     /**
@@ -83,28 +72,16 @@ public class ComputersMenu extends Menu {
             try {
                 switch (Integer.parseInt(scanner.nextLine())) {
                 case 0:
-                    try {
-                        if (service.count() >= page.getNumber() * page.getSize()) {
-                            page = service.findPage(page.getNumber() + 1, SIZE);
-                        } else {
-                            System.err.println("No more computers");
-                        }
-                    } catch (ServiceException e) {
-                        logger.error("[Catch] <ServiceException>");
-                        page = new Page<Computer>(page.getNumber() + 1, page.getMaxNumber(), SIZE, null);
-                        System.err.println("service unavailable");
+                    if (service.count() >= page.getNumber() * page.getSize()) {
+                        page = service.findPage(page.getNumber() + 1, SIZE);
+                    } else {
+                        System.err.println("No more computers");
                     }
                     isValid = true;
                     break;
                 case 1:
                     if (page.getNumber() > 0) {
-                        try {
-                            page = service.findPage(page.getNumber() - 1, SIZE);
-                        } catch (ServiceException e) {
-                            logger.error("[Catch] <ServiceException>");
-                            page = new Page<Computer>(page.getNumber() - 1, page.getMaxNumber(), SIZE, null);
-                            System.err.println("service unavailable");
-                        }
+                        page = service.findPage(page.getNumber() - 1, SIZE);
                     }
                     isValid = true;
                     break;

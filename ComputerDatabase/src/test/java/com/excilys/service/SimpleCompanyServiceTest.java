@@ -39,23 +39,19 @@ public class SimpleCompanyServiceTest {
     @After
     public void removeCpt() {
         if (id != null) {
-            try {
-                service.remove(id);
-            } catch (ServiceException e) {
-                System.err.println("Remove Fail");
-            }
+            service.remove(id);
         }
     }
 
     @Test
-    public void insertTest() throws ServiceException {
+    public void insertTest() {
         Company c = service.insert(cpt);
         compareCompanies(c, cpt);
         id = c.getId();
     }
 
     @Test
-    public void findTest() throws ServiceException, NotFoundException {
+    public void findTest() {
         Company c1 = service.insert(cpt);
         Company c2 = service.find(c1.getId());
         compareCompanies(c1, c2);
@@ -63,14 +59,14 @@ public class SimpleCompanyServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void removeTest() throws ServiceException, NotFoundException {
+    public void removeTest() {
         Company c = service.insert(cpt);
         service.remove(c.getId());
         service.find(c.getId());
     }
 
     @Test
-    public void updateTest() throws ServiceException, NotFoundException {
+    public void updateTest() {
         Company cpt2 = new Company(0, "Hey");
         Company c = service.insert(cpt);
         service.update(c.getId(), cpt2);
