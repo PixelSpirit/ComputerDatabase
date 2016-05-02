@@ -1,22 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  <display-name>ComputerDatabase</display-name>
-  
-  <servlet>
-    <servlet-name>ComputersServlet</servlet-name>
-    <servlet-class>com.excilys.controller.ComputersServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ComputersServlet</servlet-name>
-    <url-pattern>/computers</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>AddComputerServlet</servlet-name>
-    <servlet-class>com.excilys.controller.AddComputerServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AddComputerServlet</servlet-name>
-    <url-pattern>/addcomputer</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>ComputerDatabase</display-name>
+
+	<!-- Servlets -->
+
+	<!-- Dashboard page -->
+	<servlet>
+		<servlet-name>ComputersServlet</servlet-name>
+		<servlet-class>com.excilys.controller.ComputersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ComputersServlet</servlet-name>
+		<url-pattern>/computers</url-pattern>
+	</servlet-mapping>
+
+	<!-- Add Computer page -->
+	<servlet>
+		<servlet-name>AddComputerServlet</servlet-name>
+		<servlet-class>com.excilys.controller.AddComputerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddComputerServlet</servlet-name>
+		<url-pattern>/addcomputer</url-pattern>
+	</servlet-mapping>
+	
+	
+
+	<!-- Errors Bindings -->
+	
+	<!-- Forbidden directory listing -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/resources/html/403.html</location>
+	</error-page>
+	
+	<!-- Missing resource -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/resources/html/404.html</location>
+	</error-page>
+	
+	<!-- Uncaught exception -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/resources/html/500.html</location>
+	</error-page>
+	
+
 </web-app>
