@@ -12,7 +12,7 @@
 	<%@include file="/WEB-INF/views/addComputer/mainContent.jsp" %>
 	
 	<%@include file="/WEB-INF/views/templates/scripts.jsp"%>
-	<script src="${pageContext.request.contextPath}/js/addcomputer.js"></script>
-
+	
+	<script src="${pageContext.request.contextPath}/resources/js/computerValidator.js"></script>
 </body>
 </html>

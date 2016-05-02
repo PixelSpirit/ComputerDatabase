@@ -7,6 +7,9 @@ var nameInput = $("#computerName");
 var introducedInput = $("#introduced");
 var discontinuedInput = $("#discontinued");
 
+
+/* Entries Validation */
+
 nameInput.on('keyup', function() {
 	if(nameInput.val().length === 0){
 		nameInput.parent().removeClass("has-success");
@@ -20,12 +23,12 @@ nameInput.on('keyup', function() {
 	}
 });
 
-
 introducedInput.on('keyup', function() {
 	if(isValideDate(introducedInput.val())){
 		introducedInput.parent().removeClass("has-error");
 		introducedInput.parent().addClass("has-success");
 		introduced = true;
+		introducedBeforeDiscontinued();
 	}
 	else {
 		introducedInput.parent().removeClass("has-success");
@@ -39,6 +42,7 @@ discontinuedInput.on('keyup', function() {
 		discontinuedInput.parent().removeClass("has-error");
 		discontinuedInput.parent().addClass("has-success");
 		discontinued = true;
+		introducedBeforeDiscontinued();
 	}
 	else {
 		discontinuedInput.parent().removeClass("has-success");
@@ -47,33 +51,25 @@ discontinuedInput.on('keyup', function() {
 	}
 });
 
+
+/* Submit */
+
 $("form").on("submit", function(e){
-	if (!introduced || !discontinued || !name || !date) {
+	if (!introduced || !discontinued || !name || !dateOrder) {
 		e.preventDefault();
 	}
 });
 
-function showError(){
-	var s = "";
-	if(!name){
-		s += "Name can't be empty.\n";
-	}
-	if(!introduced){
-		s += "Introducing date format is invalid.\n";
-	}
-	if(!discontinued){
-		s += "Discontinuing date format is invalid.\n";
-	}
-	if(!dateOrder){
-		s += "Introducing date must be befor discontinuing date."
-	}
-	alert(s);
-}
+/* Util functions */
 
 function introducedBeforeDiscontinued(){
 	if(!(introducedInput.val().length === 0 || discontinuedInput.val().length === 0)){
 		if(Date.parse(introducedInput.val()) < Date.parse(discontinuedInput.val())){
 			dateOrder = true;
+			introducedInput.parent().removeClass("has-error");
+			introducedInput.parent().addClass("has-success");
+			discontinuedInput.parent().removeClass("has-error");
+			discontinuedInput.parent().addClass("has-success");
 		}
 		else {
 			introducedInput.parent().removeClass("has-success");
@@ -86,10 +82,5 @@ function introducedBeforeDiscontinued(){
 }
 
 function isValideDate(date){
-	var timestamp=Date.parse(date)
-
-	if (isNaN(timestamp)==false || date.length === 0){
-	    return true;
-	}
-	return false;
+	return (!date || /^[0-9]{4}-(0[1-9]|1[012])-([0-2][0-9]|3[0-1])$/.test(date));
 }
