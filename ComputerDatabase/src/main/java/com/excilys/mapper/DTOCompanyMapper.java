@@ -1,7 +1,7 @@
 package com.excilys.mapper;
 
+import com.excilys.dto.DTOCompany;
 import com.excilys.model.Company;
-import com.excilys.model.DTOCompany;
 
 public class DTOCompanyMapper implements Mappable<Company, DTOCompany> {
 

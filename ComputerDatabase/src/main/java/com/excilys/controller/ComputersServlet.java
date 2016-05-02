@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.model.DTOComputer;
 import com.excilys.model.Page;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;

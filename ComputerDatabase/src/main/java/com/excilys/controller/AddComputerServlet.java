@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.dto.DTOCompany;
 import com.excilys.mapper.DTOCompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.model.DTOCompany;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.service.SimpleServices;
 

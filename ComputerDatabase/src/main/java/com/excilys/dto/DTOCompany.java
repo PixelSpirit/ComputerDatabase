@@ -1,4 +1,4 @@
-package com.excilys.model;
+package com.excilys.dto;
 
 public class DTOCompany {
 

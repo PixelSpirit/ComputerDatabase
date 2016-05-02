@@ -2,9 +2,9 @@ package com.excilys.mapper;
 
 import java.time.LocalDate;
 
+import com.excilys.dto.DTOComputer;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.model.DTOComputer;
 
 public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
 
