@@ -24,7 +24,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AddComputerServlet</servlet-name>
-		<url-pattern>/addcomputer</url-pattern>
+		<url-pattern>/computer-add</url-pattern>
 	</servlet-mapping>
 	
 	

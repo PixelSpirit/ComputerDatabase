@@ -59,7 +59,7 @@
 				</m:link></li>
 			</c:if>
 
-			<li><m:link limit="${size}"page="${number}" target="computers">
+			<li><m:link limit="${size}" page="${number}" target="computers">
 				<b><i><c:out value="${number}" /></i></b>
 			</m:link></li>
 

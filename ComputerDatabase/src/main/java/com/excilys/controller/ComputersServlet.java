@@ -13,10 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
-import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
-import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.SimpleServices;
 
@@ -27,7 +25,6 @@ public class ComputersServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
-    private SimpleServices<Company> companyService = new SimpleServices<>(CompanyDAO.getInstance());
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 
@@ -69,42 +66,11 @@ public class ComputersServlet extends HttpServlet {
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(number, size));
             request.setAttribute("page", dtoPage);
         } catch (NullPointerException | NumberFormatException e) {
+            // TODO : Remove dirty checking
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(0, 10));
             request.setAttribute("page", dtoPage);
         }
-    }
-
-    /**
-     * Gets computer information from POST request and saves it in the services.
-     * @param request The http request
-     */
-    private void insertComputer(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String introduced = request.getParameter("introduced");
-        String discontinued = request.getParameter("discontinued");
-        String companyId = request.getParameter("companyid");
-        String companyName = "";
-        companyName = companyService.find(Long.parseLong(companyId)).getName();
-        DTOComputer dtoCpt = new DTOComputer(0, name, introduced, discontinued, companyId, companyName);
-        Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
-        computerService.insert(cpt);
-    }
-
-    /**
-     * Loads the jsp file that handles computers pages.
-     * @param request The http requestif the request for the GET could not be
-     *        handled
-     * @param response The http response
-     * @throws ServletException if the request for the GET could not be handled
-     * @throws IOException if an input or output error is detected when the
-     *         servlet handles the GET request
-     */
-    public void laodJsp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        saveComputerNumbers(request);
-        savePage(request);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
-                response);
     }
 
     /* Servlet */
@@ -113,14 +79,9 @@ public class ComputersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.info("ComputersServlet : [doGet]");
-        laodJsp(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        logger.info("ComputersServlet : [doPost]");
-        insertComputer(request);
-        laodJsp(request, response);
+        saveComputerNumbers(request);
+        savePage(request);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
+                response);
     }
 }
