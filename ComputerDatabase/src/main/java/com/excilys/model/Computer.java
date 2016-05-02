@@ -13,6 +13,32 @@ public class Computer {
 
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
+    /* Constructors */
+
+    /**
+     * Constructs a Computer.
+     * @param name The computer's name
+     */
+    public Computer(String name) {
+        this.id = null;
+        this.name = name;
+        this.introduced = null;
+        this.discontinued = null;
+        this.company = null;
+    }
+
+    /**
+     * Constructs a Computer from a new Builder.
+     * @param builder The Computer builder configuration
+     */
+    public Computer(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.introduced = builder.introduced;
+        this.discontinued = builder.discontinued;
+        this.company = builder.company;
+    }
+
     /* Builder */
 
     public static class Builder {
@@ -91,32 +117,6 @@ public class Computer {
         public Computer build() {
             return new Computer(this);
         }
-    }
-
-    /* Constructors */
-
-    /**
-     * Constructs a Computer.
-     * @param name The computer's name
-     */
-    public Computer(String name) {
-        this.id = null;
-        this.name = name;
-        this.introduced = null;
-        this.discontinued = null;
-        this.company = null;
-    }
-
-    /**
-     * Constructs a Computer from a new Builder.
-     * @param builder The Computer builder configuration
-     */
-    public Computer(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.introduced = builder.introduced;
-        this.discontinued = builder.discontinued;
-        this.company = builder.company;
     }
 
     /* Getters and getters */

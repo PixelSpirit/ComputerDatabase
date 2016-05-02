@@ -33,6 +33,6 @@
 	</form>
 
 	<div class="container" style="margin-top: 10px;">
-		<m:pagination page="${requestScope.page}" />
+		<%@include file="/WEB-INF/views/computers/table.jsp"%>
 	</div>
 </section>

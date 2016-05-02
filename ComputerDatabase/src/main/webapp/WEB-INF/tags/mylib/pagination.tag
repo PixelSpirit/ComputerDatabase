@@ -1,40 +1,100 @@
 <%@ tag body-content="empty" language="java" pageEncoding="UTF-8"%>
-<%@ attribute name="page" type="com.excilys.model.Page" required="true"%>
+<%@ attribute name="number" type="java.lang.Integer" required="true"%>
+<%@ attribute name="maxNumber" type="java.lang.Integer" required="true"%>
+<%@ attribute name="size" type="java.lang.Integer" required="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="m" tagdir="/WEB-INF/tags/mylib"%>
 
-<table class="table table-striped table-bordered">
-	<thead>
-		<tr>
-			<!-- Variable declarations for passing labels as parameters -->
-			<!-- Table header for Computer Name -->
+<ul class="pagination">
 
-			<th class="editMode" style="width: 60px; height: 22px;"><input
-				type="checkbox" id="selectall" /> <span
-				style="vertical-align: top;"> - <a href="#"
-					id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
-						class="fa fa-trash-o fa-lg"></i>
-				</a>
-			</span></th>
-			<th>Computer name</th>
-			<th>Introduced date</th>
-			<!-- Table header for Discontinued Date -->
-			<th>Discontinued date</th>
-			<!-- Table header for Company -->
-			<th>Company</th>
+	<!-- Previous Button -->
+	<c:if test="${number > 0}">
+		<li><m:link limit="${size}"
+				page="${number - 1}" target="computers">
+				<span aria-hidden="true">&laquo;</span>
+			</m:link></li>
+	</c:if>
 
-		</tr>
-	</thead>
-	<!-- Browse attribute computers -->
-	<tbody id="results">
-		<c:forEach var="computerDTO" items="${page.content}">
-			<tr>
-				<td class="editMode"><input type="checkbox" name="cb"
-					class="cb" value="0"></td>
-				<td><a href="editComputer.html" onclick="">${computerDTO.name}</a></td>
-				<td>${computerDTO.introduced}</td>
-				<td>${computerDTO.discontinued}</td>
-				<td>${computerDTO.companyName}</td>
-			</tr>
-		</c:forEach>
-	</tbody>
-</table>
+	<!-- Pages Button -->
+	<c:choose>
+
+		<c:when test="${maxNumber <= 5}">
+			<c:forEach var="i" begin="0" end="${maxNumber}"
+				step="1">
+				<li><m:link limit="${size}" page="${i}"
+						target="computers">
+						<c:choose>
+							<c:when test="${number == i}">
+								<b><i><c:out value="${i}" /></i></b>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${i}" />
+							</c:otherwise>
+						</c:choose>
+					</m:link></li>
+			</c:forEach>
+		</c:when>
+
+		<c:otherwise>
+
+			<c:if test="${number > 3 }">
+				<li><m:link limit="${size}" page="1" target="computers">
+					<c:out value="1" />
+				</m:link></li>
+			</c:if>
+
+			<c:if test="${number > 3}">
+				<li><span aria-hidden="true">&hellip;</span></li>
+			</c:if>
+
+			<c:if test="${number > 1}">
+				<li><m:link limit="${size}" page="${number - 2}" target="computers">
+					<c:out value="${number - 2}" />
+				</m:link></li>
+			</c:if>
+
+			<c:if test="${number > 0}">
+				<li><m:link limit="${size}" page="${number - 1}" target="computers">
+					<c:out value="${number - 1}" />
+				</m:link></li>
+			</c:if>
+
+			<li><m:link limit="${size}"page="${number}" target="computers">
+				<b><i><c:out value="${number}" /></i></b>
+			</m:link></li>
+
+			<c:if test="${number < maxNumber}">
+				<li><m:link limit="${size}" page="${number + 1}" target="computers">
+					<c:out value="${number + 1}" />
+				</m:link></li>
+			</c:if>
+
+			<c:if test="${number < maxNumber - 1}">
+				<li><m:link limit="${size}" page="${number + 2}" target="computers">
+					<c:out value="${number + 2}" />
+				</m:link></li>
+			</c:if>
+
+			<c:if test="${number < maxNumber - 3}">
+				<li><span aria-hidden="true">&hellip;</span></li>
+			</c:if>
+
+			<c:if test="${number < maxNumber - 3 }">
+				<li><m:link limit="${size}" page="${maxNumber}" target="computers">
+					<c:out value="${maxNumber}" />
+				</m:link></li>
+			</c:if>
+
+		</c:otherwise>
+	</c:choose>
+
+	<!-- Next Button -->
+	<c:if test="${number < maxNumber}">
+		<li><m:link limit="${size}"
+				page="${number + 1}" target="computers">
+				<span aria-hidden="true">&raquo;</span>
+			</m:link></li>
+	</c:if>
+
+
+</ul>
