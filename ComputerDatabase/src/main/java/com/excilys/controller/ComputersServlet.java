@@ -73,6 +73,13 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Runs the page.
+     * @param request The http request
+     * @param response The http response
+     * @throws ServletException If the servlet encounter a problem
+     * @throws IOException If the jsp is not loadable
+     */
     private void runPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         saveComputerNumbers(request);
@@ -95,7 +102,7 @@ public class ComputersServlet extends HttpServlet {
      * @param request The HTTP request
      */
     private void removeComputers(HttpServletRequest request) {
-        String computers[] = request.getParameter("selection").split(",");
+        String[] computers = request.getParameter("selection").split(",");
         for (String computerId : computers) {
             // TODO : Verif parseLong !!!
             computerService.remove(Long.parseLong(computerId));

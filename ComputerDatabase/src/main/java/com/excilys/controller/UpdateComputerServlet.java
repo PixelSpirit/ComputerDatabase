@@ -48,6 +48,10 @@ public class UpdateComputerServlet extends HttpServlet {
         request.setAttribute("allCompanies", companyService.findAll());
     }
 
+    /**
+     * Saves the computer to edit into the request context.
+     * @param request The http request
+     */
     private void saveEditableComputer(HttpServletRequest request) {
         DTOComputerMapper mapper = DTOComputerMapper.getInstance();
         // TODO Check parseLong
