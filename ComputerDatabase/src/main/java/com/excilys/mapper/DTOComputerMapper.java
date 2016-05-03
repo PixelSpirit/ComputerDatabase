@@ -37,6 +37,7 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
 
     @Override
     public DTOComputer map(Computer object) {
+        String id = String.valueOf(object.getId());
         String introduced = (object.getIntroduced() != null) ? object.getIntroduced().toString() : "";
         String discontinued = (object.getDiscontinued() != null) ? object.getDiscontinued().toString() : "";
         String companyId = "";
@@ -45,12 +46,15 @@ public class DTOComputerMapper implements Mappable<Computer, DTOComputer> {
             companyId = String.valueOf(object.getCompany().getId());
             companyName = object.getCompany().getName();
         }
-        return new DTOComputer(object.getId(), object.getName(), introduced, discontinued, companyId, companyName);
+        return new DTOComputer(id, object.getName(), introduced, discontinued, companyId, companyName);
     }
 
     @Override
     public Computer unmap(DTOComputer object) {
         Computer.Builder builder = new Computer.Builder(object.getName());
+        if (!object.getId().equals("")) {
+            builder.id(Long.parseLong(object.getId()));
+        }
         if (!object.getIntroduced().equals("")) {
             builder.introduced(LocalDate.parse(object.getIntroduced()));
         }

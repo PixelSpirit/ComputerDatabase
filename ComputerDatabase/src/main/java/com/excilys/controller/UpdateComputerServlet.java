@@ -23,15 +23,15 @@ import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.SimpleServices;
 
 /**
- * Servlet implementation class AddComputerServlet.
+ * Servlet implementation class UpdateComputerServlet.
  */
-public class AddComputerServlet extends HttpServlet {
+public class UpdateComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
-    private SimpleServices<Company> companiesService = new SimpleServices<>(CompanyDAO.getInstance());
+    private SimpleServices<Company> companyService = new SimpleServices<>(CompanyDAO.getInstance());
 
-    private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+    private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
 
     /**
      * Saves all DTOCompanies reachable from services into the request context.
@@ -40,45 +40,55 @@ public class AddComputerServlet extends HttpServlet {
      */
     private void saveAllCompanies(HttpServletRequest request) {
         DTOCompanyMapper mapper = DTOCompanyMapper.getInstance();
-        List<Company> companies = companiesService.findAll();
+        List<Company> companies = companyService.findAll();
         List<DTOCompany> dtoCompanies = new ArrayList<>(companies.size());
         for (Company company : companies) {
             dtoCompanies.add(mapper.map(company));
         }
-        request.setAttribute("allCompanies", companiesService.findAll());
+        request.setAttribute("allCompanies", companyService.findAll());
+    }
+
+    private void saveEditableComputer(HttpServletRequest request) {
+        DTOComputerMapper mapper = DTOComputerMapper.getInstance();
+        // TODO Check parseLong
+        long id = Long.parseLong(request.getParameter("edit"));
+        DTOComputer dto = mapper.map(computerService.find(id));
+        request.setAttribute("computerToEdit", dto);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         saveAllCompanies(request);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer/addComputer.jsp").forward(request,
+        saveEditableComputer(request);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer/editComputer.jsp").forward(request,
                 response);
     }
 
     /**
-     * Gets computer information from POST request and saves it in the services.
+     * Gets computer information from POST request and update it.
      * @param request The http request
      */
-    private void insertComputer(HttpServletRequest request) {
+    private void updateComputer(HttpServletRequest request) {
+        String id = request.getParameter("id");
         String name = request.getParameter("name");
         String introduced = request.getParameter("introduced");
         String discontinued = request.getParameter("discontinued");
         String companyId = request.getParameter("companyid");
         String companyName = "";
         if (!companyId.equals("0")) {
-            companyName = companiesService.find(Long.parseLong(companyId)).getName();
+            companyName = companyService.find(Long.parseLong(companyId)).getName();
         }
-        DTOComputer dtoCpt = new DTOComputer("0", name, introduced, discontinued, companyId, companyName);
+        DTOComputer dtoCpt = new DTOComputer(id, name, introduced, discontinued, companyId, companyName);
         Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
-        computerService.insert(cpt);
+        computerService.update(cpt.getId(), cpt);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("ComputersServlet : [doPost]");
-        insertComputer(request);
+        logger.info("[doPost] received");
+        updateComputer(request);
         response.sendRedirect("/cdb/computers");
     }
 

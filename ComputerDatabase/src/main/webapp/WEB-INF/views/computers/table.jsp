@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="m" tagdir="/WEB-INF/tags/mylib"%>
 
 <table class="table table-striped table-bordered">
 	<thead>
@@ -28,7 +29,7 @@
 			<tr>
 				<td class="editMode"><input type="checkbox" name="cb"
 					class="cb" value="0"></td>
-				<td><a href="editComputer.html" onclick="">${computerDTO.name}</a></td>
+				<td><m:link target="computer-edit" edit="${computerDTO.id}">${computerDTO.name}</m:link></td>
 				<td>${computerDTO.introduced}</td>
 				<td>${computerDTO.discontinued}</td>
 				<td>${computerDTO.companyName}</td>

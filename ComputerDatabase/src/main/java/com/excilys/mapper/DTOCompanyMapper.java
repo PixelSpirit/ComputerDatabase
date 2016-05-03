@@ -34,12 +34,13 @@ public class DTOCompanyMapper implements Mappable<Company, DTOCompany> {
 
     @Override
     public DTOCompany map(Company object) {
-        return new DTOCompany(object.getId(), object.getName());
+        return new DTOCompany(String.valueOf(object.getId()), object.getName());
     }
 
     @Override
     public Company unmap(DTOCompany object) {
-        return new Company(object.getId(), object.getName());
+        // Check parseLong
+        return new Company(Long.parseLong(object.getId()), object.getName());
     }
 
 }

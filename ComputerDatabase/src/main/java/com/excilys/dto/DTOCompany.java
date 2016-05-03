@@ -2,7 +2,7 @@ package com.excilys.dto;
 
 public class DTOCompany {
 
-    private long id;
+    private String id;
     private String name;
 
     /**
@@ -10,7 +10,7 @@ public class DTOCompany {
      * @param id The id
      * @param name The name
      */
-    public DTOCompany(long id, String name) {
+    public DTOCompany(String id, String name) {
         super();
         this.id = id;
         this.name = name;
@@ -19,7 +19,7 @@ public class DTOCompany {
     /**
      * @return the id
      */
-    public long getId() {
+    public String getId() {
         return id;
     }
 
