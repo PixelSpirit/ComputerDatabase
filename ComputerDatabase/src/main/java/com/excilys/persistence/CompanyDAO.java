@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.DAOCompanyMapper;
 import com.excilys.model.Company;
+import com.excilys.model.PageRequest;
 
 public class CompanyDAO extends AbstractDAO<Company> {
 
@@ -20,7 +21,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private static final String FIND_ALL_QUERY = "SELECT id, name FROM company";
 
-    private static final String FIND_SEVERAL_QUERY = "SELECT id, name FROM company LIMIT ? OFFSET ?";
+    private static final String FIND_SEVERAL_QUERY = "SELECT id, name FROM company WHERE %s LIKE '%%?%%' ORDER BY %s %s LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO company (name) VALUES (?)";
 
@@ -97,13 +98,15 @@ public class CompanyDAO extends AbstractDAO<Company> {
     }
 
     @Override
-    public List<Company> findSeveral(int n, int offset) {
+    public List<Company> findSeveral(PageRequest pageRequest) {
+        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getLikeColumn(), pageRequest.getOrderByColumn(),
+                (pageRequest.isAscendent()) ? "ASC" : "DESC");
         try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
-            stmt.setInt(1, n);
-            stmt.setInt(2, offset);
+                PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setInt(1, pageRequest.getPageNumber());
+            stmt.setInt(2, pageRequest.getPageSize());
             ResultSet results = stmt.executeQuery();
-            ArrayList<Company> companies = new ArrayList<>(n);
+            ArrayList<Company> companies = new ArrayList<>(pageRequest.getPageNumber());
             while (results.next()) {
                 companies.add(mapper.unmap(results));
             }

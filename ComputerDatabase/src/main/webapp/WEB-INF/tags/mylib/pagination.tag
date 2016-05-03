@@ -2,6 +2,7 @@
 <%@ attribute name="number" type="java.lang.Integer" required="true"%>
 <%@ attribute name="maxNumber" type="java.lang.Integer" required="true"%>
 <%@ attribute name="size" type="java.lang.Integer" required="true"%>
+<%@ attribute name="search" required="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="m" tagdir="/WEB-INF/tags/mylib"%>
 
@@ -21,8 +22,7 @@
 		<c:when test="${maxNumber <= 5}">
 			<c:forEach var="i" begin="0" end="${maxNumber}"
 				step="1">
-				<li><m:link limit="${size}" page="${i}"
-						target="computers">
+				<li><m:link limit="${size}" page="${i}" search="${search}"	target="computers">
 						<c:choose>
 							<c:when test="${number == i}">
 								<b><i><c:out value="${i}" /></i></b>
@@ -48,29 +48,29 @@
 			</c:if>
 
 			<c:if test="${number > 1}">
-				<li><m:link limit="${size}" page="${number - 2}" target="computers">
+				<li><m:link limit="${size}" page="${number - 2}" search="${search}" target="computers">
 					<c:out value="${number - 2}" />
 				</m:link></li>
 			</c:if>
 
 			<c:if test="${number > 0}">
-				<li><m:link limit="${size}" page="${number - 1}" target="computers">
+				<li><m:link limit="${size}" page="${number - 1}" search="${search}" target="computers">
 					<c:out value="${number - 1}" />
 				</m:link></li>
 			</c:if>
 
-			<li><m:link limit="${size}" page="${number}" target="computers">
+			<li><m:link limit="${size}" page="${number}" search="${search}" target="computers">
 				<b><i><c:out value="${number}" /></i></b>
 			</m:link></li>
 
 			<c:if test="${number < maxNumber}">
-				<li><m:link limit="${size}" page="${number + 1}" target="computers">
+				<li><m:link limit="${size}" page="${number + 1}" search="${search}" target="computers">
 					<c:out value="${number + 1}" />
 				</m:link></li>
 			</c:if>
 
 			<c:if test="${number < maxNumber - 1}">
-				<li><m:link limit="${size}" page="${number + 2}" target="computers">
+				<li><m:link limit="${size}" page="${number + 2}" search="${search}" target="computers">
 					<c:out value="${number + 2}" />
 				</m:link></li>
 			</c:if>
@@ -80,7 +80,7 @@
 			</c:if>
 
 			<c:if test="${number < maxNumber - 3 }">
-				<li><m:link limit="${size}" page="${maxNumber}" target="computers">
+				<li><m:link limit="${size}" page="${maxNumber}" search="${search}" target="computers">
 					<c:out value="${maxNumber}" />
 				</m:link></li>
 			</c:if>
@@ -90,8 +90,7 @@
 
 	<!-- Next Button -->
 	<c:if test="${number < maxNumber}">
-		<li><m:link limit="${size}"
-				page="${number + 1}" target="computers">
+		<li><m:link limit="${size}" page="${number + 1}" search="${search}" target="computers">
 				<span aria-hidden="true">&raquo;</span>
 			</m:link></li>
 	</c:if>

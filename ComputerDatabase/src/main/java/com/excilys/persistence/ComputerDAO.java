@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.DAOComputerMapper;
 import com.excilys.model.Computer;
+import com.excilys.model.PageRequest;
 
 public class ComputerDAO extends AbstractDAO<Computer> {
 
@@ -23,7 +24,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id ";
 
     private static final String FIND_SEVERAL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
-            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id " + "LIMIT ? OFFSET ?";
+            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE %s LIKE ? "
+            + "ORDER BY %s %s LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
@@ -98,13 +100,23 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     @Override
-    public List<Computer> findSeveral(int n, int offset) {
+    public List<Computer> findSeveral(PageRequest pageRequest) {
+        String like = "cptr.name";
+        String order = "cptr.name";
+        if (pageRequest.getLikeColumn() != null && !pageRequest.getLikeColumn().equals("")) {
+            like = pageRequest.getLikeColumn();
+        }
+        if (pageRequest.getOrderByColumn() != null && !pageRequest.getOrderByColumn().equals("")) {
+            order = pageRequest.getOrderByColumn();
+        }
+        String query = String.format(FIND_SEVERAL_QUERY, like, order, pageRequest.isAscendent() ? "ASC" : "DESC");
         try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(FIND_SEVERAL_QUERY)) {
-            stmt.setInt(1, n);
-            stmt.setInt(2, offset);
+                PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
+            stmt.setInt(2, pageRequest.getPageSize());
+            stmt.setInt(3, pageRequest.getPageNumber() * pageRequest.getPageSize());
             ResultSet results = stmt.executeQuery();
-            ArrayList<Computer> computers = new ArrayList<>(n);
+            ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
             while (results.next()) {
                 computers.add(mapper.unmap(results));
             }

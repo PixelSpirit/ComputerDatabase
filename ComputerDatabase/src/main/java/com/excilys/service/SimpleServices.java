@@ -3,6 +3,7 @@ package com.excilys.service;
 import java.util.List;
 
 import com.excilys.model.Page;
+import com.excilys.model.PageRequest;
 import com.excilys.persistence.AbstractDAO;
 
 /**
@@ -36,8 +37,10 @@ public class SimpleServices<T> extends AbstractService<T> {
     }
 
     @Override
-    public Page<T> findPage(int number, int size) {
-        return new Page<>(number, (int) dao.count() / size, size, dao.findSeveral(size, number * size));
+    public Page<T> findPage(PageRequest pageRequest) {
+        int number = pageRequest.getPageNumber();
+        int size = pageRequest.getPageSize();
+        return new Page<>(number, (int) dao.count() / size, size, dao.findSeveral(pageRequest));
     }
 
     @Override

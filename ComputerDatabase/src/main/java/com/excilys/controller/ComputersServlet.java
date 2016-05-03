@@ -15,6 +15,7 @@ import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
+import com.excilys.model.PageRequest;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.SimpleServices;
 
@@ -57,20 +58,39 @@ public class ComputersServlet extends HttpServlet {
      * Gets pages information from the GET request and saves it in the request
      * context.
      * @param request The http request
+     * @param search The search
      * @throws ServiceException if service is unavailable
      */
-    private void savePage(HttpServletRequest request) {
+    private void savePage(HttpServletRequest request, String search, String likeColumn, String orderByColumn,
+            boolean isAscendent) {
+        PageRequest pr = new PageRequest(0, 10, search, likeColumn, orderByColumn, isAscendent);
         try {
             int number = Integer.parseInt(request.getParameter("page"));
             int size = Integer.parseInt(request.getParameter("limit"));
-            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(number, size));
+            pr.setPageNumber(number);
+            pr.setPageSize(size);
+            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
             request.setAttribute("page", dtoPage);
         } catch (NullPointerException | NumberFormatException e) {
             // TODO : Remove dirty checking
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
-            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(0, 10));
+            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
             request.setAttribute("page", dtoPage);
         }
+    }
+
+    /**
+     * Saves the search from GET parameters into the request attributes and
+     * saves it.
+     * @param request The http request
+     * @return The search
+     */
+    private String saveSearch(HttpServletRequest request) {
+        String search = request.getParameter("search");
+        if (search != null) {
+            request.setAttribute("search", search);
+        }
+        return search;
     }
 
     /**
@@ -83,7 +103,13 @@ public class ComputersServlet extends HttpServlet {
     private void runPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         saveComputerNumbers(request);
-        savePage(request);
+        String search = saveSearch(request);
+        // TODO : CHANGES
+        String likeColumn = "";
+        String orderBy = "";
+        boolean isAscendent = true;
+        savePage(request, search, likeColumn, orderBy, isAscendent);
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);
     }

@@ -3,6 +3,7 @@ package com.excilys.service;
 import java.util.List;
 
 import com.excilys.model.Page;
+import com.excilys.model.PageRequest;
 import com.excilys.persistence.ConnectionException;
 import com.excilys.persistence.NotFoundException;
 
@@ -35,11 +36,12 @@ public abstract class AbstractService<T> {
      *
      * @param number The number of the page
      * @param size The size of the page
+     * @param search The search argument
      * @return the page containing the list of the desired entities
      * @throws ConnectionException if the connection to the database was refused
      * @throws ServiceException if the service isn't available
      */
-    public abstract Page<T> findPage(int number, int size);
+    public abstract Page<T> findPage(PageRequest pageRequest);
 
     /**
      * Remove the entity that match the given id from the database and returns

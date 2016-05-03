@@ -2,6 +2,8 @@ package com.excilys.persistence;
 
 import java.util.List;
 
+import com.excilys.model.PageRequest;
+
 /**
  * Permits to access to the database to control the mapping of a table as an
  * entity.
@@ -31,14 +33,12 @@ public abstract class AbstractDAO<T> {
 
     /**
      * Finds n elements from the offset in the databases.
-     *
-     * @param n The maximum number of elements that must be found
-     * @param offset The first
+     * @param pageRequest The request to get the list of results
      * @return the list of the desired entities
      * @throws ConnectionException if the connection to the database was refused
      * @throws DAOException if no query can be done on database
      */
-    public abstract List<T> findSeveral(int n, int offset);
+    public abstract List<T> findSeveral(PageRequest pageRequest);
 
     /**
      * Remove the entity that match the given id from the database and returns
@@ -80,4 +80,5 @@ public abstract class AbstractDAO<T> {
      * @throws DAOException if no query can be done on database
      */
     public abstract long count();
+
 }
