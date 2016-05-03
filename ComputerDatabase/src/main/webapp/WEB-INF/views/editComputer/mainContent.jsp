@@ -29,7 +29,7 @@
 								<option value="0">--</option>
 								<c:forEach var="companyDTO" items="${requestScope.allCompanies}">
 									<option value="${companyDTO.id}"
-										<c:if test="${companyDTO.id.equals(requestScope.computerToEdit.companyId)}">
+										<c:if test="${companyDTO.id eq requestScope.computerToEdit.companyId}">
 											selected
 										</c:if>
 									> 
