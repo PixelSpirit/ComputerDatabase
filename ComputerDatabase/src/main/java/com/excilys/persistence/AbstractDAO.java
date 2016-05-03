@@ -81,4 +81,11 @@ public abstract class AbstractDAO<T> {
      */
     public abstract long count();
 
+    /**
+     * Count the number of entities for the given page.
+     * @param pageRequest The request
+     * @return The number of entities
+     */
+    public abstract long count(PageRequest pageRequest);
+
 }

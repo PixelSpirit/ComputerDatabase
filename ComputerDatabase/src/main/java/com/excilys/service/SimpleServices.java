@@ -40,7 +40,7 @@ public class SimpleServices<T> extends AbstractService<T> {
     public Page<T> findPage(PageRequest pageRequest) {
         int number = pageRequest.getPageNumber();
         int size = pageRequest.getPageSize();
-        return new Page<>(number, (int) dao.count() / size, size, dao.findSeveral(pageRequest));
+        return new Page<>(number, (int) dao.count(pageRequest) / size, size, dao.findSeveral(pageRequest));
     }
 
     @Override
@@ -61,6 +61,11 @@ public class SimpleServices<T> extends AbstractService<T> {
     @Override
     public long count() {
         return dao.count();
+    }
+
+    @Override
+    public long count(PageRequest request) {
+        return dao.count(request);
     }
 
 }

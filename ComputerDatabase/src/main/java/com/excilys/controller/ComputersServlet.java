@@ -29,14 +29,8 @@ public class ComputersServlet extends HttpServlet {
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 
-    /**
-     * Saves the computer numbers reachable from services into the request
-     * context.
-     * @param request The http request
-     * @throws ServiceException if if service is unavailable
-     */
-    private void saveComputerNumbers(HttpServletRequest request) {
-        request.setAttribute("computerNumber", computerService.count());
+    private void saveComputerNumbers(HttpServletRequest request, PageRequest pr) {
+        request.setAttribute("computerNumber", computerService.count(pr));
     }
 
     /**
@@ -61,8 +55,8 @@ public class ComputersServlet extends HttpServlet {
      * @param search The search
      * @throws ServiceException if service is unavailable
      */
-    private void savePage(HttpServletRequest request, String search, String likeColumn, String orderByColumn,
-            boolean isAscendent) {
+    private Page<DTOComputer> savePage(HttpServletRequest request, String search, String likeColumn,
+            String orderByColumn, boolean isAscendent) {
         PageRequest pr = new PageRequest(0, 10, search, likeColumn, orderByColumn, isAscendent);
         try {
             int number = Integer.parseInt(request.getParameter("page"));
@@ -71,11 +65,15 @@ public class ComputersServlet extends HttpServlet {
             pr.setPageSize(size);
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
             request.setAttribute("page", dtoPage);
+            saveComputerNumbers(request, pr);
+            return dtoPage;
         } catch (NullPointerException | NumberFormatException e) {
             // TODO : Remove dirty checking
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
             Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
             request.setAttribute("page", dtoPage);
+            saveComputerNumbers(request, pr);
+            return dtoPage;
         }
     }
 
@@ -102,19 +100,17 @@ public class ComputersServlet extends HttpServlet {
      */
     private void runPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        saveComputerNumbers(request);
-        String search = saveSearch(request);
         // TODO : CHANGES
         String likeColumn = "";
         String orderBy = "";
         boolean isAscendent = true;
-        savePage(request, search, likeColumn, orderBy, isAscendent);
+
+        String search = saveSearch(request);
+        Page<DTOComputer> page = savePage(request, search, likeColumn, orderBy, isAscendent);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);
     }
-
-    /* Servlet */
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

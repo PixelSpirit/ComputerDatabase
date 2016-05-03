@@ -35,6 +35,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private static final String COUNT_QUERY = "SELECT COUNT(id) FROM computer";
 
+    private static final String COUNT_SEVERAL_QUERY = "SELECT COUNT(cptr.id) FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE %s LIKE ?";
+
     private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
     private DAOComputerMapper mapper = DAOComputerMapper.getInstance();
@@ -176,6 +178,28 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     public long count() {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
+            ResultSet results = stmt.executeQuery();
+            if (results.first()) {
+                return results.getLong(1);
+            } else {
+                throw new DAOException("No count result");
+            }
+        } catch (SQLException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public long count(PageRequest pageRequest) {
+        String like = "cptr.name";
+        if (pageRequest.getLikeColumn() != null && !pageRequest.getLikeColumn().equals("")) {
+            like = pageRequest.getLikeColumn();
+        }
+        String query = String.format(COUNT_SEVERAL_QUERY, like);
+        try (Connection connect = ConnectionFactory.INSTANCE.get();
+                PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
             ResultSet results = stmt.executeQuery();
             if (results.first()) {
                 return results.getLong(1);

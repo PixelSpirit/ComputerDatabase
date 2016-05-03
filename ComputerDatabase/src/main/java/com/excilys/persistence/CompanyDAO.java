@@ -187,4 +187,9 @@ public class CompanyDAO extends AbstractDAO<Company> {
         }
     }
 
+    @Override
+    public long count(PageRequest pageRequest) {
+        return 0;
+    }
+
 }

@@ -78,4 +78,10 @@ public abstract class AbstractService<T> {
      */
     public abstract long count();
 
+    /**
+     * Count the number of element for a page request.
+     * @param pageRequest The page request
+     * @return the request
+     */
+    public abstract long count(PageRequest pageRequest);
 }
