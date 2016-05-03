@@ -31,7 +31,7 @@ public class AddComputerServlet extends HttpServlet {
     private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
     private SimpleServices<Company> companiesService = new SimpleServices<>(CompanyDAO.getInstance());
 
-    private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
+    private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 
     /**
      * Saves all DTOCompanies reachable from services into the request context.
