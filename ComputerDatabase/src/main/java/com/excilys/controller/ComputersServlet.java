@@ -73,15 +73,41 @@ public class ComputersServlet extends HttpServlet {
         }
     }
 
-    /* Servlet */
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    private void runPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("ComputersServlet : [doGet]");
         saveComputerNumbers(request);
         savePage(request);
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);
     }
+
+    /* Servlet */
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        logger.info("[doGet] received");
+        runPage(request, response);
+    }
+
+    /**
+     * Remove all computers that match the selection POST parameter.
+     * @param request The HTTP request
+     */
+    private void removeComputers(HttpServletRequest request) {
+        String computers[] = request.getParameter("selection").split(",");
+        for (String computerId : computers) {
+            // TODO : Verif parseLong !!!
+            computerService.remove(Long.parseLong(computerId));
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        logger.info("[doPost] received");
+        removeComputers(request);
+        runPage(request, response);
+    }
+
 }

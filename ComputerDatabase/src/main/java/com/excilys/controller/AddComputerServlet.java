@@ -77,7 +77,7 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("ComputersServlet : [doPost]");
+        logger.info("[doPost] received");
         insertComputer(request);
         response.sendRedirect("/cdb/computers");
     }

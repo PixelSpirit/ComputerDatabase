@@ -7,13 +7,14 @@
 			<!-- Variable declarations for passing labels as parameters -->
 			<!-- Table header for Computer Name -->
 
-			<th class="editMode" style="width: 60px; height: 22px;"><input
-				type="checkbox" id="selectall" /> <span
-				style="vertical-align: top;"> - <a href="#"
-					id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
-						class="fa fa-trash-o fa-lg"></i>
-				</a>
-			</span></th>
+			<th class="editMode" style="width: 60px; height: 22px;">
+				<input type="checkbox" id="selectall" />
+				<span style="vertical-align: top;"> - 
+					<a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
+						<i class="fa fa-trash-o fa-lg"></i>
+					</a>
+				</span>
+			</th>
 			<th>Computer name</th>
 			<th>Introduced date</th>
 			<!-- Table header for Discontinued Date -->
@@ -27,8 +28,9 @@
 	<tbody id="results">
 		<c:forEach var="computerDTO" items="${requestScope.page.content}">
 			<tr>
-				<td class="editMode"><input type="checkbox" name="cb"
-					class="cb" value="0"></td>
+				<td class="editMode">
+					<input type="checkbox" name="cb" class="cb" value="${computerDTO.id}">
+				</td>
 				<td><m:link target="computer-edit" edit="${computerDTO.id}">${computerDTO.name}</m:link></td>
 				<td>${computerDTO.introduced}</td>
 				<td>${computerDTO.discontinued}</td>
