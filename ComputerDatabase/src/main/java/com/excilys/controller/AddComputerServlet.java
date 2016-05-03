@@ -66,7 +66,9 @@ public class AddComputerServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String companyId = request.getParameter("companyid");
         String companyName = "";
-        companyName = companiesService.find(Long.parseLong(companyId)).getName();
+        if (!companyId.equals("0")) {
+            companyName = companiesService.find(Long.parseLong(companyId)).getName();
+        }
         DTOComputer dtoCpt = new DTOComputer(0, name, introduced, discontinued, companyId, companyName);
         Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
         computerService.insert(cpt);

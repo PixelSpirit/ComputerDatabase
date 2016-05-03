@@ -17,7 +17,7 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="http://localhost:8080/cdb/computer/add">
+				<a class="btn btn-success" id="addComputer" href="http://localhost:8080/cdb/computer-add">
 					AddComputer 
 				</a>
 				<a class="btn btn-default" id="editComputer" href="#"
