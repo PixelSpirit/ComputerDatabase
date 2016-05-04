@@ -82,7 +82,7 @@ public class ComputersServlet extends HttpServlet {
                 return OrderBy.NAME;
             case "introduced":
                 return OrderBy.INTRODUCED;
-            case "discounted":
+            case "discontinued":
                 return OrderBy.DISCONTINUED;
             case "companyName":
                 return OrderBy.COMPANY_NAME;
@@ -96,7 +96,11 @@ public class ComputersServlet extends HttpServlet {
 
     private boolean isAscendent(HttpServletRequest request) {
         String param = request.getParameter("isAscendent");
-        return (param != null && param.equals("true"));
+        if (param != null) {
+            return param.equals("true");
+        } else {
+            return true;
+        }
     }
 
     /**
