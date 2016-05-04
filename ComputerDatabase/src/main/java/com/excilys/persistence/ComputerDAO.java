@@ -31,6 +31,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private static final String DELETE_QUERY = "DELETE FROM computer WHERE id=?";
 
+    private static final String DELETE_COMPANY_ID_QUERY = "DELETE FROM computer WHERE compan_id = ?";
+
     private static final String UPDATE_QUERY = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 
     private static final String COUNT_QUERY = "SELECT COUNT(id) FROM computer";
@@ -129,6 +131,16 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)) {
             stmt.setLong(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("[Catch] <SQLException> " + e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
+    public void removeCompanyId(long companyId, Connection connect) {
+        try (PreparedStatement stmt = connect.prepareStatement(DELETE_COMPANY_ID_QUERY)) {
+            stmt.setLong(1, companyId);
             stmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());

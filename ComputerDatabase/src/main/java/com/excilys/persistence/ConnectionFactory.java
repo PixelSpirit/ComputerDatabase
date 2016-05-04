@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 /**
  * Gives an access to the computer database.
  */
-enum ConnectionFactory {
+public enum ConnectionFactory {
     INSTANCE;
 
     private static final String PROPERTY_FILE = "db.properties";

@@ -7,9 +7,8 @@ import java.util.InputMismatchException;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.ComputerDAO;
-import com.excilys.service.SimpleServices;
+import com.excilys.service.CompanyService;
+import com.excilys.service.ComputerService;
 
 public class ComputerCreationMenu extends Menu {
 
@@ -79,7 +78,7 @@ public class ComputerCreationMenu extends Menu {
             try {
                 System.out.print("Enter Company's id > ");
                 Long id = Long.parseLong(scanner.nextLine());
-                company = new SimpleServices<>(CompanyDAO.getInstance()).find(id);
+                company = new CompanyService().find(id);
                 // TODO : Check if the ID is valid !
             } catch (InputMismatchException e) {
                 System.err.println("Invalid date format");
@@ -112,7 +111,7 @@ public class ComputerCreationMenu extends Menu {
 
     @Override
     protected void printContent() {
-        new SimpleServices<>(ComputerDAO.getInstance()).insert(createComputer());
+        new ComputerService().insert(createComputer());
         System.out.println("Computer was succefully added");
     }
 

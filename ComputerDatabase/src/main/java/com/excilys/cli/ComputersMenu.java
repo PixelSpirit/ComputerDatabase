@@ -4,9 +4,7 @@ import com.excilys.model.Computer;
 import com.excilys.model.OrderBy;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
-import com.excilys.persistence.ComputerDAO;
-import com.excilys.service.AbstractService;
-import com.excilys.service.SimpleServices;
+import com.excilys.service.ComputerService;
 
 public class ComputersMenu extends Menu {
 
@@ -14,7 +12,7 @@ public class ComputersMenu extends Menu {
 
     private Page<Computer> page;
 
-    private AbstractService<Computer> service;
+    private ComputerService service;
 
     /* Singleton */
 
@@ -25,7 +23,7 @@ public class ComputersMenu extends Menu {
      */
     private ComputersMenu() {
         super(" Computers Menu");
-        service = new SimpleServices<>(ComputerDAO.getInstance());
+        service = new ComputerService();
         page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, false));
     }
 

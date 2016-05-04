@@ -18,6 +18,7 @@
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="name" isAscendent="${(requestScope.orderby eq 'name' and requestScope.isAscendent eq true) ? false : true}">
+					<!--  TODO : Create a tag to factorize code -->
 					<c:if test="${requestScope.orderby eq 'name'}">
 						<c:choose>
 							<c:when test="${requestScope.isAscendent eq true}"> &dtrif;</c:when>

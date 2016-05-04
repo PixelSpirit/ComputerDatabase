@@ -18,8 +18,7 @@ import com.excilys.model.Computer;
 import com.excilys.model.OrderBy;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
-import com.excilys.persistence.ComputerDAO;
-import com.excilys.service.SimpleServices;
+import com.excilys.service.ComputerService;
 
 /**
  * Servlet implementation class ComputersServlet.
@@ -27,7 +26,7 @@ import com.excilys.service.SimpleServices;
 public class ComputersServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
+    private ComputerService computerService = new ComputerService();
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 

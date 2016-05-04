@@ -4,9 +4,7 @@ import com.excilys.model.Company;
 import com.excilys.model.OrderBy;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
-import com.excilys.persistence.CompanyDAO;
-import com.excilys.service.AbstractService;
-import com.excilys.service.SimpleServices;
+import com.excilys.service.CompanyService;
 
 public class ComponentsMenu extends Menu {
 
@@ -14,7 +12,7 @@ public class ComponentsMenu extends Menu {
 
     private Page<Company> page;
 
-    private AbstractService<Company> service;
+    private CompanyService service;
 
     /* Singleton */
 
@@ -25,7 +23,7 @@ public class ComponentsMenu extends Menu {
      */
     private ComponentsMenu() {
         super(" Components Menu");
-        service = new SimpleServices<>(CompanyDAO.getInstance());
+        service = new CompanyService();
         page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, false));
     }
 

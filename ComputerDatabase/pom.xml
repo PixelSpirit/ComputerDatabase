@@ -19,6 +19,7 @@
 		<logback.version>1.1.7</logback.version>
 		<mojo.version>1.1</mojo.version>
 		<hikaricp.version>2.4.5</hikaricp.version>
+		<selenium.version>2.53.0</selenium.version>
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 	</properties>
 
@@ -110,12 +111,36 @@
 		</dependency>
 
 		<!-- JDBC Pool Connection -->
-		
+
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 			<version>${hikaricp.version}</version>
 			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- Selenium -->
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 

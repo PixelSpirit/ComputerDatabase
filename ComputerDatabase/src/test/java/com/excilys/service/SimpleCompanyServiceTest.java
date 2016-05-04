@@ -10,12 +10,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.excilys.model.Company;
-import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.NotFoundException;
 
 public class SimpleCompanyServiceTest {
 
-    private static SimpleServices<Company> service;
+    private static CompanyService service;
     private static Company cpt;
     private static Long id;
 
@@ -25,7 +23,7 @@ public class SimpleCompanyServiceTest {
 
     @BeforeClass
     public static void initComputer() {
-        service = new SimpleServices<>(CompanyDAO.getInstance());
+        service = new CompanyService();
         cpt = Mockito.mock(Company.class);
         when(cpt.getName()).thenReturn("Compuraptor");
         id = null;
@@ -56,13 +54,6 @@ public class SimpleCompanyServiceTest {
         Company c2 = service.find(c1.getId());
         compareCompanies(c1, c2);
         id = c1.getId();
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void removeTest() {
-        Company c = service.insert(cpt);
-        service.remove(c.getId());
-        service.find(c.getId());
     }
 
     @Test

@@ -18,9 +18,8 @@ import com.excilys.mapper.DTOCompanyMapper;
 import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.ComputerDAO;
-import com.excilys.service.SimpleServices;
+import com.excilys.service.CompanyService;
+import com.excilys.service.ComputerService;
 
 /**
  * Servlet implementation class UpdateComputerServlet.
@@ -28,8 +27,8 @@ import com.excilys.service.SimpleServices;
 public class UpdateComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private SimpleServices<Computer> computerService = new SimpleServices<>(ComputerDAO.getInstance());
-    private SimpleServices<Company> companyService = new SimpleServices<>(CompanyDAO.getInstance());
+    private ComputerService computerService = new ComputerService();
+    private CompanyService companyService = new CompanyService();
 
     private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
 

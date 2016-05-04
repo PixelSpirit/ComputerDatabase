@@ -26,7 +26,6 @@ public class CompanyDAO extends AbstractDAO<Company> {
     private static final String INSERT_QUERY = "INSERT INTO company (name) VALUES (?)";
 
     private static final String DELETE_COMPANY_QUERY = "DELETE FROM company WHERE id=?";
-    private static final String DELETE_COMPANYS_COMPUTERS_QUERY = "DELETE FROM computer WHERE compan_id = ?";
 
     private static final String UPDATE_QUERY = "UPDATE company SET name=? WHERE id=?";
 
@@ -120,19 +119,13 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public void remove(long id) {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY);
-                PreparedStatement removeCptrs = connect.prepareStatement(DELETE_COMPANYS_COMPUTERS_QUERY)) {
-            try {
-                connect.setAutoCommit(false);
-                removeCpn.setLong(1, id);
-                removeCptrs.setLong(1, id);
-                removeCpn.executeUpdate();
-                removeCptrs.executeUpdate();
-                connect.commit();
-            } catch (SQLException e) {
-                connect.rollback();
-            }
+        // #YAGNI
+    }
+
+    public void remove(long id, Connection connect) {
+        try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
+            removeCpn.setLong(1, id);
+            removeCpn.executeUpdate();
         } catch (SQLException e) {
             logger.error("[Catch] <SQLException> " + e.getMessage());
             throw new DAOException(e);

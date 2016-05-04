@@ -12,12 +12,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.excilys.model.Computer;
-import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.NotFoundException;
 
 public class SimpleComputerServiceTest {
 
-    private static SimpleServices<Computer> service;
+    private static ComputerService service;
     private static Computer cpt;
     private static Long id;
 
@@ -30,7 +29,7 @@ public class SimpleComputerServiceTest {
 
     @BeforeClass
     public static void initComputer() {
-        service = new SimpleServices<>(ComputerDAO.getInstance());
+        service = new ComputerService();
         cpt = Mockito.mock(Computer.class);
         when(cpt.getName()).thenReturn("Compuraptor");
         when(cpt.getCompany()).thenReturn(null);
