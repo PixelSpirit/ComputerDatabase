@@ -2,6 +2,7 @@ package com.excilys.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Computer;
+import com.excilys.model.OrderBy;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.persistence.ComputerDAO;
@@ -29,16 +31,13 @@ public class ComputersServlet extends HttpServlet {
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
 
-    private void saveComputerNumbers(HttpServletRequest request, PageRequest pr) {
-        request.setAttribute("computerNumber", computerService.count(pr));
-    }
-
     /**
      * Converts a Computer Page to a DTOComputer Page.
      * @param page The page to convert
      * @return the converted page
      */
     private Page<DTOComputer> fromComputers(Page<Computer> page) {
+        // TODO : MOVE IT SOMEWHERE ELSE ! (Nothing to do here)
         DTOComputerMapper mapper = DTOComputerMapper.getInstance();
         Page<DTOComputer> dtoPage = new Page<DTOComputer>(page.getNumber(), page.getMaxNumber(), page.getSize(),
                 new ArrayList<>(page.getContent().size()));
@@ -48,47 +47,56 @@ public class ComputersServlet extends HttpServlet {
         return dtoPage;
     }
 
-    /**
-     * Gets pages information from the GET request and saves it in the request
-     * context.
-     * @param request The http request
-     * @param search The search
-     * @throws ServiceException if service is unavailable
-     */
-    private Page<DTOComputer> savePage(HttpServletRequest request, String search, String likeColumn,
-            String orderByColumn, boolean isAscendent) {
-        PageRequest pr = new PageRequest(0, 10, search, likeColumn, orderByColumn, isAscendent);
-        try {
-            int number = Integer.parseInt(request.getParameter("page"));
-            int size = Integer.parseInt(request.getParameter("limit"));
-            pr.setPageNumber(number);
-            pr.setPageSize(size);
-            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
-            request.setAttribute("page", dtoPage);
-            saveComputerNumbers(request, pr);
-            return dtoPage;
-        } catch (NullPointerException | NumberFormatException e) {
-            // TODO : Remove dirty checking
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getStackTrace()[0].toString());
-            Page<DTOComputer> dtoPage = fromComputers(computerService.findPage(pr));
-            request.setAttribute("page", dtoPage);
-            saveComputerNumbers(request, pr);
-            return dtoPage;
+    private int getNumberParameter(HttpServletRequest request, String s, int defaultValue) {
+        String param = request.getParameter(s);
+        Pattern patternElementPage = Pattern.compile("^\\d+$");
+        if (param != null && patternElementPage.matcher(param).matches()) {
+            return Integer.parseInt(param);
+        } else {
+            return defaultValue;
         }
     }
 
-    /**
-     * Saves the search from GET parameters into the request attributes and
-     * saves it.
-     * @param request The http request
-     * @return The search
-     */
-    private String saveSearch(HttpServletRequest request) {
+    private int getPageNumber(HttpServletRequest request) {
+        return getNumberParameter(request, "page", 0);
+    }
+
+    private int getPageSize(HttpServletRequest request) {
+        return getNumberParameter(request, "limit", 10);
+    }
+
+    private String getSearch(HttpServletRequest request) {
         String search = request.getParameter("search");
         if (search != null) {
-            request.setAttribute("search", search);
+            return search;
+        } else {
+            return "";
         }
-        return search;
+    }
+
+    private OrderBy getOrderBy(HttpServletRequest request) {
+        String orderColumn = request.getParameter("orderby");
+        if (orderColumn != null) {
+            switch (orderColumn) {
+            case "name":
+                return OrderBy.NAME;
+            case "introduced":
+                return OrderBy.INTRODUCED;
+            case "discounted":
+                return OrderBy.DISCONTINUED;
+            case "companyName":
+                return OrderBy.COMPANY_NAME;
+            default:
+                return OrderBy.DEFAULT;
+            }
+        } else {
+            return OrderBy.DEFAULT;
+        }
+    }
+
+    private boolean isAscendent(HttpServletRequest request) {
+        String param = request.getParameter("isAscendent");
+        return (param != null && param.equals("true"));
     }
 
     /**
@@ -100,13 +108,20 @@ public class ComputersServlet extends HttpServlet {
      */
     private void runPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO : CHANGES
-        String likeColumn = "";
-        String orderBy = "";
-        boolean isAscendent = true;
+        int pageNumber = getPageNumber(request);
+        int pageSize = getPageSize(request);
+        String search = getSearch(request);
+        OrderBy orderBy = getOrderBy(request);
+        boolean isAscendent = isAscendent(request);
+        PageRequest pr = new PageRequest(pageNumber, pageSize, search, orderBy, isAscendent);
+        Page<DTOComputer> page = fromComputers(computerService.findPage(pr));
+        long computerNumbers = computerService.count(pr);
 
-        String search = saveSearch(request);
-        savePage(request, search, likeColumn, orderBy, isAscendent);
+        request.setAttribute("search", search);
+        request.setAttribute("orderby", orderBy.getHttpValue());
+        request.setAttribute("isAscendent", isAscendent);
+        request.setAttribute("page", page);
+        request.setAttribute("computerNumber", computerNumbers);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);

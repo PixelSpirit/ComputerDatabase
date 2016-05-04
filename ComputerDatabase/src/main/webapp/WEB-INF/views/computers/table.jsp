@@ -15,7 +15,11 @@
 					</a>
 				</span>
 			</th>
-			<th>Computer name</th>
+			<th>
+				<m:link target="computers" >
+					Computer name
+				</m:link>
+			</th>
 			<th>Introduced date</th>
 			<!-- Table header for Discontinued Date -->
 			<th>Discontinued date</th>

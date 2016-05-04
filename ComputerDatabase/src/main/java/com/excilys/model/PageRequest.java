@@ -5,8 +5,7 @@ public class PageRequest {
     int pageNumber;
     int pageSize;
     String search;
-    String likeColumn;
-    String orderByColumn;
+    OrderBy orderByColumn;
     boolean isAscendent;
 
     /**
@@ -18,13 +17,11 @@ public class PageRequest {
      * @param orderByColumn The order by column name
      * @param isAscendent true if the order of the page is ascendent
      */
-    public PageRequest(int pageNumber, int pageSize, String search, String likeColumn, String orderByColumn,
-            boolean isAscendent) {
+    public PageRequest(int pageNumber, int pageSize, String search, OrderBy orderByColumn, boolean isAscendent) {
         super();
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
         this.search = search;
-        this.likeColumn = likeColumn;
         this.orderByColumn = orderByColumn;
         this.isAscendent = isAscendent;
     }
@@ -72,30 +69,16 @@ public class PageRequest {
     }
 
     /**
-     * @return the likeColumn
-     */
-    public String getLikeColumn() {
-        return likeColumn;
-    }
-
-    /**
-     * @param likeColumn the likeColumn to set
-     */
-    public void setLikeColumn(String likeColumn) {
-        this.likeColumn = likeColumn;
-    }
-
-    /**
      * @return the orderByColumn
      */
-    public String getOrderByColumn() {
+    public OrderBy getOrderByColumn() {
         return orderByColumn;
     }
 
     /**
      * @param orderByColumn the orderByColumn to set
      */
-    public void setOrderByColumn(String orderByColumn) {
+    public void setOrderByColumn(OrderBy orderByColumn) {
         this.orderByColumn = orderByColumn;
     }
 

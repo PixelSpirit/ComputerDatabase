@@ -24,7 +24,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id ";
 
     private static final String FIND_SEVERAL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
-            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE %s LIKE ? "
+            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE cptr.name LIKE ? OR cpn.name LIKE ? "
             + "ORDER BY %s %s LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
@@ -35,7 +35,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private static final String COUNT_QUERY = "SELECT COUNT(id) FROM computer";
 
-    private static final String COUNT_SEVERAL_QUERY = "SELECT COUNT(cptr.id) FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE %s LIKE ?";
+    private static final String COUNT_SEVERAL_QUERY = "SELECT COUNT(cptr.id) FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id "
+            + "WHERE cptr.name LIKE ? OR cpn.name LIKE ?";
 
     private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
@@ -103,20 +104,14 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public List<Computer> findSeveral(PageRequest pageRequest) {
-        String like = "cptr.name";
-        String order = "cptr.name";
-        if (pageRequest.getLikeColumn() != null && !pageRequest.getLikeColumn().equals("")) {
-            like = pageRequest.getLikeColumn();
-        }
-        if (pageRequest.getOrderByColumn() != null && !pageRequest.getOrderByColumn().equals("")) {
-            order = pageRequest.getOrderByColumn();
-        }
-        String query = String.format(FIND_SEVERAL_QUERY, like, order, pageRequest.isAscendent() ? "ASC" : "DESC");
+        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn().getSqlColumn(),
+                pageRequest.isAscendent() ? "ASC" : "DESC");
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setString(1, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
-            stmt.setInt(2, pageRequest.getPageSize());
-            stmt.setInt(3, pageRequest.getPageNumber() * pageRequest.getPageSize());
+            stmt.setString(2, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
+            stmt.setInt(3, pageRequest.getPageSize());
+            stmt.setInt(4, pageRequest.getPageNumber() * pageRequest.getPageSize());
             ResultSet results = stmt.executeQuery();
             ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
             while (results.next()) {
@@ -193,13 +188,11 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     @Override
     public long count(PageRequest pageRequest) {
         String like = "cptr.name";
-        if (pageRequest.getLikeColumn() != null && !pageRequest.getLikeColumn().equals("")) {
-            like = pageRequest.getLikeColumn();
-        }
         String query = String.format(COUNT_SEVERAL_QUERY, like);
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setString(1, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
+            stmt.setString(2, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
             ResultSet results = stmt.executeQuery();
             if (results.first()) {
                 return results.getLong(1);

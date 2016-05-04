@@ -1,6 +1,7 @@
 package com.excilys.cli;
 
 import com.excilys.model.Computer;
+import com.excilys.model.OrderBy;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.persistence.ComputerDAO;
@@ -25,7 +26,7 @@ public class ComputersMenu extends Menu {
     private ComputersMenu() {
         super(" Computers Menu");
         service = new SimpleServices<>(ComputerDAO.getInstance());
-        page = service.findPage(new PageRequest(0, SIZE, "", "", null, false));
+        page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, false));
     }
 
     /**
@@ -74,7 +75,8 @@ public class ComputersMenu extends Menu {
                 switch (Integer.parseInt(scanner.nextLine())) {
                 case 0:
                     if (service.count() >= page.getNumber() * page.getSize()) {
-                        page = service.findPage(new PageRequest(page.getNumber() + 1, SIZE, "", "", null, false));
+                        page = service
+                                .findPage(new PageRequest(page.getNumber() + 1, SIZE, "", OrderBy.DEFAULT, false));
                     } else {
                         System.err.println("No more computers");
                     }
@@ -82,7 +84,8 @@ public class ComputersMenu extends Menu {
                     break;
                 case 1:
                     if (page.getNumber() > 0) {
-                        page = service.findPage(new PageRequest(page.getNumber() - 1, SIZE, "", "", null, false));
+                        page = service
+                                .findPage(new PageRequest(page.getNumber() - 1, SIZE, "", OrderBy.DEFAULT, false));
                     }
                     isValid = true;
                     break;

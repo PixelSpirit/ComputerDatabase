@@ -21,7 +21,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private static final String FIND_ALL_QUERY = "SELECT id, name FROM company";
 
-    private static final String FIND_SEVERAL_QUERY = "SELECT id, name FROM company WHERE %s LIKE '%%?%%' ORDER BY %s %s LIMIT ? OFFSET ?";
+    private static final String FIND_SEVERAL_QUERY = "SELECT id, name FROM company WHERE name LIKE ? ORDER BY %s %s LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO company (name) VALUES (?)";
 
@@ -99,7 +99,8 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public List<Company> findSeveral(PageRequest pageRequest) {
-        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getLikeColumn(), pageRequest.getOrderByColumn(),
+        // TODO : Update to match the new Query
+        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
                 (pageRequest.isAscendent()) ? "ASC" : "DESC");
         try (Connection connect = ConnectionFactory.INSTANCE.get();
                 PreparedStatement stmt = connect.prepareStatement(query)) {

@@ -4,25 +4,29 @@
 	<div class="container text-center">
 
 		<!-- Page Buttons -->
-		<m:pagination maxNumber="${requestScope.page.maxNumber}" size="${requestScope.page.size}" number="${requestScope.page.number}"/>
+		<m:pagination maxNumber="${requestScope.page.maxNumber}"
+			size="${requestScope.page.size}" orderby="${requestScope.orderby}"
+			isAscendent="${requestScope.isAscendent }"
+			number="${requestScope.page.number}" />
 
 		<!-- Limit Buttons -->
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<m:link limit="10" page="${requestScope.page.number}"
-				target="computers">
+				orderby="${requestScope.orderby}"
+				isAscendent="${requestScope.isAscendent}" target="computers">
 				<button type="button" class="btn btn-default">10</button>
 			</m:link>
-
 			<m:link limit="50" page="${requestScope.page.number}"
-				target="computers">
+				orderby="${requestScope.orderby}"
+				isAscendent="${requestScope.isAscendent}" target="computers">
 				<button type="button" class="btn btn-default">50</button>
 			</m:link>
 
 			<m:link limit="100" page="${requestScope.page.number}"
-				target="computers">
+				orderby="${requestScope.orderby}"
+				isAscendent="${requestScope.isAscendent}" target="computers">
 				<button type="button" class="btn btn-default">100</button>
 			</m:link>
-
 		</div>
 	</div>
 
