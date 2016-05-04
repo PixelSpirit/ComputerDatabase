@@ -37,9 +37,9 @@
 
 		<c:otherwise>
 
-			<c:if test="${number > 3 }">
-				<li><m:link limit="${size}" page="1" target="computers">
-					<c:out value="1" />
+			<c:if test="${number > 2 }">
+				<li><m:link limit="${size}" page="0" target="computers">
+					<c:out value="0" />
 				</m:link></li>
 			</c:if>
 
@@ -79,7 +79,7 @@
 				<li><span aria-hidden="true">&hellip;</span></li>
 			</c:if>
 
-			<c:if test="${number < maxNumber - 3 }">
+			<c:if test="${number < maxNumber - 2 }">
 				<li><m:link limit="${size}" page="${maxNumber}" search="${search}" target="computers">
 					<c:out value="${maxNumber}" />
 				</m:link></li>

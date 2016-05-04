@@ -106,7 +106,7 @@ public class ComputersServlet extends HttpServlet {
         boolean isAscendent = true;
 
         String search = saveSearch(request);
-        Page<DTOComputer> page = savePage(request, search, likeColumn, orderBy, isAscendent);
+        savePage(request, search, likeColumn, orderBy, isAscendent);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);
