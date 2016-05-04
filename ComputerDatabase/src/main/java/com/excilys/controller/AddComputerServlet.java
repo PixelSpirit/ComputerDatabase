@@ -20,6 +20,7 @@ import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
+import com.excilys.validator.DTOComputerValidator;
 
 /**
  * Servlet implementation class AddComputerServlet.
@@ -68,9 +69,16 @@ public class AddComputerServlet extends HttpServlet {
         if (!companyId.equals("0")) {
             companyName = companiesService.find(Long.parseLong(companyId)).getName();
         }
-        DTOComputer dtoCpt = new DTOComputer("0", name, introduced, discontinued, companyId, companyName);
-        Computer cpt = DTOComputerMapper.getInstance().unmap(dtoCpt);
-        computerService.insert(cpt);
+        DTOComputer dto = new DTOComputer("", name, introduced, discontinued, companyId, companyName);
+        List<String> s = DTOComputerValidator.isValideDTOComputer(dto);
+        if (s.isEmpty()) {
+            Computer cpt = DTOComputerMapper.getInstance().unmap(dto);
+            computerService.insert(cpt);
+        } else {
+            for (String string : s) {
+                System.out.println(string);
+            }
+        }
     }
 
     @Override
