@@ -6,6 +6,7 @@ import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.ConnectionManager;
 
 public class ComputerService extends AbstractService<Computer> {
 
@@ -25,44 +26,68 @@ public class ComputerService extends AbstractService<Computer> {
 
     @Override
     public Computer find(long id) {
-        return dao.find(id);
+        ConnectionManager.INSTANCE.initConnection();
+        Computer res = dao.find(id);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public List<Computer> findAll() {
-        return dao.findAll();
+        ConnectionManager.INSTANCE.initConnection();
+        List<Computer> res = dao.findAll();
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Page<Computer> findPage(PageRequest pageRequest) {
+        ConnectionManager.INSTANCE.initConnection();
         int number = pageRequest.getPageNumber();
         int size = pageRequest.getPageSize();
-        return new Page<>(number, (int) dao.count(pageRequest) / size, size, dao.findSeveral(pageRequest));
+        Page<Computer> res = new Page<>(number, (int) dao.count(pageRequest) / size, size,
+                dao.findSeveral(pageRequest));
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Computer insert(Computer entity) {
-        return dao.insert(entity);
+        ConnectionManager.INSTANCE.initConnection();
+        Computer res = dao.insert(entity);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Computer update(long id, Computer updateValue) {
-        return dao.update(id, updateValue);
+        ConnectionManager.INSTANCE.initConnection();
+        Computer res = dao.update(id, updateValue);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public long count() {
-        return dao.count();
+        ConnectionManager.INSTANCE.initConnection();
+        long res = dao.count();
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public long count(PageRequest request) {
-        return dao.count(request);
+        ConnectionManager.INSTANCE.initConnection();
+        long res = dao.count(request);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public void remove(long id) {
+        ConnectionManager.INSTANCE.initConnection();
         dao.remove(id);
+        ConnectionManager.INSTANCE.closeConnection();
     }
 
 }

@@ -64,126 +64,165 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company find(long id) {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
-            stmt.setLong(1, id);
-            logger.info("<SQL Query> Selecting company where id = " + id);
-            ResultSet result = stmt.executeQuery();
-            if (result.first()) {
-                return mapper.unmap(result);
-            } else {
-                throw new NotFoundException();
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
+                stmt.setLong(1, id);
+                logger.info("<SQL Query> Selecting company where id = " + id);
+                ResultSet result = stmt.executeQuery();
+                if (result.first()) {
+                    return mapper.unmap(result);
+                } else {
+                    throw new NotFoundException();
+                }
+            } catch (SQLException e) {
+                logger.error("[Catch] <SQLException> " + e.getMessage());
+                throw new DAOException(e);
             }
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
-            throw new DAOException(e);
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public List<Company> findAll() {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
-            ResultSet results = stmt.executeQuery();
-            ArrayList<Company> companies = new ArrayList<>();
-            while (results.next()) {
-                companies.add(mapper.unmap(results));
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
+                ResultSet results = stmt.executeQuery();
+                ArrayList<Company> companies = new ArrayList<>();
+                while (results.next()) {
+                    companies.add(mapper.unmap(results));
+                }
+                return companies;
+            } catch (SQLException e) {
+                logger.error("[Catch] <SQLException> " + e.getMessage());
+                throw new DAOException(e);
             }
-            return companies;
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
-            throw new DAOException(e);
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public List<Company> findSeveral(PageRequest pageRequest) {
-        // TODO : Update to match the new Query
-        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
-                (pageRequest.isAscendent()) ? "ASC" : "DESC");
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setInt(1, pageRequest.getPageNumber());
-            stmt.setInt(2, pageRequest.getPageSize());
-            ResultSet results = stmt.executeQuery();
-            ArrayList<Company> companies = new ArrayList<>(pageRequest.getPageNumber());
-            while (results.next()) {
-                companies.add(mapper.unmap(results));
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            // TODO : Update to match the new Query
+            String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
+                    (pageRequest.isAscendent()) ? "ASC" : "DESC");
+            try (PreparedStatement stmt = connect.prepareStatement(query)) {
+                stmt.setInt(1, pageRequest.getPageNumber());
+                stmt.setInt(2, pageRequest.getPageSize());
+                ResultSet results = stmt.executeQuery();
+                ArrayList<Company> companies = new ArrayList<>(pageRequest.getPageNumber());
+                while (results.next()) {
+                    companies.add(mapper.unmap(results));
+                }
+                return companies;
+            } catch (SQLException e) {
+                logger.error("[Catch] <SQLException> " + e.getMessage());
+                throw new DAOException(e);
             }
-            return companies;
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
-            throw new DAOException(e);
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
+
     }
 
     @Override
     public void remove(long id) {
-        // #YAGNI
-    }
-
-    public void remove(long id, Connection connect) {
-        try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
-            removeCpn.setLong(1, id);
-            removeCpn.executeUpdate();
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
-            throw new DAOException(e);
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
+                removeCpn.setLong(1, id);
+                removeCpn.executeUpdate();
+            } catch (SQLException e) {
+                logger.error("[Catch] <SQLException> " + e.getMessage());
+                throw new DAOException(e);
+            }
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public Company insert(Company entity) {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            mapper.map(entity, stmt);
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.first()) {
-                return find(rs.getLong(1));
-            } else {
-                throw new DAOException("Insertion failed");
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+                mapper.map(entity, stmt);
+                stmt.executeUpdate();
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.first()) {
+                    return find(rs.getLong(1));
+                } else {
+                    throw new DAOException("Insertion failed");
+                }
+            } catch (SQLException | NotFoundException e) {
+                logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
+                throw new DAOException(e);
             }
-        } catch (SQLException | NotFoundException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            throw new DAOException(e);
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public Company update(long id, Company updateValue) {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            mapper.map(updateValue, stmt);
-            stmt.setLong(2, id);
-            stmt.executeUpdate();
-            updateValue.setId(id);
-            return updateValue;
-        } catch (SQLException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            throw new DAOException(e);
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+                mapper.map(updateValue, stmt);
+                stmt.setLong(2, id);
+                stmt.executeUpdate();
+                updateValue.setId(id);
+                return updateValue;
+            } catch (SQLException e) {
+                logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
+                throw new DAOException(e);
+            }
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public long count() {
-        try (Connection connect = ConnectionFactory.INSTANCE.get();
-                PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
-            ResultSet results = stmt.executeQuery();
-            if (results.first()) {
-                return results.getLong(1);
-            } else {
-                throw new DAOException("No count result");
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            try (PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
+                ResultSet results = stmt.executeQuery();
+                if (results.first()) {
+                    return results.getLong(1);
+                } else {
+                    throw new DAOException("No count result");
+                }
+            } catch (SQLException e) {
+                logger.error("[Catch] <SQLException> " + e.getMessage());
+                throw new DAOException(e);
             }
-        } catch (SQLException e) {
-            logger.error("[Catch] <SQLException> " + e.getMessage());
-            throw new DAOException(e);
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
         }
     }
 
     @Override
     public long count(PageRequest pageRequest) {
-        return 0;
+        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        if (connect != null) {
+            return 0;
+        } else {
+            logger.error("Connection was not initialized");
+            throw new DAOException("Connection was not initialized");
+        }
     }
 
 }

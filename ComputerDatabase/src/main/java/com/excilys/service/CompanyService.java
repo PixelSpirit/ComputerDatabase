@@ -1,7 +1,5 @@
 package com.excilys.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,8 +10,7 @@ import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.ConnectionException;
-import com.excilys.persistence.ConnectionFactory;
+import com.excilys.persistence.ConnectionManager;
 import com.excilys.persistence.DAOException;
 
 public class CompanyService extends AbstractService<Company> {
@@ -36,56 +33,73 @@ public class CompanyService extends AbstractService<Company> {
 
     @Override
     public Company find(long id) {
-        return dao.find(id);
+        ConnectionManager.INSTANCE.initConnection();
+        Company res = dao.find(id);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public List<Company> findAll() {
-        return dao.findAll();
+        ConnectionManager.INSTANCE.initConnection();
+        List<Company> res = dao.findAll();
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Page<Company> findPage(PageRequest pageRequest) {
+        ConnectionManager.INSTANCE.initConnection();
         int number = pageRequest.getPageNumber();
         int size = pageRequest.getPageSize();
-        return new Page<>(number, (int) dao.count(pageRequest) / size, size, dao.findSeveral(pageRequest));
+        Page<Company> res = new Page<>(number, (int) dao.count(pageRequest) / size, size, dao.findSeveral(pageRequest));
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Company insert(Company entity) {
-        return dao.insert(entity);
+        ConnectionManager.INSTANCE.initConnection();
+        Company res = dao.insert(entity);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public Company update(long id, Company updateValue) {
-        return dao.update(id, updateValue);
+        ConnectionManager.INSTANCE.initConnection();
+        Company res = dao.update(id, updateValue);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public long count() {
-        return dao.count();
+        ConnectionManager.INSTANCE.initConnection();
+        long res = dao.count();
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public long count(PageRequest request) {
-        return dao.count(request);
+        ConnectionManager.INSTANCE.initConnection();
+        long res = dao.count(request);
+        ConnectionManager.INSTANCE.closeConnection();
+        return res;
     }
 
     @Override
     public void remove(long id) {
-        try (Connection connect = ConnectionFactory.INSTANCE.get()) {
-            try {
-                connect.setAutoCommit(false);
-                ComputerDAO.getInstance().removeCompanyId(id, connect);
-                CompanyDAO.getInstance().remove(id, connect);
-                connect.commit();
-            } catch (DAOException e) {
-                connect.rollback();
-            }
-        } catch (ConnectionException | SQLException e) {
-            logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            throw new DAOException(e);
+        ConnectionManager.INSTANCE.initTransaction();
+        try {
+            ComputerDAO.getInstance().removeCompanyId(id);
+            CompanyDAO.getInstance().remove(id);
+            ConnectionManager.INSTANCE.commit();
+        } catch (DAOException e) {
+            ConnectionManager.INSTANCE.rollBack();
         }
+        ConnectionManager.INSTANCE.closeConnection();
     }
 
 }
