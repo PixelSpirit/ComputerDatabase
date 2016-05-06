@@ -75,7 +75,7 @@ public enum ConnectionManager {
             localConnection.get().commit();
         } catch (SQLException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            throw new ConnectionException(e);
+            rollBack();
         }
     }
 
@@ -84,7 +84,6 @@ public enum ConnectionManager {
             localConnection.get().rollback();
         } catch (SQLException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-            throw new ConnectionException(e);
         }
     }
 
