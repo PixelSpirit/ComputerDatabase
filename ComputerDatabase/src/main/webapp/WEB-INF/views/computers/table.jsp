@@ -18,11 +18,11 @@
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="name"
-					direction="${(requestScope.orderby eq 'name' and requestScope.direction eq true) ? false : true}">
+					direction="${(requestScope.orderby eq 'name' and requestScope.direction eq 'asc') ? 'desc' : 'asc'}">
 					<!--  TODO : Create a tag to factorize code -->
 					<c:if test="${requestScope.orderby eq 'name'}">
 						<c:choose>
-							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq 'asc'}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -32,10 +32,10 @@
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="introduced"
-					direction="${(requestScope.orderby eq 'introduced' and requestScope.direction eq true) ? false : true}">
+					direction="${(requestScope.orderby eq 'introduced' and requestScope.direction eq 'asc') ? 'desc' : 'asc'}">
 					<c:if test="${requestScope.orderby eq 'introduced'}">
 						<c:choose>
-							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq 'asc'}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -45,10 +45,10 @@
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="discontinued"
-					direction="${(requestScope.orderby eq 'discontinued' and requestScope.direction eq true) ? false : true}">
+					direction="${(requestScope.orderby eq 'discontinued' and requestScope.direction eq 'asc') ? 'desc' : 'asc'}">
 					<c:if test="${requestScope.orderby eq 'discontinued'}">
 						<c:choose>
-							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq 'asc'}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -58,10 +58,10 @@
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="companyName"
-					direction="${(requestScope.orderby eq 'companyName' and requestScope.direction eq true) ? false : true}">
+					direction="${(requestScope.orderby eq 'companyName' and requestScope.direction eq 'asc') ? 'desc' : 'asc'}">
 					<c:if test="${requestScope.orderby eq 'companyName'}">
 						<c:choose>
-							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq 'asc'}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>

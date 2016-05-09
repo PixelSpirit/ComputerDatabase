@@ -137,7 +137,7 @@ public class ComputersServlet extends HttpServlet {
             request.setAttribute("orderby", orderBy.getHttpValue());
         }
         if (direction != null) {
-            request.setAttribute("direction", direction);
+            request.setAttribute("direction", direction.getValue());
         }
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,

@@ -135,6 +135,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             String query = createSeveralQuery(pageRequest);
+            System.out.println(query);
             try (PreparedStatement stmt = connect.prepareStatement(query)) {
                 int index = 1;
                 String searchFormat = pageRequest.getSearch();
