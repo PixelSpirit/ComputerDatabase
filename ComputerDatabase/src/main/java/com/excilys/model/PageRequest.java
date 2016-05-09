@@ -6,7 +6,7 @@ public class PageRequest {
     int pageSize;
     String search;
     OrderBy orderByColumn;
-    boolean isAscendent;
+    OrderDirection direction;
 
     /**
      * Constructs a PageRequest
@@ -15,15 +15,15 @@ public class PageRequest {
      * @param search The search
      * @param likeColumn The like column name
      * @param orderByColumn The order by column name
-     * @param isAscendent true if the order of the page is ascendent
+     * @param direction true if the order of the page is ascendent
      */
-    public PageRequest(int pageNumber, int pageSize, String search, OrderBy orderByColumn, boolean isAscendent) {
+    public PageRequest(int pageNumber, int pageSize, String search, OrderBy orderByColumn, OrderDirection direction) {
         super();
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
         this.search = search;
         this.orderByColumn = orderByColumn;
-        this.isAscendent = isAscendent;
+        this.direction = direction;
     }
 
     /**
@@ -83,17 +83,17 @@ public class PageRequest {
     }
 
     /**
-     * @return the isAscendent
+     * @return the direction
      */
-    public boolean isAscendent() {
-        return isAscendent;
+    public OrderDirection getDirection() {
+        return direction;
     }
 
     /**
-     * @param isAscendent the isAscendent to set
+     * @param direction the direction to set
      */
-    public void setAscendent(boolean isAscendent) {
-        this.isAscendent = isAscendent;
+    public void setDirection(OrderDirection direction) {
+        this.direction = direction;
     }
 
 }

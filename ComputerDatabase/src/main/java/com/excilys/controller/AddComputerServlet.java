@@ -66,7 +66,7 @@ public class AddComputerServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String companyId = request.getParameter("companyid");
         String companyName = "";
-        if (!companyId.equals("0")) {
+        if (companyId != null && !companyId.equals("0")) {
             companyName = companiesService.find(Long.parseLong(companyId)).getName();
         }
         DTOComputer dto = new DTOComputer("", name, introduced, discontinued, companyId, companyName);
@@ -75,6 +75,7 @@ public class AddComputerServlet extends HttpServlet {
             Computer cpt = DTOComputerMapper.getInstance().unmap(dto);
             computerService.insert(cpt);
         } else {
+            // TODO : Print error in JSP
             for (String string : s) {
                 System.out.println(string);
             }

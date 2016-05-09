@@ -112,7 +112,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
         if (connect != null) {
             // TODO : Update to match the new Query
             String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
-                    (pageRequest.isAscendent()) ? "ASC" : "DESC");
+                    pageRequest.getDirection());
             try (PreparedStatement stmt = connect.prepareStatement(query)) {
                 stmt.setInt(1, pageRequest.getPageNumber());
                 stmt.setInt(2, pageRequest.getPageSize());

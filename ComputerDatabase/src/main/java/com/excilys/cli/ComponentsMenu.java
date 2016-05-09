@@ -2,6 +2,7 @@ package com.excilys.cli;
 
 import com.excilys.model.Company;
 import com.excilys.model.OrderBy;
+import com.excilys.model.OrderDirection;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.service.CompanyService;
@@ -24,7 +25,7 @@ public class ComponentsMenu extends Menu {
     private ComponentsMenu() {
         super(" Components Menu");
         service = new CompanyService();
-        page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, false));
+        page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, OrderDirection.DEFAULT));
     }
 
     /**
@@ -71,8 +72,8 @@ public class ComponentsMenu extends Menu {
                 switch (scanner.nextInt()) {
                 case 0:
                     if (service.count() >= page.getNumber() * page.getSize()) {
-                        page = service
-                                .findPage(new PageRequest(page.getNumber() + 1, SIZE, "", OrderBy.DEFAULT, false));
+                        page = service.findPage(new PageRequest(page.getNumber() + 1, SIZE, "", OrderBy.DEFAULT,
+                                OrderDirection.DEFAULT));
                     } else {
                         System.err.println("No more computers");
                     }
@@ -80,8 +81,8 @@ public class ComponentsMenu extends Menu {
                     break;
                 case 1:
                     if (page.getNumber() > 0) {
-                        page = service
-                                .findPage(new PageRequest(page.getNumber() - 1, SIZE, "", OrderBy.DEFAULT, false));
+                        page = service.findPage(new PageRequest(page.getNumber() - 1, SIZE, "", OrderBy.DEFAULT,
+                                OrderDirection.DEFAULT));
                     }
                     isValid = true;
                     break;

@@ -21,11 +21,13 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id " + "WHERE cptr.id=?";
 
     private static final String FIND_ALL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
-            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id ";
+            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id";
 
-    private static final String FIND_SEVERAL_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
-            + "FROM computer AS cptr LEFT JOIN company AS cpn ON cptr.company_id = cpn.id WHERE cptr.name LIKE ? OR cpn.name LIKE ? "
-            + "ORDER BY %s %s LIMIT ? OFFSET ?";
+    private static final String LIKE = "WHERE cptr.name LIKE ? OR cpn.name LIKE ?";
+
+    private static final String ORDER_BY = "ORDER BY %s %s";
+
+    private static final String LIMIT = "LIMIT ? OFFSET ?";
 
     private static final String INSERT_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
@@ -114,17 +116,35 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         }
     }
 
+    public String createSeveralQuery(PageRequest pageRequest) {
+        StringBuilder builder = new StringBuilder(FIND_ALL_QUERY);
+        if (pageRequest.getSearch() != null) {
+            builder.append(" ").append(LIKE);
+        }
+        if (pageRequest.getOrderByColumn() != null && pageRequest.getDirection() != null) {
+            String order = String.format(ORDER_BY, pageRequest.getOrderByColumn().getSqlColumn(),
+                    pageRequest.getDirection().getValue());
+            builder.append(" ").append(order);
+        }
+        builder.append(" ").append(LIMIT);
+        return builder.toString();
+    }
+
     @Override
     public List<Computer> findSeveral(PageRequest pageRequest) {
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
-            String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn().getSqlColumn(),
-                    pageRequest.isAscendent() ? "ASC" : "DESC");
+            String query = createSeveralQuery(pageRequest);
             try (PreparedStatement stmt = connect.prepareStatement(query)) {
-                stmt.setString(1, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
-                stmt.setString(2, "%" + ((pageRequest.getSearch() != null) ? pageRequest.getSearch() : "") + "%");
-                stmt.setInt(3, pageRequest.getPageSize());
-                stmt.setInt(4, pageRequest.getPageNumber() * pageRequest.getPageSize());
+                int index = 1;
+                String searchFormat = pageRequest.getSearch();
+                if (searchFormat != null) {
+                    String search = searchFormat + "%";
+                    stmt.setString(index++, search);
+                    stmt.setString(index++, search);
+                }
+                stmt.setInt(index++, pageRequest.getPageSize());
+                stmt.setInt(index, pageRequest.getPageNumber() * pageRequest.getPageSize());
                 ResultSet results = stmt.executeQuery();
                 ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
                 while (results.next()) {

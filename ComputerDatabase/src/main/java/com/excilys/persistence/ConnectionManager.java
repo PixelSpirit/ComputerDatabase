@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
@@ -18,14 +19,20 @@ public enum ConnectionManager {
 
     private static final String PROPERTY_FILE = "db.properties";
     private static final Properties PROPS = new Properties();
-    private static final HikariDataSource DS = new HikariDataSource();
-    private ThreadLocal<Connection> localConnection = new ThreadLocal();
+    private static HikariDataSource ds = null;
+    private ThreadLocal<Connection> localConnection = new ThreadLocal<Connection>();
     private Logger logger = LoggerFactory.getLogger(ConnectionManager.class);
 
     static {
         try {
             PROPS.load(ConnectionManager.class.getClassLoader().getResourceAsStream(PROPERTY_FILE));
             Class.forName(PROPS.getProperty("DB_DRIVER"));
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(PROPS.getProperty("DB_URL"));
+            config.setUsername(PROPS.getProperty("DB_USERNAME"));
+            config.setPassword(PROPS.getProperty("DB_PASSWORD"));
+            config.setMaximumPoolSize(300);
+            ds = new HikariDataSource(config);
         } catch (ClassNotFoundException e) {
             throw new ConnectionException();
         } catch (IOException e) {
@@ -41,10 +48,7 @@ public enum ConnectionManager {
      */
     private Connection getFromDB() {
         try {
-            DS.setJdbcUrl(PROPS.getProperty("DB_URL"));
-            DS.setUsername(PROPS.getProperty("DB_USERNAME"));
-            DS.setPassword(PROPS.getProperty("DB_PASSWORD"));
-            return DS.getConnection();
+            return ds.getConnection();
         } catch (SQLException | SecurityException e) {
             logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
             throw new ConnectionException(e);

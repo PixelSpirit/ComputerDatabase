@@ -16,6 +16,7 @@ import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.model.OrderBy;
+import com.excilys.model.OrderDirection;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.service.ComputerService;
@@ -69,7 +70,7 @@ public class ComputersServlet extends HttpServlet {
         if (search != null) {
             return search;
         } else {
-            return "";
+            return null;
         }
     }
 
@@ -86,19 +87,26 @@ public class ComputersServlet extends HttpServlet {
             case "companyName":
                 return OrderBy.COMPANY_NAME;
             default:
-                return OrderBy.DEFAULT;
+                return null;
             }
         } else {
-            return OrderBy.DEFAULT;
+            return null;
         }
     }
 
-    private boolean isAscendent(HttpServletRequest request) {
-        String param = request.getParameter("isAscendent");
+    private OrderDirection getDirection(HttpServletRequest request) {
+        String param = request.getParameter("direction");
         if (param != null) {
-            return param.equals("true");
+            switch (param) {
+            case "asc":
+                return OrderDirection.ASC;
+            case "desc":
+                return OrderDirection.DESC;
+            default:
+                return null;
+            }
         } else {
-            return true;
+            return null;
         }
     }
 
@@ -115,16 +123,22 @@ public class ComputersServlet extends HttpServlet {
         int pageSize = getPageSize(request);
         String search = getSearch(request);
         OrderBy orderBy = getOrderBy(request);
-        boolean isAscendent = isAscendent(request);
-        PageRequest pr = new PageRequest(pageNumber, pageSize, search, orderBy, isAscendent);
+        OrderDirection direction = getDirection(request);
+        PageRequest pr = new PageRequest(pageNumber, pageSize, search, orderBy, direction);
         Page<DTOComputer> page = fromComputers(computerService.findPage(pr));
         long computerNumbers = computerService.count(pr);
 
-        request.setAttribute("search", search);
-        request.setAttribute("orderby", orderBy.getHttpValue());
-        request.setAttribute("isAscendent", isAscendent);
         request.setAttribute("page", page);
         request.setAttribute("computerNumber", computerNumbers);
+        if (search != null) {
+            request.setAttribute("search", search);
+        }
+        if (orderBy != null) {
+            request.setAttribute("orderby", orderBy.getHttpValue());
+        }
+        if (direction != null) {
+            request.setAttribute("direction", direction);
+        }
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/computers/computers.jsp").forward(request,
                 response);

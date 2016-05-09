@@ -2,7 +2,7 @@ package com.excilys.model;
 
 public enum OrderBy {
 
-    DEFAULT("cptr.name", "name"), NAME("cptr.name", "name"), INTRODUCED("cptr.introduced",
+    DEFAULT("", ""), NAME("cptr.name", "name"), INTRODUCED("cptr.introduced",
             "introduced"), DISCONTINUED("cptr.discontinued", "discontinued"), COMPANY_NAME("cpn.name", "companyName");
 
     private String sqlColumn;

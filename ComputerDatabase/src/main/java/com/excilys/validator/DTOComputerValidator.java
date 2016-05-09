@@ -27,7 +27,6 @@ public class DTOComputerValidator {
         } else {
             throw new ValidatorException();
         }
-
     }
 
     private static boolean isNameValid(String name) {

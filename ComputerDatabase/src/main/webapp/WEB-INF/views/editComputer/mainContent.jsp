@@ -3,11 +3,11 @@
 <section id="main">
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-8 col-xs-offset-2 box">
+			<div class="col-xs-8 col-xs-offset-2 box" >
 				<h1>Edit Computer</h1>
 				<form action="http://localhost:8080/cdb/computer-edit" method="POST">
 					<fieldset>
-						<input type="hidden" name="id" value="${requestScope.computerToEdit.id}">
+						<input type="hidden" name="id" id="id" value="${requestScope.computerToEdit.id}">
 						<div class="form-group">
 							<label for="computerName">Computer name</label>
 							<input type="text" class="form-control" id="computerName"

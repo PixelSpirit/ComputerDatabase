@@ -17,11 +17,12 @@
 			<th><m:link target="computers"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
-					orderby="name" isAscendent="${(requestScope.orderby eq 'name' and requestScope.isAscendent eq true) ? false : true}">
+					orderby="name"
+					direction="${(requestScope.orderby eq 'name' and requestScope.direction eq true) ? false : true}">
 					<!--  TODO : Create a tag to factorize code -->
 					<c:if test="${requestScope.orderby eq 'name'}">
 						<c:choose>
-							<c:when test="${requestScope.isAscendent eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -30,10 +31,11 @@
 			<th><m:link target="computers"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
-					orderby="introduced" isAscendent="${(requestScope.orderby eq 'introduced' and requestScope.isAscendent eq true) ? false : true}">
+					orderby="introduced"
+					direction="${(requestScope.orderby eq 'introduced' and requestScope.direction eq true) ? false : true}">
 					<c:if test="${requestScope.orderby eq 'introduced'}">
 						<c:choose>
-							<c:when test="${requestScope.isAscendent eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -42,10 +44,11 @@
 			<th><m:link target="computers"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
-					orderby="discontinued" isAscendent="${(requestScope.orderby eq 'discontinued' and requestScope.isAscendent eq true) ? false : true}">
+					orderby="discontinued"
+					direction="${(requestScope.orderby eq 'discontinued' and requestScope.direction eq true) ? false : true}">
 					<c:if test="${requestScope.orderby eq 'discontinued'}">
 						<c:choose>
-							<c:when test="${requestScope.isAscendent eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -54,10 +57,11 @@
 			<th><m:link target="computers"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
-					orderby="companyName" isAscendent="${(requestScope.orderby eq 'companyName' and requestScope.isAscendent eq true) ? false : true}">
+					orderby="companyName"
+					direction="${(requestScope.orderby eq 'companyName' and requestScope.direction eq true) ? false : true}">
 					<c:if test="${requestScope.orderby eq 'companyName'}">
 						<c:choose>
-							<c:when test="${requestScope.isAscendent eq true}"> &dtrif;</c:when>
+							<c:when test="${requestScope.direction eq true}"> &dtrif;</c:when>
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -71,8 +75,11 @@
 		<c:forEach var="computerDTO" items="${requestScope.page.content}">
 			<tr>
 				<td class="editMode"><input type="checkbox" name="cb"
-					class="cb" value="${computerDTO.id}"></td>
-				<td><m:link target="computer-edit" edit="${computerDTO.id}">${computerDTO.name}</m:link></td>
+					class="cb" value="${computerDTO.id}" id="${computerDTO.name}_id">
+				</td>
+				<td><a
+					href="http://localhost:8080/cdb/computer-edit?edit=${computerDTO.id}"
+					id="${computerDTO.name}_name">${computerDTO.name}</a></td>
 				<td>${computerDTO.introduced}</td>
 				<td>${computerDTO.discontinued}</td>
 				<td>${computerDTO.companyName}</td>
