@@ -18,6 +18,7 @@ Servers
 RemoteSystemsTempFiles
 ComputerDatabase/build
 ComputerDatabase/target
+ComputerDatabase/spec-db
 
 # Eclipse Core
 .project
