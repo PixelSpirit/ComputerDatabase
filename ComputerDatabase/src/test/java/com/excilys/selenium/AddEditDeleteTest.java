@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -22,14 +23,14 @@ public class AddEditDeleteTest {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
-    @Before
+    @Ignore
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://localhost:8080/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @Test
+    @Ignore
     public void testAddEditDelete() throws Exception {
         driver.get(baseUrl + "/cdb/computers");
         driver.findElement(By.id("addComputer")).click();
@@ -67,7 +68,7 @@ public class AddEditDeleteTest {
                 closeAlertAndGetItsText().matches("^Are you sure you want to delete the selected computers[\\s\\S]$"));
     }
 
-    @After
+    @Ignore
     public void tearDown() throws Exception {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
