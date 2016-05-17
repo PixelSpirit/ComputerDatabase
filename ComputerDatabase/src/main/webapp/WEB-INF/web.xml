@@ -54,9 +54,9 @@
 	</error-page>
 	
 	<!-- Other Uncaught exception -->
-	<error-page>
-		<error-code>500</error-code>
-		<location>/WEB-INF/views/errors/500.jsp</location>
-	</error-page>
+<!-- 	<error-page> -->
+<!-- 		<error-code>500</error-code> -->
+<!-- 		<location>/WEB-INF/views/errors/500.jsp</location> -->
+<!-- 	</error-page> -->
 
 </web-app>
