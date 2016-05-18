@@ -64,6 +64,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company find(long id) {
+        logger.debug("<CompanyDAO> running find() with id = " + id);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
@@ -87,6 +88,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public List<Company> findAll() {
+        logger.debug("<CompanyDAO> running findAll()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
@@ -108,6 +110,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public List<Company> findSeveral(PageRequest pageRequest) {
+        logger.debug("<CompanyDAO> running findSeveral()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             // TODO : Update to match the new Query
@@ -135,6 +138,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public void remove(long id) {
+        logger.debug("<CompanyDAO> running remove() with id = " + id);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
@@ -152,6 +156,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company insert(Company entity) {
+        logger.debug("<CompanyDAO> running insert() with " + entity);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -175,6 +180,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public Company update(long id, Company updateValue) {
+        logger.debug("<CompanyDAO> running update() with id = " + id + " and updateValue = " + updateValue);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -195,6 +201,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public long count() {
+        logger.debug("<CompanyDAO> running count()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
@@ -216,6 +223,8 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     @Override
     public long count(PageRequest pageRequest) {
+        // TODO : Remove if useless
+        logger.debug("<CompanyDAO> running count() with pageRequest");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             return 0;

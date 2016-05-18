@@ -75,6 +75,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public Computer find(long id) {
+        logger.debug("<ComptuerDAO> running find() with id = " + id);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
@@ -97,6 +98,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public List<Computer> findAll() {
+        logger.debug("<ComputerDAO> running findAll()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
@@ -117,6 +119,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     public String createSeveralQuery(PageRequest pageRequest) {
+        logger.debug("<ComputerDAO> running createSeveralQuery()");
         StringBuilder builder = new StringBuilder(FIND_ALL_QUERY);
         if (pageRequest.getSearch() != null) {
             builder.append(" ").append(LIKE);
@@ -132,6 +135,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public List<Computer> findSeveral(PageRequest pageRequest) {
+        logger.debug("<ComputerDAO> running findSeveral()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             String query = createSeveralQuery(pageRequest);
@@ -163,6 +167,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public void remove(long id) {
+        logger.debug("<ComputerDAO> running remove() with id = " + id);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(DELETE_QUERY)) {
@@ -179,6 +184,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     }
 
     public void removeCompanyId(long companyId) {
+        logger.debug("<ComputerDAO> running removeCompanyId() with companyId = " + companyId);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(DELETE_COMPANY_ID_QUERY)) {
@@ -196,6 +202,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public Computer insert(Computer entity) {
+        logger.debug("<ComputerDAO> running insert() with computer = " + entity);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -219,6 +226,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public Computer update(long id, Computer updateValue) {
+        logger.debug("<ComputerDAO> running update() with id = " + id + " and updateValue = " + updateValue);
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -239,6 +247,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public long count() {
+        logger.debug("<ComputerDAO> running count()");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
@@ -260,6 +269,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     @Override
     public long count(PageRequest pageRequest) {
+        logger.debug("<ComputerDAO> running count() with pageRequest");
         Connection connect = ConnectionManager.INSTANCE.getConnection();
         if (connect != null) {
             String like = "cptr.name";
