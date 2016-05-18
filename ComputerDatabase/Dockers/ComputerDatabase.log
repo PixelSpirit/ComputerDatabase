@@ -1,0 +1,41 @@
+2016-05-17 14:33:59,303 INFO [http-nio-8080-exec-3] (ComputersServlet.java:150) [doGet] received
+2016-05-17 14:33:59,315 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:838) HikariPool-1 - configuration:
+2016-05-17 14:33:59,320 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) allowPoolSuspension.............false
+2016-05-17 14:33:59,320 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) autoCommit......................true
+2016-05-17 14:33:59,320 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) catalog.........................null
+2016-05-17 14:33:59,320 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) connectionInitSql...............null
+2016-05-17 14:33:59,320 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) connectionTestQuery.............null
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) connectionTimeout...............30000
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) dataSource......................null
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) dataSourceClassName.............null
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) dataSourceJNDI..................null
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) dataSourceProperties............{password=<masked>}
+2016-05-17 14:33:59,321 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) driverClassName.................null
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) healthCheckProperties...........{}
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) healthCheckRegistry.............null
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) idleTimeout.....................600000
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) initializationFailFast..........true
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) isolateInternalQueries..........false
+2016-05-17 14:33:59,322 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) jdbc4ConnectionTest.............false
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) jdbcUrl........................."jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull"
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) leakDetectionThreshold..........0
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) maxLifetime.....................1800000
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) maximumPoolSize.................300
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) metricRegistry..................null
+2016-05-17 14:33:59,323 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) metricsTrackerFactory...........null
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) minimumIdle.....................300
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) password........................<masked>
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) poolName........................"HikariPool-1"
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) readOnly........................false
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) registerMbeans..................false
+2016-05-17 14:33:59,324 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) scheduledExecutorService........null
+2016-05-17 14:33:59,325 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) threadFactory...................null
+2016-05-17 14:33:59,325 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) transactionIsolation............null
+2016-05-17 14:33:59,325 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) username........................"admincdb"
+2016-05-17 14:33:59,325 DEBUG [http-nio-8080-exec-3] (HikariConfig.java:854) validationTimeout...............5000
+2016-05-17 14:33:59,326 INFO [http-nio-8080-exec-3] (HikariDataSource.java:70) HikariPool-1 - Started.
+2016-05-17 14:33:59,648 DEBUG [HikariPool-1 connection adder] (HikariPool.java:454) HikariPool-1 - Added connection com.mysql.jdbc.JDBC4Connection@7d61b343
+2016-05-17 14:36:24,581 INFO [http-nio-8080-exec-2] (ComputersServlet.java:150) [doGet] received
+2016-05-17 14:41:48,945 INFO [http-nio-8080-exec-5] (ComputersServlet.java:150) [doGet] received
+2016-05-17 14:41:51,989 INFO [http-nio-8080-exec-4] (ComputersServlet.java:150) [doGet] received
+2016-05-17 15:03:53,994 DEBUG [HikariPool-1 connection closer] (PoolBase.java:110) HikariPool-1 - Closing connection com.mysql.jdbc.JDBC4Connection@7d61b343: (connection has passed maxLifetime)

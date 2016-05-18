@@ -1,2 +1,3 @@
-docker rm -f testjenkins testdind
-docker network rm network1
+docker rm -f jenkins testmaven testmysql prodmysql prodtomcat
+docker network rm testnetwork
+docker network rm prodnetwork
