@@ -51,6 +51,7 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("<AddComputerServlet> [doGet] received");
         saveAllCompanies(request);
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer/addComputer.jsp").forward(request,
                 response);
@@ -85,7 +86,7 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[doPost] received");
+        logger.info("<AddComputerServlet> [doPost] received");
         insertComputer(request);
         response.sendRedirect("/cdb/computers");
     }

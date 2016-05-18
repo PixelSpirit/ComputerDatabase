@@ -147,7 +147,7 @@ public class ComputersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[doGet] received");
+        logger.info("<ComputersServlet> [doGet] received");
         runPage(request, response);
     }
 
@@ -166,7 +166,7 @@ public class ComputersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[doPost] received");
+        logger.info("<ComputersServlet> [doPost] received");
         removeComputers(request);
         runPage(request, response);
     }

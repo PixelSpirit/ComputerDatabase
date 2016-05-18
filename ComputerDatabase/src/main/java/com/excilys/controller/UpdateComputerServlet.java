@@ -63,6 +63,7 @@ public class UpdateComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("<UpdateComputerServlet> [doGet] received");
         saveAllCompanies(request);
         saveEditableComputer(request);
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer/editComputer.jsp").forward(request,
@@ -99,7 +100,7 @@ public class UpdateComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[doPost] received");
+        logger.info("<UpdateComputerServlet> [doPost] received");
         updateComputer(request);
         response.sendRedirect("/cdb/computers");
     }
