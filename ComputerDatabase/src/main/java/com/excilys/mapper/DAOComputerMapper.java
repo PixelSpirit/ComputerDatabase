@@ -7,9 +7,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
+@Component
 public class DAOComputerMapper implements DAOMappable<Computer> {
 
     private static final String ID = "cptr.id";
@@ -18,31 +21,6 @@ public class DAOComputerMapper implements DAOMappable<Computer> {
     private static final String DISCONTINUED = "cptr.discontinued";
     private static final String COMPANY_ID = "cpn.id";
     private static final String COMPANY_NAME = "cpn.name";
-
-    /* Singleton */
-
-    private static DAOComputerMapper instance = null;
-
-    /**
-     * Constructs a ComputerMapper.
-     */
-    private DAOComputerMapper() {
-        super();
-    }
-
-    /**
-     * @return The unique instance of a ComputerMapper.
-     */
-    public static DAOComputerMapper getInstance() {
-        if (instance == null) {
-            synchronized (DAOComputerMapper.class) {
-                if (instance == null) {
-                    instance = new DAOComputerMapper();
-                }
-            }
-        }
-        return instance;
-    }
 
     /* Mapper */
 

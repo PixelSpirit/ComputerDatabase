@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.DTOCompany;
 import com.excilys.dto.DTOComputer;
@@ -28,10 +31,19 @@ import com.excilys.validator.DTOComputerValidator;
 public class UpdateComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private ComputerService computerService = new ComputerService();
-    private CompanyService companyService = new CompanyService();
+    @Autowired
+    private ComputerService computerService;
+
+    @Autowired
+    private CompanyService companyService;
 
     private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
 
     /**
      * Saves all DTOCompanies reachable from services into the request context.

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.DTOComputer;
 import com.excilys.mapper.DTOComputerMapper;
@@ -27,9 +30,16 @@ import com.excilys.service.ComputerService;
 public class ComputersServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private ComputerService computerService = new ComputerService();
+    @Autowired
+    private ComputerService computerService;
 
     private Logger logger = LoggerFactory.getLogger(ComputersServlet.class);
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
 
     /**
      * Converts a Computer Page to a DTOComputer Page.

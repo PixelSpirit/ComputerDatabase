@@ -4,37 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.model.Company;
 
+@Component
 public class DAOCompanyMapper implements DAOMappable<Company> {
 
     private static final String ID = "id";
     private static final String NAME = "name";
-
-    /* Singleton */
-
-    private static DAOCompanyMapper instance = null;
-
-    /**
-     * Constructs a CompanyMapper.
-     */
-    private DAOCompanyMapper() {
-        super();
-    }
-
-    /**
-     * @return The unique instance of a CompanyMapper.
-     */
-    public static DAOCompanyMapper getInstance() {
-        if (instance == null) {
-            synchronized (DAOCompanyMapper.class) {
-                if (instance == null) {
-                    instance = new DAOCompanyMapper();
-                }
-            }
-        }
-        return instance;
-    }
 
     /* Mapper */
 

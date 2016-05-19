@@ -2,18 +2,20 @@ package com.excilys.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.excilys.model.PageRequest;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.ConnectionManager;
 
-public class ComputerService extends AbstractService<Computer> {
+@Service
+public class ComputerService {
 
-    /**
-     * The access to comapanie's DAO.
-     */
-    ComputerDAO dao = ComputerDAO.getInstance();
+    @Autowired
+    ComputerDAO dao;
 
     /**
      * Constructs a SimpleServices.
@@ -24,7 +26,6 @@ public class ComputerService extends AbstractService<Computer> {
 
     /* AbstractService */
 
-    @Override
     public Computer find(long id) {
         ConnectionManager.INSTANCE.initConnection();
         Computer res = dao.find(id);
@@ -32,7 +33,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public List<Computer> findAll() {
         ConnectionManager.INSTANCE.initConnection();
         List<Computer> res = dao.findAll();
@@ -40,7 +40,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public Page<Computer> findPage(PageRequest pageRequest) {
         ConnectionManager.INSTANCE.initConnection();
         int number = pageRequest.getPageNumber();
@@ -51,7 +50,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public Computer insert(Computer entity) {
         ConnectionManager.INSTANCE.initConnection();
         Computer res = dao.insert(entity);
@@ -59,7 +57,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public Computer update(long id, Computer updateValue) {
         ConnectionManager.INSTANCE.initConnection();
         Computer res = dao.update(id, updateValue);
@@ -67,7 +64,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public long count() {
         ConnectionManager.INSTANCE.initConnection();
         long res = dao.count();
@@ -75,7 +71,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public long count(PageRequest request) {
         ConnectionManager.INSTANCE.initConnection();
         long res = dao.count(request);
@@ -83,7 +78,6 @@ public class ComputerService extends AbstractService<Computer> {
         return res;
     }
 
-    @Override
     public void remove(long id) {
         ConnectionManager.INSTANCE.initConnection();
         dao.remove(id);

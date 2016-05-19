@@ -10,11 +10,14 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.DAOCompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.model.PageRequest;
 
+@Repository
 public class CompanyDAO extends AbstractDAO<Company> {
 
     private static final String FIND_QUERY = "SELECT id, name FROM company WHERE id=?";
@@ -33,32 +36,8 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
     private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-    private DAOCompanyMapper mapper = DAOCompanyMapper.getInstance();
-
-    /* Singleton */
-
-    private static CompanyDAO instance = null;
-
-    /**
-     * Constrcuts a CompanyDAO.
-     */
-    private CompanyDAO() {
-        super();
-    }
-
-    /**
-     * @return The unique instance of a CompanyDAO.
-     */
-    public static CompanyDAO getInstance() {
-        if (instance == null) {
-            synchronized (CompanyDAO.class) {
-                if (instance == null) {
-                    instance = new CompanyDAO();
-                }
-            }
-        }
-        return instance;
-    }
+    @Autowired
+    private DAOCompanyMapper mapper;
 
     /* DAO Functionalities */
 

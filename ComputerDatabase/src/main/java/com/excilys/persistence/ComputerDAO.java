@@ -10,11 +10,14 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.DAOComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.model.PageRequest;
 
+@Repository
 public class ComputerDAO extends AbstractDAO<Computer> {
 
     private static final String FIND_QUERY = "SELECT cptr.id, cptr.name, cptr.introduced, cptr.discontinued, cpn.id, cpn.name "
@@ -44,34 +47,8 @@ public class ComputerDAO extends AbstractDAO<Computer> {
 
     private Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-    private DAOComputerMapper mapper = DAOComputerMapper.getInstance();
-
-    /* Singleton */
-
-    private static ComputerDAO instance = null;
-
-    /**
-     * Constructs a ComputerDAO.
-     */
-    private ComputerDAO() {
-        super();
-    }
-
-    /**
-     * @return The unique instance of a ComputerDAO.
-     */
-    public static ComputerDAO getInstance() {
-        if (instance == null) {
-            synchronized (ComputerDAO.class) {
-                if (instance == null) {
-                    instance = new ComputerDAO();
-                }
-            }
-        }
-        return instance;
-    }
-
-    /* DAO Functionalities */
+    @Autowired
+    private DAOComputerMapper mapper;
 
     @Override
     public Computer find(long id) {
