@@ -21,13 +21,6 @@ public class ComputerService {
     @Autowired
     ComputerDAO dao;
 
-    /**
-     * Constructs a SimpleServices.
-     * @param dao The dao that links the services with the database
-     */
-    public ComputerService() {
-    }
-
     /* AbstractService */
 
     @Transactional

@@ -27,6 +27,14 @@ public class Computer {
         this.company = null;
     }
 
+    public Computer(Computer cpt) {
+        this.id = cpt.id;
+        this.name = cpt.name;
+        this.introduced = cpt.introduced;
+        this.discontinued = cpt.discontinued;
+        this.company = cpt.company;
+    }
+
     /**
      * Constructs a Computer from a new Builder.
      * @param builder The Computer builder configuration

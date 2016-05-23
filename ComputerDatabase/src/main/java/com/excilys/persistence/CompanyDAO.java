@@ -3,14 +3,18 @@ package com.excilys.persistence;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.DAOCompanyMapper;
@@ -40,180 +44,101 @@ public class CompanyDAO extends AbstractDAO<Company> {
     private DAOCompanyMapper mapper;
 
     @Autowired
-    private ConnectionManager connectionManager;
+    @Qualifier("dataSource")
+    private DataSource datasource;
 
     /* DAO Functionalities */
 
     @Override
     public Company find(long id) {
         logger.debug("<CompanyDAO> running find() with id = " + id);
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
-                stmt.setLong(1, id);
-                logger.info("<SQL Query> Selecting company where id = " + id);
-                ResultSet result = stmt.executeQuery();
-                if (result.first()) {
-                    return mapper.unmap(result);
-                } else {
-                    throw new NotFoundException();
-                }
-            } catch (SQLException e) {
-                logger.error("[Catch] <SQLException> " + e.getMessage());
-                throw new DAOException(e);
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        Object[] args = { id };
+        return template.queryForObject(FIND_QUERY, args, (ResultSet result, int rowNum) -> {
+            if (result.first()) {
+                return mapper.unmap(result);
+            } else {
+                throw new NotFoundException();
             }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+        });
     }
 
     @Override
     public List<Company> findAll() {
         logger.debug("<CompanyDAO> running findAll()");
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
-                ResultSet results = stmt.executeQuery();
-                ArrayList<Company> companies = new ArrayList<>();
-                while (results.next()) {
-                    companies.add(mapper.unmap(results));
-                }
-                return companies;
-            } catch (SQLException e) {
-                logger.error("[Catch] <SQLException> " + e.getMessage());
-                throw new DAOException(e);
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        return template.queryForObject(FIND_ALL_QUERY, (ResultSet results, int rowNum) -> {
+            ArrayList<Company> companies = new ArrayList<>();
+            while (results.next()) {
+                companies.add(mapper.unmap(results));
             }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+            return companies;
+        });
     }
 
     @Override
     public List<Company> findSeveral(PageRequest pageRequest) {
         logger.debug("<CompanyDAO> running findSeveral()");
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            // TODO : Update to match the new Query
-            String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
-                    pageRequest.getDirection());
-            try (PreparedStatement stmt = connect.prepareStatement(query)) {
-                stmt.setInt(1, pageRequest.getPageNumber());
-                stmt.setInt(2, pageRequest.getPageSize());
-                ResultSet results = stmt.executeQuery();
-                ArrayList<Company> companies = new ArrayList<>(pageRequest.getPageNumber());
-                while (results.next()) {
-                    companies.add(mapper.unmap(results));
-                }
-                return companies;
-            } catch (SQLException e) {
-                logger.error("[Catch] <SQLException> " + e.getMessage());
-                throw new DAOException(e);
+        String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(), pageRequest.getDirection());
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        return template.queryForObject(query, (ResultSet results, int rowNum) -> {
+            ArrayList<Company> companies = new ArrayList<>();
+            while (results.next()) {
+                companies.add(mapper.unmap(results));
             }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
-
+            return companies;
+        });
     }
 
     @Override
     public void remove(long id) {
         logger.debug("<CompanyDAO> running remove() with id = " + id);
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
-                removeCpn.setLong(1, id);
-                removeCpn.executeUpdate();
-            } catch (SQLException e) {
-                logger.error("[Catch] <SQLException> " + e.getMessage());
-                throw new DAOException(e);
-            }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        template.update(DELETE_COMPANY_QUERY, id);
     }
 
     @Override
     public Company insert(Company entity) {
         logger.debug("<CompanyDAO> running insert() with " + entity);
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-                mapper.map(entity, stmt);
-                stmt.executeUpdate();
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.first()) {
-                    return find(rs.getLong(1));
-                } else {
-                    throw new DAOException("Insertion failed");
-                }
-            } catch (SQLException | NotFoundException e) {
-                logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-                throw new DAOException(e);
-            }
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        int affectedRows = template.update((Connection con) -> {
+            PreparedStatement stmt = con.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
+            mapper.map(entity, stmt);
+            return stmt;
+        } , generatedKeyHolder);
+        if (affectedRows != 0) {
+            throw new DAOException("Insertion failed");
         } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
+            return new Company(generatedKeyHolder.getKey().longValue(), entity.getName());
         }
     }
 
     @Override
     public Company update(long id, Company updateValue) {
         logger.debug("<CompanyDAO> running update() with id = " + id + " and updateValue = " + updateValue);
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-                mapper.map(updateValue, stmt);
-                stmt.setLong(2, id);
-                stmt.executeUpdate();
-                updateValue.setId(id);
-                return updateValue;
-            } catch (SQLException e) {
-                logger.error("[Catch] <" + e.getClass().getSimpleName() + "> " + e.getMessage());
-                throw new DAOException(e);
-            }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        template.update(UPDATE_QUERY, updateValue.getName(), id);
+        return new Company(id, updateValue.getName());
     }
 
     @Override
     public long count() {
         logger.debug("<CompanyDAO> running count()");
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            try (PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
-                ResultSet results = stmt.executeQuery();
-                if (results.first()) {
-                    return results.getLong(1);
-                } else {
-                    throw new DAOException("No count result");
-                }
-            } catch (SQLException e) {
-                logger.error("[Catch] <SQLException> " + e.getMessage());
-                throw new DAOException(e);
+        JdbcTemplate template = new JdbcTemplate(datasource);
+        return template.queryForObject(COUNT_QUERY, (ResultSet results, int rowNum) -> {
+            if (results.first()) {
+                return results.getLong(1);
+            } else {
+                throw new DAOException("No count result");
             }
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+        });
     }
 
     @Override
     public long count(PageRequest pageRequest) {
-        // TODO : Remove if useless
-        logger.debug("<CompanyDAO> running count() with pageRequest");
-        Connection connect = connectionManager.getConnection();
-        if (connect != null) {
-            return 0;
-        } else {
-            logger.error("Connection was not initialized");
-            throw new DAOException("Connection was not initialized");
-        }
+        // TODO : Not used yet
+        return 0;
     }
 
 }
