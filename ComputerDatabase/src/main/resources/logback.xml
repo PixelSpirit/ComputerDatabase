@@ -2,7 +2,7 @@
 <!DOCTYPE configuration>
 <configuration>
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>ComputerDatabase.log</file>
+		<file>${USER_HOME}/workspace/ComputerDatabase/ComputerDatabase/ComputerDatabase.log</file>
 
 		<encoder>
 			<pattern>%date %level [%thread] \(%file:%line\) %msg%n</pattern>
