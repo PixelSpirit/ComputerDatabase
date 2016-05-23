@@ -39,12 +39,15 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Autowired
     private DAOCompanyMapper mapper;
 
+    @Autowired
+    private ConnectionManager connectionManager;
+
     /* DAO Functionalities */
 
     @Override
     public Company find(long id) {
         logger.debug("<CompanyDAO> running find() with id = " + id);
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_QUERY)) {
                 stmt.setLong(1, id);
@@ -68,7 +71,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public List<Company> findAll() {
         logger.debug("<CompanyDAO> running findAll()");
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(FIND_ALL_QUERY)) {
                 ResultSet results = stmt.executeQuery();
@@ -90,7 +93,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public List<Company> findSeveral(PageRequest pageRequest) {
         logger.debug("<CompanyDAO> running findSeveral()");
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             // TODO : Update to match the new Query
             String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(),
@@ -118,7 +121,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public void remove(long id) {
         logger.debug("<CompanyDAO> running remove() with id = " + id);
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement removeCpn = connect.prepareStatement(DELETE_COMPANY_QUERY)) {
                 removeCpn.setLong(1, id);
@@ -136,7 +139,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public Company insert(Company entity) {
         logger.debug("<CompanyDAO> running insert() with " + entity);
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
                 mapper.map(entity, stmt);
@@ -160,7 +163,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public Company update(long id, Company updateValue) {
         logger.debug("<CompanyDAO> running update() with id = " + id + " and updateValue = " + updateValue);
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(UPDATE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
                 mapper.map(updateValue, stmt);
@@ -181,7 +184,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     @Override
     public long count() {
         logger.debug("<CompanyDAO> running count()");
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             try (PreparedStatement stmt = connect.prepareStatement(COUNT_QUERY)) {
                 ResultSet results = stmt.executeQuery();
@@ -204,7 +207,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
     public long count(PageRequest pageRequest) {
         // TODO : Remove if useless
         logger.debug("<CompanyDAO> running count() with pageRequest");
-        Connection connect = ConnectionManager.INSTANCE.getConnection();
+        Connection connect = connectionManager.getConnection();
         if (connect != null) {
             return 0;
         } else {

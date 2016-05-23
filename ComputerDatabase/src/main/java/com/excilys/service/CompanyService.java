@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.model.Company;
 import com.excilys.model.Page;
@@ -11,10 +12,12 @@ import com.excilys.model.PageRequest;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.ConnectionManager;
-import com.excilys.persistence.DAOException;
 
 @Service
 public class CompanyService {
+
+    @Autowired
+    ConnectionManager connectionManager;
 
     @Autowired
     CompanyDAO cpnDao;
@@ -29,70 +32,47 @@ public class CompanyService {
     public CompanyService() {
     }
 
-    /* AbstractService */
-
+    @Transactional
     public Company find(long id) {
-        ConnectionManager.INSTANCE.initConnection();
-        Company res = cpnDao.find(id);
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.find(id);
     }
 
+    @Transactional
     public List<Company> findAll() {
-        ConnectionManager.INSTANCE.initConnection();
-        List<Company> res = cpnDao.findAll();
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.findAll();
     }
 
+    @Transactional
     public Page<Company> findPage(PageRequest pageRequest) {
-        ConnectionManager.INSTANCE.initConnection();
         int number = pageRequest.getPageNumber();
         int size = pageRequest.getPageSize();
-        Page<Company> res = new Page<>(number, (int) cpnDao.count(pageRequest) / size, size,
-                cpnDao.findSeveral(pageRequest));
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return new Page<>(number, (int) cpnDao.count(pageRequest) / size, size, cpnDao.findSeveral(pageRequest));
     }
 
+    @Transactional
     public Company insert(Company entity) {
-        ConnectionManager.INSTANCE.initConnection();
-        Company res = cpnDao.insert(entity);
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.insert(entity);
     }
 
+    @Transactional
     public Company update(long id, Company updateValue) {
-        ConnectionManager.INSTANCE.initConnection();
-        Company res = cpnDao.update(id, updateValue);
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.update(id, updateValue);
     }
 
+    @Transactional
     public long count() {
-        ConnectionManager.INSTANCE.initConnection();
-        long res = cpnDao.count();
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.count();
     }
 
+    @Transactional
     public long count(PageRequest request) {
-        ConnectionManager.INSTANCE.initConnection();
-        long res = cpnDao.count(request);
-        ConnectionManager.INSTANCE.closeConnection();
-        return res;
+        return cpnDao.count(request);
     }
 
+    @Transactional
     public void remove(long id) {
-        ConnectionManager.INSTANCE.initTransaction();
-        try {
-            cptDao.removeCompanyId(id);
-            cpnDao.remove(id);
-            ConnectionManager.INSTANCE.commit();
-        } catch (DAOException e) {
-            ConnectionManager.INSTANCE.rollBack();
-        }
-        ConnectionManager.INSTANCE.closeConnection();
+        cptDao.removeCompanyId(id);
+        cpnDao.remove(id);
     }
 
 }

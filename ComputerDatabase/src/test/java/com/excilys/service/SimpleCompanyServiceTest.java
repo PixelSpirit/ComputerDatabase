@@ -7,14 +7,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.model.Company;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class SimpleCompanyServiceTest {
 
-    private static CompanyService service;
+    @Autowired
+    private CompanyService service;
+
     private static Company cpt;
+
     private static Long id;
 
     public static void compareCompanies(Company c1, Company c2) {
@@ -23,7 +32,6 @@ public class SimpleCompanyServiceTest {
 
     @BeforeClass
     public static void initComputer() {
-        service = new CompanyService();
         cpt = Mockito.mock(Company.class);
         when(cpt.getName()).thenReturn("Compuraptor");
         id = null;

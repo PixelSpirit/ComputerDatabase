@@ -140,11 +140,35 @@
 			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
 
-		<!-- Spring -->
+		<!-- SPRING -->
+		
+		<!-- Spring on WebApp -->
 		<dependency>
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-web</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Enable transactional annotations -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-tx</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Enable JDBC Transaction with Spring -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-jdbc</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Use JUnit with Spring -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-test</artifactId>
     		<version>${spring.version}</version>
 		</dependency>
 

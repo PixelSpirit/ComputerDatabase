@@ -9,18 +9,27 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.model.Computer;
 import com.excilys.persistence.NotFoundException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class SimpleComputerServiceTest {
 
-    private static ComputerService service;
+    @Autowired
+    private ComputerService service;
+
     private static Computer cpt;
+
     private static Long id;
 
-    public static void compareComputers(Computer c1, Computer c2) {
+    public void compareComputers(Computer c1, Computer c2) {
         assertEquals(c1.getName(), c2.getName());
         assertEquals(c1.getIntroduced(), c2.getIntroduced());
         assertEquals(c1.getDiscontinued(), c2.getDiscontinued());
@@ -29,7 +38,6 @@ public class SimpleComputerServiceTest {
 
     @BeforeClass
     public static void initComputer() {
-        service = new ComputerService();
         cpt = Mockito.mock(Computer.class);
         when(cpt.getName()).thenReturn("Compuraptor");
         when(cpt.getCompany()).thenReturn(null);
