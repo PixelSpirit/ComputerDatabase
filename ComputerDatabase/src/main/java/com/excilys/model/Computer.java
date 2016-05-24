@@ -28,11 +28,15 @@ public class Computer {
     }
 
     public Computer(Computer cpt) {
-        this.id = cpt.id;
+        this.id = (cpt.id != null) ? new Long(cpt.id) : null;
         this.name = cpt.name;
-        this.introduced = cpt.introduced;
-        this.discontinued = cpt.discontinued;
-        this.company = cpt.company;
+        this.introduced = (cpt.introduced != null) ? LocalDate.from(cpt.introduced) : null;
+        this.discontinued = (cpt.discontinued != null) ? LocalDate.from(cpt.discontinued) : null;
+        if (cpt.company != null) {
+            this.company = new Company(cpt.company.getId(), cpt.company.getName());
+        } else {
+            this.company = null;
+        }
     }
 
     /**

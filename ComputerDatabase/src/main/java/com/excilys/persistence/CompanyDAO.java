@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -54,13 +55,11 @@ public class CompanyDAO extends AbstractDAO<Company> {
         logger.debug("<CompanyDAO> running find() with id = " + id);
         JdbcTemplate template = new JdbcTemplate(datasource);
         Object[] args = { id };
-        return template.queryForObject(FIND_QUERY, args, (ResultSet result, int rowNum) -> {
-            if (result.first()) {
-                return mapper.unmap(result);
-            } else {
-                throw new NotFoundException();
-            }
-        });
+        try {
+            return template.queryForObject(FIND_QUERY, args, (ResultSet result, int rowNum) -> mapper.unmap(result));
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(e);
+        }
     }
 
     @Override
@@ -128,13 +127,11 @@ public class CompanyDAO extends AbstractDAO<Company> {
     public long count() {
         logger.debug("<CompanyDAO> running count()");
         JdbcTemplate template = new JdbcTemplate(datasource);
-        return template.queryForObject(COUNT_QUERY, (ResultSet results, int rowNum) -> {
-            if (results.first()) {
-                return results.getLong(1);
-            } else {
-                throw new DAOException("No count result");
-            }
-        });
+        try {
+            return template.queryForObject(COUNT_QUERY, (ResultSet results, int rowNum) -> results.getLong(1));
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(e);
+        }
     }
 
     @Override

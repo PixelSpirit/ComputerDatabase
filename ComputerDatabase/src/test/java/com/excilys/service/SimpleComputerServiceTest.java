@@ -1,7 +1,6 @@
 package com.excilys.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
@@ -10,7 +9,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,11 +36,7 @@ public class SimpleComputerServiceTest {
 
     @BeforeClass
     public static void initComputer() {
-        cpt = Mockito.mock(Computer.class);
-        when(cpt.getName()).thenReturn("Compuraptor");
-        when(cpt.getCompany()).thenReturn(null);
-        when(cpt.getIntroduced()).thenReturn(LocalDate.of(2010, 1, 1));
-        when(cpt.getDiscontinued()).thenReturn(null);
+        cpt = new Computer.Builder("Compuraptor").introduced(LocalDate.of(2010, 1, 1)).build();
         id = null;
     }
 
@@ -61,7 +55,7 @@ public class SimpleComputerServiceTest {
     @Test
     public void insertTest() {
         Computer c = service.insert(cpt);
-        compareComputers(c, cpt);
+        compareComputers(cpt, c);
     }
 
     @Test
@@ -86,7 +80,6 @@ public class SimpleComputerServiceTest {
         service.update(c.getId(), cpt2);
         Computer res = service.find(c.getId());
         compareComputers(res, cpt2);
-        id = c.getId();
     }
 
 }
