@@ -202,10 +202,6 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         } else {
             args = new Object[] { "%", "%" };
         }
-        System.out.println(COUNT_SEVERAL_QUERY);
-        for (Object string : args) {
-            System.out.println(string);
-        }
         try {
             return template.queryForObject(COUNT_SEVERAL_QUERY, args,
                     (ResultSet results, int numRow) -> results.getLong(1));
