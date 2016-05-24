@@ -78,6 +78,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         JdbcTemplate template = new JdbcTemplate(datasource);
         return template.queryForObject(FIND_ALL_QUERY, (ResultSet results, int rowNum) -> {
             ArrayList<Computer> computers = new ArrayList<>();
+            results.beforeFirst();
             while (results.next()) {
                 computers.add(mapper.unmap(results));
             }
@@ -117,6 +118,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         }
 
         return template.queryForObject(query, args, (ResultSet results, int rowNum) -> {
+            results.beforeFirst();
             ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
             while (results.next()) {
                 computers.add(mapper.unmap(results));
@@ -148,7 +150,7 @@ public class ComputerDAO extends AbstractDAO<Computer> {
             mapper.map(entity, stmt);
             return stmt;
         } , generatedKeyHolder);
-        if (affectedRows != 0) {
+        if (affectedRows == 0) {
             throw new DAOException("Insertion failed");
         } else {
             Computer cpt = new Computer(entity);
@@ -192,9 +194,13 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         Object[] args;
         String search = pageRequest.getSearch();
         if (search != null) {
-            args = new Object[] { "%" + search + "%", "%" + search + "%" };
+            args = new Object[] { search + "%", search + "%" };
         } else {
-            args = new Object[] { "%%", "%%" };
+            args = new Object[] { "%", "%" };
+        }
+        System.out.println(COUNT_SEVERAL_QUERY);
+        for (Object string : args) {
+            System.out.println(string);
         }
         return template.queryForObject(COUNT_SEVERAL_QUERY, args, (ResultSet results, int numRow) -> {
             if (results.first()) {

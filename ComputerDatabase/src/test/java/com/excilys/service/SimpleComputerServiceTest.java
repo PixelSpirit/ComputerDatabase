@@ -62,7 +62,6 @@ public class SimpleComputerServiceTest {
     public void insertTest() {
         Computer c = service.insert(cpt);
         compareComputers(c, cpt);
-        id = c.getId();
     }
 
     @Test
@@ -70,7 +69,6 @@ public class SimpleComputerServiceTest {
         Computer c1 = service.insert(cpt);
         Computer c2 = service.find(c1.getId());
         compareComputers(c1, c2);
-        id = c1.getId();
     }
 
     @Test(expected = NotFoundException.class)

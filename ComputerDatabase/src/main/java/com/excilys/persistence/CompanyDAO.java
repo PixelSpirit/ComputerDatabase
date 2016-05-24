@@ -68,6 +68,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
         logger.debug("<CompanyDAO> running findAll()");
         JdbcTemplate template = new JdbcTemplate(datasource);
         return template.queryForObject(FIND_ALL_QUERY, (ResultSet results, int rowNum) -> {
+            results.beforeFirst();
             ArrayList<Company> companies = new ArrayList<>();
             while (results.next()) {
                 companies.add(mapper.unmap(results));
@@ -82,6 +83,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
         String query = String.format(FIND_SEVERAL_QUERY, pageRequest.getOrderByColumn(), pageRequest.getDirection());
         JdbcTemplate template = new JdbcTemplate(datasource);
         return template.queryForObject(query, (ResultSet results, int rowNum) -> {
+            results.beforeFirst();
             ArrayList<Company> companies = new ArrayList<>();
             while (results.next()) {
                 companies.add(mapper.unmap(results));
@@ -107,7 +109,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
             mapper.map(entity, stmt);
             return stmt;
         } , generatedKeyHolder);
-        if (affectedRows != 0) {
+        if (affectedRows == 0) {
             throw new DAOException("Insertion failed");
         } else {
             return new Company(generatedKeyHolder.getKey().longValue(), entity.getName());
