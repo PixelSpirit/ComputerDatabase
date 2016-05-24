@@ -149,12 +149,13 @@
 
 		<!-- SPRING -->
 
-		<!-- Spring on WebApp -->
+		<!-- Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 			<exclusions>
+				<!-- Needed to be exclude to bind spring logs in logback -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
