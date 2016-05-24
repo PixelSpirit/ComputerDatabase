@@ -8,8 +8,9 @@
 <%@include file="/WEB-INF/views/templates/head.jsp"%>
 
 <body>
+
 	<%@include file="/WEB-INF/views/templates/header.jsp"%>
-	<%@include file="/WEB-INF/views/computers/mainContent.jsp" %>
+	<%@include file="/WEB-INF/views/computers/mainContent.jsp"%>
 	<%@include file="/WEB-INF/views/computers/footer.jsp"%>
 	<%@include file="/WEB-INF/views/templates/scripts.jsp"%>
 </body>
