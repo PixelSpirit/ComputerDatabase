@@ -75,14 +75,18 @@ public class ComputerDAO extends AbstractDAO<Computer> {
     public List<Computer> findAll() {
         logger.debug("<ComputerDAO> running findAll()");
         JdbcTemplate template = new JdbcTemplate(datasource);
-        return template.queryForObject(FIND_ALL_QUERY, (ResultSet results, int rowNum) -> {
-            ArrayList<Computer> computers = new ArrayList<>();
-            results.beforeFirst();
-            while (results.next()) {
-                computers.add(mapper.unmap(results));
-            }
-            return computers;
-        });
+        try {
+            return template.queryForObject(FIND_ALL_QUERY, (ResultSet results, int rowNum) -> {
+                ArrayList<Computer> computers = new ArrayList<>();
+                results.beforeFirst();
+                while (results.next()) {
+                    computers.add(mapper.unmap(results));
+                }
+                return computers;
+            });
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
     }
 
     public String createSeveralQuery(PageRequest pageRequest) {
@@ -115,15 +119,18 @@ public class ComputerDAO extends AbstractDAO<Computer> {
         } else {
             args = new Object[] { size, offset };
         }
-
-        return template.queryForObject(query, args, (ResultSet results, int rowNum) -> {
-            results.beforeFirst();
-            ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
-            while (results.next()) {
-                computers.add(mapper.unmap(results));
-            }
-            return computers;
-        });
+        try {
+            return template.queryForObject(query, args, (ResultSet results, int rowNum) -> {
+                results.beforeFirst();
+                ArrayList<Computer> computers = new ArrayList<>(pageRequest.getPageSize());
+                while (results.next()) {
+                    computers.add(mapper.unmap(results));
+                }
+                return computers;
+            });
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
     }
 
     @Override
