@@ -20,7 +20,7 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="http://localhost:8080/cdb/computer-add">
+				<a class="btn btn-success" id="addComputer" href="${pageContext.request.contextPath}/computer/add">
 					AddComputer 
 				</a>
 				<a class="btn btn-default" id="editComputer" href="#"
@@ -36,6 +36,6 @@
 	</form>
 
 	<div class="container" style="margin-top: 10px;">
-		<%@include file="/WEB-INF/views/computers/table.jsp"%>
+		<%@include file="/WEB-INF/views/listComputer/table.jsp"%>
 	</div>
 </section>

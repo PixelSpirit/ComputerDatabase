@@ -6,7 +6,7 @@
 <%@ attribute name="orderby" required="false"%>
 <%@ attribute name="direction" required="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<a href="http://localhost:8080/cdb/${target}?page=${page}&limit=${limit}
+<a href="${pageContext.request.contextPath}/${target}?page=${page}&limit=${limit}
 	<c:if test='${not empty search or not search eq ""}' >
 		&search=${search}
 	</c:if>

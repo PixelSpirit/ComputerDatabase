@@ -13,7 +13,7 @@
 	<!-- Previous Button -->
 	<c:if test="${number > 0}">
 		<li><m:link limit="${size}" page="${number - 1}"
-				target="computers">
+				target="computer/list">
 				<span aria-hidden="true">&laquo;</span>
 			</m:link></li>
 	</c:if>
@@ -26,7 +26,7 @@
 				<li class="${(number == i) ? 'active' : ''}"><m:link
 						limit="${size}" page="${i}" search="${search}"
 						orderby="${orderby}" direction="${direction}"
-						target="computers">
+						target="computer/list">
 						${i + 1}
 					</m:link></li>
 			</c:forEach>
@@ -36,7 +36,7 @@
 
 			<c:if test="${number > 2 }">
 				<li><m:link limit="${size}" page="0" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						1
 					</m:link></li>
 			</c:if>
@@ -48,7 +48,7 @@
 			<c:if test="${number > 1}">
 				<li><m:link limit="${size}" page="${number - 2}"
 						search="${search}" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						${number - 1}
 					</m:link></li>
 			</c:if>
@@ -56,21 +56,21 @@
 			<c:if test="${number > 0}">
 				<li><m:link limit="${size}" page="${number - 1}"
 						search="${search}" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						${number}
 					</m:link></li>
 			</c:if>
 
 			<li class="active"><m:link limit="${size}" page="${number}"
 					search="${search}" orderby="${orderby}"
-					direction="${direction}" target="computers">
+					direction="${direction}" target="computer/list">
 				${number + 1}
 			</m:link></li>
 
 			<c:if test="${number < maxNumber}">
 				<li><m:link limit="${size}" page="${number + 1}"
 						search="${search}" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						${number + 2}
 					</m:link></li>
 			</c:if>
@@ -78,7 +78,7 @@
 			<c:if test="${number < maxNumber - 1}">
 				<li><m:link limit="${size}" page="${number + 2}"
 						search="${search}" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						${number + 3}
 					</m:link></li>
 			</c:if>
@@ -90,7 +90,7 @@
 			<c:if test="${number < maxNumber - 2 }">
 				<li><m:link limit="${size}" page="${maxNumber}"
 						search="${search}" orderby="${orderby}"
-						direction="${direction}" target="computers">
+						direction="${direction}" target="computer/list">
 						${maxNumber + 1}
 					</m:link></li>
 			</c:if>
@@ -102,7 +102,7 @@
 	<c:if test="${number < maxNumber}">
 		<li><m:link limit="${size}" page="${number + 1}"
 				search="${search}" orderby="${orderby}" direction="${direction}"
-				target="computers">
+				target="computer/list">
 				<span aria-hidden="true">&raquo;</span>
 			</m:link></li>
 	</c:if>
