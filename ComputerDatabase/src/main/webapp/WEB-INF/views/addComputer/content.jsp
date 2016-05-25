@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1>Add Computer</h1>
-				<form action="http://localhost:8080/cdb/computer-add" method="POST">
+				<form action="${pageContext.request.contextPath}/computer/add" method="POST">
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label>
@@ -34,7 +34,7 @@
 					</fieldset>
 					<div class="actions pull-right">
 						<input type="submit" value="Add" class="btn btn-primary" id="addButton">
-						or <a href="http://localhost:8080/cdb/computers" class="btn btn-default">Cancel</a>
+						or <a href="${pageContext.request.contextPath}/computer/list" class="btn btn-default">Cancel</a>
 					</div>
 				</form>
 			</div>

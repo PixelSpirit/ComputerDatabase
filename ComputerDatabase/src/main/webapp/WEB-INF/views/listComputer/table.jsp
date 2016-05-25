@@ -14,7 +14,7 @@
 						class="fa fa-trash-o fa-lg"></i>
 				</a>
 			</span></th>
-			<th><m:link target="computers"
+			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="name"
@@ -28,7 +28,7 @@
 					</c:if>
 					Computer name
 				</m:link></th>
-			<th><m:link target="computers"
+			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="introduced"
@@ -41,7 +41,7 @@
 					</c:if>
 					Introduced date
 					</m:link></th>
-			<th><m:link target="computers"
+			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="discontinued"
@@ -54,7 +54,7 @@
 					</c:if>
 					Discontinued date
 					</m:link></th>
-			<th><m:link target="computers"
+			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
 					limit="${requestScope.page.size}" search="${requestScope.search}"
 					orderby="companyName"
