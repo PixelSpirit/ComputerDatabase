@@ -9,7 +9,7 @@
 <body>
 	<%@include file="/WEB-INF/views/templates/header.jsp"%>
 	
-	<%@include file="/WEB-INF/views/editComputer/content.jsp" %>
+	<%@include file="/WEB-INF/views/updateComputer/content.jsp" %>
 	
 	<%@include file="/WEB-INF/views/templates/scripts.jsp"%>
 	
