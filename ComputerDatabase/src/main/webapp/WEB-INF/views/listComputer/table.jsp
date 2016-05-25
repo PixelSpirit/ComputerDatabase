@@ -78,7 +78,7 @@
 					class="cb" value="${computerDTO.id}" id="${computerDTO.name}_id">
 				</td>
 				<td><a
-					href="${pageContext.request.contextPath}/computer/edit?edit=${computerDTO.id}"
+					href="${pageContext.request.contextPath}/computer/update?edit=${computerDTO.id}"
 					id="${computerDTO.name}_name">${computerDTO.name}</a></td>
 				<td>${computerDTO.introduced}</td>
 				<td>${computerDTO.discontinued}</td>
