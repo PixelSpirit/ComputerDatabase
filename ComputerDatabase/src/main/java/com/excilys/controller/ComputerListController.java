@@ -22,7 +22,7 @@ import com.excilys.model.PageRequest;
 import com.excilys.service.ComputerService;
 
 @Controller
-@RequestMapping("/computers")
+@RequestMapping("/computer/list")
 public class ComputerListController {
 
     private static final String PAGE = "page";
@@ -47,9 +47,9 @@ public class ComputerListController {
             @RequestParam(value = ORDERBY, required = false) String reqOrderby,
             @RequestParam(value = DIRECTION, required = false) String reqDirection, ModelMap model) {
 
-        logger.info("<ComputersServlet> [doGet] received");
+        logger.info("<computer/list> [doGet] received");
         addAttributes(reqPage, reqLimit, reqSearch, reqOrderby, reqDirection, model);
-        return "computers/computers";
+        return "listComputer/main";
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -59,10 +59,10 @@ public class ComputerListController {
             @RequestParam(value = DIRECTION, required = false) String reqDirection,
             @RequestParam(SELECTION) String reqSelection, ModelMap model) {
 
-        logger.info("<ComputersServlet> [doPost] received");
+        logger.info("<computer/list> [doPost] received");
         removeComputers(reqSelection.split(","));
         addAttributes(reqPage, reqLimit, reqSearch, reqOrderby, reqDirection, model);
-        return "computers/computers";
+        return "listComputer/main";
     }
 
     /* Utils */

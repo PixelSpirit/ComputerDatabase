@@ -30,4 +30,9 @@ public class DTOCompany {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "DTOCompany [id=" + id + ", name=" + name + "]";
+    }
+
 }
