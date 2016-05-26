@@ -1,5 +1,6 @@
 package com.excilys.dto;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,19 +12,22 @@ public class DTOComputer {
 
     private String id;
 
+    @NotNull
     @NotEmpty
     private String name;
 
+    @NotNull
     @Pattern(regexp = DATE_REGEXP)
     private String introduced;
 
+    @NotNull
     @Pattern(regexp = DATE_REGEXP)
     private String discontinued;
 
+    @NotNull
     @Pattern(regexp = INT_REGEXP)
     private String companyId;
 
-    // @NotEmpty
     private String companyName;
 
     public DTOComputer() {
