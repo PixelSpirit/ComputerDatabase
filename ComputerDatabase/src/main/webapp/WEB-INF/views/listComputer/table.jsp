@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="m" tagdir="/WEB-INF/tags/mylib"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 
 <table class="table table-striped table-bordered">
 	<thead>
@@ -26,7 +28,7 @@
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
-					Computer name
+					<spring:message code="computer.general.computerName"/>
 				</m:link></th>
 			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
@@ -39,7 +41,7 @@
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
-					Introduced date
+					<spring:message code="computer.general.introducedDate"/>
 					</m:link></th>
 			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
@@ -52,7 +54,7 @@
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
-					Discontinued date
+					<spring:message code="computer.general.discontinuedDate"/>
 					</m:link></th>
 			<th><m:link target="computer/list"
 					page="${requestScope.page.number}"
@@ -65,7 +67,7 @@
 							<c:otherwise> &utrif;</c:otherwise>
 						</c:choose>
 					</c:if>
-					Company
+					<spring:message code="computer.general.company"/>
 					</m:link></th>
 
 		</tr>
