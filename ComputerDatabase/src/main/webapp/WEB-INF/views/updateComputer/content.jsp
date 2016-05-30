@@ -10,7 +10,7 @@
 				<form:form action="update" method="POST"
 					commandName="computerToEdit">
 					<fieldset>
-						<form:input type="hidden" path="id" id="id"
+						<form:input id="id" type="hidden" path="id" 
 							value="${requestScope.computerToEdit.id}" />
 						<div class="form-group">
 							<label for="computerName"><spring:message code="computer.general.computerName"/></label>

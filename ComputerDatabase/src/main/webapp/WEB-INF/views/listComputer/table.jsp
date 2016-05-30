@@ -85,6 +85,7 @@
 				<td>${computerDTO.introduced}</td>
 				<td>${computerDTO.discontinued}</td>
 				<td>${computerDTO.companyName}</td>
+				
 			</tr>
 		</c:forEach>
 	</tbody>

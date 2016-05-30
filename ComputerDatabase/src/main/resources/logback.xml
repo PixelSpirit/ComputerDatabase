@@ -17,8 +17,7 @@
 		<target>System.err</target>
 	</appender>
 
-	<root level="INFO">
-		<appender-ref ref="FILE" />
+	<root level="WARN">
 		<appender-ref ref="STDERR" />
 	</root>
 </configuration>
