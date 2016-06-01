@@ -58,7 +58,6 @@ public class ComputerListerRequest {
 
         model.addAttribute("page", dtoPage);
         model.addAttribute("computerNumber", computerNumbers);
-        model.addAttribute(attributeValue)
         if (reqSearch != null) {
             model.addAttribute("search", reqSearch);
         }
