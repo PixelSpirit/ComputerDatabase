@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
@@ -11,36 +11,65 @@
     http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
     http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<!-- Enables IOC Annotations -->
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.excilys" />
 
-	<tx:annotation-driven transaction-manager="txManager" />
+	<!-- DATASOURCE -->
+	
+	<bean id="propLoader" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="locations">
+        	<value>classpath:db.properties</value>
+    	</property>
+	</bean>
 
-	<!-- HikariCP configuration -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="poolName" value="springHikariCP" />
-		<property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+		<property name="dataSourceClassName"
+			value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
 		<property name="maximumPoolSize" value="100" />
 
 		<property name="dataSourceProperties">
 			<props>
-				<prop key="url">jdbc:mysql://localhost:3306/computer-database-db2?zeroDateTimeBehavior=convertToNull</prop>
-				<prop key="user">admincdb</prop>
-				<prop key="password">qwerty1234</prop>
+				<prop key="url">${DB_URL}</prop>
+				<prop key="user">${DB_USERNAME}</prop>
+				<prop key="password">${DB_PASSWORD}</prop>
 			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- TRANSACTIONS MANAGER -->
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+
+	<!-- PERSISTENCE / ENTITY MANAGER -->
+	
+	<jpa:repositories base-package="com.excilys.persistence"
+		entity-manager-factory-ref="entityManager" transaction-manager-ref="txManager" />
+	
+	<bean id="entityManager"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="packagesToScan" value="com.excilys.model" />
 	</bean>
+	
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
+		<property name="showSql" value="true"/>
+	</bean>
+	
 
 </beans>

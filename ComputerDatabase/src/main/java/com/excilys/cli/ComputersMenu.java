@@ -1,10 +1,9 @@
 package com.excilys.cli;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import com.excilys.model.Computer;
-import com.excilys.model.OrderBy;
-import com.excilys.model.OrderDirection;
-import com.excilys.model.Page;
-import com.excilys.model.PageRequest;
 import com.excilys.service.ComputerService;
 
 public class ComputersMenu extends Menu {
@@ -25,7 +24,7 @@ public class ComputersMenu extends Menu {
     private ComputersMenu() {
         super(" Computers Menu");
         service = new ComputerService();
-        page = service.findPage(new PageRequest(0, SIZE, "", OrderBy.DEFAULT, OrderDirection.DEFAULT));
+        page = service.findPage(new PageRequest(0, SIZE));
     }
 
     /**
@@ -74,8 +73,7 @@ public class ComputersMenu extends Menu {
                 switch (Integer.parseInt(scanner.nextLine())) {
                 case 0:
                     if (service.count() >= page.getNumber() * page.getSize()) {
-                        page = service.findPage(new PageRequest(page.getNumber() + 1, SIZE, "", OrderBy.DEFAULT,
-                                OrderDirection.DEFAULT));
+                        page = service.findPage(new PageRequest(page.getNumber() + 1, SIZE));
                     } else {
                         System.err.println("No more computers");
                     }
@@ -83,8 +81,7 @@ public class ComputersMenu extends Menu {
                     break;
                 case 1:
                     if (page.getNumber() > 0) {
-                        page = service.findPage(new PageRequest(page.getNumber() - 1, SIZE, "", OrderBy.DEFAULT,
-                                OrderDirection.DEFAULT));
+                        page = service.findPage(new PageRequest(page.getNumber() - 1, SIZE));
                     }
                     isValid = true;
                     break;

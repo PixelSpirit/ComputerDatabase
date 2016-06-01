@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.DTOComputerMapper;
+import com.excilys.mapper.ComputerToDTOComputer;
 import com.excilys.model.Computer;
 import com.excilys.service.ComputerService;
 
@@ -104,7 +104,7 @@ public class ComputerController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String computerUpdateGetView(@RequestParam(EDIT) long id, ModelMap model) {
         logger.info("<computer/update> [doGet] received");
-        DTOComputer computerToEdit = DTOComputerMapper.getInstance().map(computerService.find(id));
+        DTOComputer computerToEdit = new ComputerToDTOComputer().convert(computerService.find(id));
         model.addAttribute("computerToEdit", computerToEdit);
         updater.saveAllCompanies(model);
         return "updateComputer/main";

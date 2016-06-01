@@ -1,14 +1,12 @@
 package com.excilys.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.model.Company;
-import com.excilys.model.Page;
-import com.excilys.model.PageRequest;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.ConnectionManager;
@@ -34,29 +32,29 @@ public class CompanyService {
 
     @Transactional
     public Company find(long id) {
-        return cpnDao.find(id);
+        return cpnDao.findOne(id);
     }
 
     @Transactional
-    public List<Company> findAll() {
+    public Iterable<Company> findAll() {
         return cpnDao.findAll();
     }
 
     @Transactional
     public Page<Company> findPage(PageRequest pageRequest) {
-        int number = pageRequest.getPageNumber();
-        int size = pageRequest.getPageSize();
-        return new Page<>(number, (int) cpnDao.count(pageRequest) / size, size, cpnDao.findSeveral(pageRequest));
+        return cpnDao.findAll(pageRequest);
     }
 
     @Transactional
     public Company insert(Company entity) {
-        return cpnDao.insert(entity);
+        return cpnDao.save(entity);
     }
 
     @Transactional
     public Company update(long id, Company updateValue) {
-        return cpnDao.update(id, updateValue);
+        Company toUpdate = cpnDao.findOne(id);
+        toUpdate.setName(updateValue.getName());
+        return cpnDao.save(toUpdate);
     }
 
     @Transactional
@@ -65,14 +63,9 @@ public class CompanyService {
     }
 
     @Transactional
-    public long count(PageRequest request) {
-        return cpnDao.count(request);
-    }
-
-    @Transactional
     public void remove(long id) {
-        cptDao.removeCompanyId(id);
-        cpnDao.remove(id);
+        cptDao.deleteByCompany_id(id);
+        cpnDao.delete(id);
     }
 
 }

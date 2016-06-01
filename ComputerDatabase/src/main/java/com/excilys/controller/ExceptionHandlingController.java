@@ -20,6 +20,7 @@ public class ExceptionHandlingController {
     @ExceptionHandler(Exception.class)
     public String handleIllegalArgumentException(Exception ex) {
         logger.error("[HTTP Error] INTERNAL ERROR ! (500)");
+        ex.printStackTrace();
         return "errors/500";
     }
 

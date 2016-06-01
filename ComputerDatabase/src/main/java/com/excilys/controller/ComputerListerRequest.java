@@ -1,19 +1,16 @@
 package com.excilys.controller;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.DTOComputerMapper;
-import com.excilys.model.Computer;
-import com.excilys.model.OrderBy;
-import com.excilys.model.OrderDirection;
-import com.excilys.model.Page;
-import com.excilys.model.PageRequest;
+import com.excilys.mapper.ComputerToDTOComputer;
 import com.excilys.service.ComputerService;
 
 @Component
@@ -42,22 +39,21 @@ public class ComputerListerRequest {
     public void run(ModelMap model) {
         int page = stringToInt(reqPage, PAGE_DEFAULT_VALUE);
         int limit = stringToInt(reqLimit, LIMIT_DEFAULT_VALUE);
-        OrderBy orderby = stringToOrderBy(reqOrderby);
-        OrderDirection direction = stringToDirection(reqDirection);
-        PageRequest pr = new PageRequest(page, limit, reqSearch, orderby, direction);
-        Page<DTOComputer> dtoPage = pageToDTO(computerService.findPage(pr));
-        long computerNumbers = computerService.count(pr);
+        Direction direction = Direction.fromString(reqDirection);
+        PageRequest pr = new PageRequest(page, limit, direction, reqOrderby);
+        Page<DTOComputer> dtoPage = computerService.findPage(pr).map(new ComputerToDTOComputer());
+        long computerNumbers = dtoPage.getTotalElements();
 
         model.addAttribute("page", dtoPage);
         model.addAttribute("computerNumber", computerNumbers);
         if (reqSearch != null) {
             model.addAttribute("search", reqSearch);
         }
-        if (orderby != null) {
-            model.addAttribute("orderby", orderby.getHttpValue());
+        if (reqOrderby != null) {
+            model.addAttribute("orderby", reqOrderby);
         }
         if (direction != null) {
-            model.addAttribute("direction", direction.getValue());
+            model.addAttribute("direction", direction.toString());
         }
     }
 
@@ -68,55 +64,6 @@ public class ComputerListerRequest {
         } else {
             return defaultValue;
         }
-    }
-
-    private static OrderBy stringToOrderBy(String s) {
-        if (s != null) {
-            switch (s) {
-            case "name":
-                return OrderBy.NAME;
-            case "introduced":
-                return OrderBy.INTRODUCED;
-            case "discontinued":
-                return OrderBy.DISCONTINUED;
-            case "companyName":
-                return OrderBy.COMPANY_NAME;
-            default:
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    private static OrderDirection stringToDirection(String s) {
-        if (s != null) {
-            switch (s) {
-            case "asc":
-                return OrderDirection.ASC;
-            case "desc":
-                return OrderDirection.DESC;
-            default:
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Converts a Computer Page to a DTOComputer Page.
-     * @param page The page to convert
-     * @return the converted page
-     */
-    private static Page<DTOComputer> pageToDTO(Page<Computer> page) {
-        DTOComputerMapper mapper = DTOComputerMapper.getInstance();
-        Page<DTOComputer> dtoPage = new Page<DTOComputer>(page.getNumber(), page.getMaxNumber(), page.getSize(),
-                new ArrayList<>(page.getContent().size()));
-        for (Computer computer : page.getContent()) {
-            dtoPage.getContent().add(mapper.map(computer));
-        }
-        return dtoPage;
     }
 
 }

@@ -3,17 +3,40 @@ package com.excilys.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Computer {
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+import com.excilys.mapper.LocalDateToTimestamp;
+
+@Entity(name = "computer")
+public class Computer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    @Convert(converter = LocalDateToTimestamp.class)
     private LocalDate introduced;
+
+    @Convert(converter = LocalDateToTimestamp.class)
     private LocalDate discontinued;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
     /* Constructors */
+
+    public Computer() {
+    }
 
     /**
      * Constructs a Computer.
@@ -136,7 +159,7 @@ public class Computer {
     /**
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

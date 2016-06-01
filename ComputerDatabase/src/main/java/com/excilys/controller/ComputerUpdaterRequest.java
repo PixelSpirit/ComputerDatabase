@@ -3,14 +3,15 @@ package com.excilys.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import com.excilys.dto.DTOCompany;
 import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.DTOCompanyMapper;
-import com.excilys.mapper.DTOComputerMapper;
+import com.excilys.mapper.CompanyToDTOCompany;
+import com.excilys.mapper.DTOComputerToComputer;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
@@ -27,11 +28,10 @@ public class ComputerUpdaterRequest {
      * @throws ServiceException if if service is unavailable
      */
     public void saveAllCompanies(ModelMap model) {
-        DTOCompanyMapper mapper = DTOCompanyMapper.getInstance();
-        List<Company> companies = companyService.findAll();
-        List<DTOCompany> dtoCompanies = new ArrayList<>(companies.size());
+        Iterable<Company> companies = companyService.findAll();
+        List<DTOCompany> dtoCompanies = new ArrayList<>();
         for (Company company : companies) {
-            dtoCompanies.add(mapper.map(company));
+            dtoCompanies.add(new CompanyToDTOCompany().convert(company));
         }
         model.addAttribute("allCompanies", companyService.findAll());
     }
@@ -48,6 +48,6 @@ public class ComputerUpdaterRequest {
             String companyName = companyService.find(Long.parseLong(dtoComputer.getCompanyId())).getName();
             dtoComputer.setCompanyName(companyName);
         }
-        return DTOComputerMapper.getInstance().unmap(dtoComputer);
+        return new DTOComputerToComputer().convert(dtoComputer);
     }
 }

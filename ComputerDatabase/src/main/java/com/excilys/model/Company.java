@@ -1,11 +1,29 @@
 package com.excilys.model;
 
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity(name = "company")
 public class Company {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name = null;
 
+    @OneToMany(mappedBy = "company")
+    private Set<Computer> computers;
+
     /* Constructors */
+
+    public Company() {
+    }
 
     /**
      * Constructs a new Company.
@@ -56,6 +74,20 @@ public class Company {
     }
 
     /* Object */
+
+    /**
+     * @return the computers
+     */
+    public Set<Computer> getComputers() {
+        return computers;
+    }
+
+    /**
+     * @param computers the computers to set
+     */
+    public void setComputers(Set<Computer> computers) {
+        this.computers = computers;
+    }
 
     @Override
     public String toString() {
