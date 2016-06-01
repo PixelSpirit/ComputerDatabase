@@ -2,6 +2,8 @@ package com.excilys.controller;
 
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +28,9 @@ public class ComputerListerRequest {
     String reqDirection;
 
     @Autowired
-    ComputerService computerService;
+    private ComputerService computerService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerListerRequest.class);
 
     public void set(String reqPage, String reqLimit, String reqSearch, String reqOrderby, String reqDirection) {
         this.reqPage = reqPage;
@@ -37,8 +41,16 @@ public class ComputerListerRequest {
     }
 
     public void run(ModelMap model) {
+        LOGGER.info("Running with " + this);
+
         int page = stringToInt(reqPage, PAGE_DEFAULT_VALUE);
         int limit = stringToInt(reqLimit, LIMIT_DEFAULT_VALUE);
+        if (reqDirection == null) {
+            reqDirection = "asc";
+        }
+        if (reqOrderby == null) {
+            reqOrderby = "id";
+        }
         Direction direction = Direction.fromString(reqDirection);
         PageRequest pr = new PageRequest(page, limit, direction, reqOrderby);
         Page<DTOComputer> dtoPage = computerService.findPage(pr).map(new ComputerToDTOComputer());
@@ -46,15 +58,14 @@ public class ComputerListerRequest {
 
         model.addAttribute("page", dtoPage);
         model.addAttribute("computerNumber", computerNumbers);
+        model.addAttribute(attributeValue)
         if (reqSearch != null) {
             model.addAttribute("search", reqSearch);
         }
         if (reqOrderby != null) {
             model.addAttribute("orderby", reqOrderby);
         }
-        if (direction != null) {
-            model.addAttribute("direction", direction.toString());
-        }
+        model.addAttribute("direction", direction.toString());
     }
 
     private static int stringToInt(String s, int defaultValue) {
@@ -64,6 +75,12 @@ public class ComputerListerRequest {
         } else {
             return defaultValue;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerListerRequest [reqPage=" + reqPage + ", reqLimit=" + reqLimit + ", reqSearch=" + reqSearch
+                + ", reqOrderby=" + reqOrderby + ", reqDirection=" + reqDirection + "]";
     }
 
 }

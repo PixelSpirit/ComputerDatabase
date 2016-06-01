@@ -4,7 +4,7 @@
 	<div class="container text-center">
 
 		<!-- Page Buttons -->
-		<m:pagination maxNumber="${requestScope.page.maxNumber}"
+		<m:pagination maxNumber="${requestScope.page.totalPages - 1}"
 			size="${requestScope.page.size}" orderby="${requestScope.orderby}"
 			direction="${requestScope.direction }"
 			number="${requestScope.page.number}" />
