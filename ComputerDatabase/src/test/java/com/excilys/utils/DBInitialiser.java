@@ -2,21 +2,22 @@ package com.excilys.utils;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DBInitialiser {
 
-    public static String COMMAND = "mysql -uroot < ";
-    public static String SCHEMA = "spec-cdb/config/db/1-SCHEMA.sql";
-    public static String PRIVILEGES = "spec-cdb/config/db/2-PRIVILEGES.sql";
-    public static String ENTRIES = "spec-cdb/config/db/3-ENTRIES.sql";
+    private static final String COMMAND = "./dbTestInit.sh";
+
+    static final Logger LOGGER = LoggerFactory.getLogger(DBInitialiser.class);
 
     public static void run() throws IOException, InterruptedException {
-        Process p = Runtime.getRuntime().exec(COMMAND + SCHEMA);
-        p.waitFor();
+        LOGGER.info("[DBInitialisation] run()");
 
-        p = Runtime.getRuntime().exec(COMMAND + PRIVILEGES);
-        p.waitFor();
+        int res;
 
-        p = Runtime.getRuntime().exec(COMMAND + ENTRIES);
-        p.waitFor();
+        Process p = Runtime.getRuntime().exec(COMMAND);
+        res = p.waitFor();
+        LOGGER.info("[DBInitialiser] exec " + COMMAND + " : " + res);
     }
 }

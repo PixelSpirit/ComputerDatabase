@@ -1,6 +1,9 @@
 package com.excilys.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,13 +31,6 @@ public class SimpleComputerServiceTest {
     @Autowired
     private ComputerService service;
 
-    public void compareComputers(Computer c1, Computer c2) {
-        assertEquals(c1.getName(), c2.getName());
-        assertEquals(c1.getIntroduced(), c2.getIntroduced());
-        assertEquals(c1.getDiscontinued(), c2.getDiscontinued());
-        assertEquals(c1.getCompany(), c2.getCompany());
-    }
-
     @BeforeClass
     public static void InitialiseDB() throws IOException, InterruptedException {
         DBInitialiser.run();
@@ -42,8 +38,6 @@ public class SimpleComputerServiceTest {
 
     @Test
     public void findTest() {
-        // | 78 | Macintosh 512K | 1984-09-10 00:00:00 | 1986-04-14 00:00:00 | 1
-
         Computer expected = new Computer.Builder("Macintosh 512K").id(78L).introduced(LocalDate.of(1984, 9, 10))
                 .discontinued(LocalDate.of(1986, 4, 14)).company(new Company(1, "Apple Inc.")).build();
         Computer actual = service.find(78);
@@ -53,17 +47,12 @@ public class SimpleComputerServiceTest {
     @Test
     @Ignore
     public void findAllTest() {
+        // To much computers !!!
         throw new NotYetImplementedException();
     }
 
     @Test
     public void findPageTest() {
-        // | id | name | introduced | discontinued | company_id |
-        //
-        // | 10 | Apple IIc Plus | NULL | NULL | NULL |
-        // | 11 | Apple II Plus | NULL | NULL | NULL |
-        // | 12 | Apple III | 1980-05-01 00:00:00 | 1984-04-01 00:00:00 | 1 |
-
         Company company1 = new Company(1, "Apple Inc.");
 
         List<Computer> expected = new ArrayList<>();
@@ -80,59 +69,31 @@ public class SimpleComputerServiceTest {
     public void insertTest() {
         Computer expected = new Computer.Builder("Gloubiboulga").introduced(LocalDate.of(1984, 12, 3)).build();
         Computer actual = service.insert(expected);
-        expected.setId(575L);
-        assertEquals(expected, actual);
+        assertNotNull(actual.getId());
     }
 
     @Test
     public void updateTest() {
-        throw new NotYetImplementedException();
+        Company company = new Company(1, "Apple Inc.");
+        Computer expectedAtBegining = new Computer.Builder("MacBook Pro 15.4 inch").id(1L).company(company).build();
+        Computer actualAtBegining = service.find(1);
+        assertEquals(expectedAtBegining, actualAtBegining);
+        Computer nowExpected = new Computer.Builder("Nooop Chuck Testa").id(1L).build();
+        Computer actual = service.update(1, nowExpected);
+        assertEquals(nowExpected, actual);
     }
 
     @Test
     public void countTest() {
-        throw new NotYetImplementedException();
-    }
-
-    @Test
-    public void count2Test() {
-        throw new NotYetImplementedException();
+        long nb = service.count();
+        assertTrue(nb == 574 || nb == 575);
     }
 
     @Test
     public void removeTest() {
-        throw new NotYetImplementedException();
+        service.remove(2);
+        Computer c = service.find(2);
+        assertNull(c);
     }
-
-    // @Test
-    // public void insertTest() {
-    // Computer c = service.insert(cpt);
-    // compareComputers(cpt, c);
-    // }
-    //
-    // @Test
-    // public void findTest() {
-    // Computer c1 = service.insert(cpt);
-    // Computer c2 = service.find(c1.getId());
-    // compareComputers(c1, c2);
-    // }
-    //
-    // @Test(expected = NotFoundException.class)
-    // public void removeTest() {
-    // Computer c = service.insert(cpt);
-    // service.remove(c.getId());
-    // service.find(c.getId());
-    // }
-    //
-    // @Test
-    // public void updateTest() {
-    // Computer cpt2 = new
-    // Computer.Builder("NewOne").introduced(LocalDate.of(2017, 1, 1))
-    // .discontinued(LocalDate.of(2018, 1, 1)).build();
-    // Computer c = service.insert(cpt);
-    // service.update(c.getId(), cpt2);
-    // Computer res = service.find(c.getId());
-    // compareComputers(res, cpt2);
-    // }
 
 }
