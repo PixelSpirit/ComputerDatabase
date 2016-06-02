@@ -19,7 +19,7 @@
 	
 	<logger name="org.hibernate.SQL" level="INFO" />
 
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="STDERR" />
 	</root>
 </configuration>
