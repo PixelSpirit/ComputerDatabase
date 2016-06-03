@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,10 @@ public class ComputerController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String computerListGetView(@RequestParam(value = PAGE, required = false) String reqPage,
-            @RequestParam(value = LIMIT, required = false) String reqLimit,
-            @RequestParam(value = SEARCH, required = false) String reqSearch,
-            @RequestParam(value = ORDERBY, required = false) String reqOrderby,
-            @RequestParam(value = DIRECTION, required = false) String reqDirection, ModelMap model) {
+                                      @RequestParam(value = LIMIT, required = false) String reqLimit,
+                                      @RequestParam(value = SEARCH, required = false) String reqSearch,
+                                      @RequestParam(value = ORDERBY, required = false) String reqOrderby,
+                                      @RequestParam(value = DIRECTION, required = false) String reqDirection, ModelMap model) {
         logger.info("<computer/list> [doGet] received");
         lister.set(reqPage, reqLimit, reqSearch, reqOrderby, reqDirection);
         lister.run(model);
@@ -58,10 +59,10 @@ public class ComputerController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String computerRemovePostView(@RequestParam(PAGE) String reqPage, @RequestParam(LIMIT) String reqLimit,
-            @RequestParam(value = SEARCH, required = false) String reqSearch,
-            @RequestParam(value = ORDERBY, required = false) String reqOrderby,
-            @RequestParam(value = DIRECTION, required = false) String reqDirection,
-            @RequestParam(SELECTION) String reqSelection, ModelMap model) {
+                                         @RequestParam(value = SEARCH, required = false) String reqSearch,
+                                         @RequestParam(value = ORDERBY, required = false) String reqOrderby,
+                                         @RequestParam(value = DIRECTION, required = false) String reqDirection,
+                                         @RequestParam(SELECTION) String reqSelection, ModelMap model) {
         logger.info("<computer/list> [doPost] received");
 
         Pattern patternElementPage = Pattern.compile("^\\d+$");
@@ -81,12 +82,13 @@ public class ComputerController {
         logger.info("<computer/add> [doGet] received");
         model.addAttribute("dtoComputer", new DTOComputer());
         updater.saveAllCompanies(model);
+
         return "addComputer/main";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String computerAddPostView(@ModelAttribute("dtoComputer") @Valid DTOComputer dtoComputer,
-            BindingResult result, ModelMap model) {
+                                      BindingResult result, ModelMap model) {
         logger.info("<computer/add> [doPost] received");
         if (result.hasErrors()) {
             for (ObjectError e : result.getAllErrors()) {
@@ -112,7 +114,7 @@ public class ComputerController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String computerUpdatePostView(@ModelAttribute("computerToEdit") @Valid DTOComputer computerToEdit,
-            BindingResult result, ModelMap model) {
+                                         BindingResult result, ModelMap model) {
         logger.info("<computer/update> [doPost] received");
         if (result.hasErrors()) {
             for (ObjectError e : result.getAllErrors()) {

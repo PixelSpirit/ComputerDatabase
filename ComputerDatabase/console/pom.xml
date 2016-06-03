@@ -11,17 +11,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys</groupId>
 	<artifactId>console</artifactId>
+	<packaging>pom</packaging>
 
 	<dependencies>
 		<dependency>
 		<groupId>${project.parent.groupId}</groupId>
 		<artifactId>service</artifactId>
-		<version>${project.parent.version}</version>
-		</dependency>
-
-		<dependency>
-		<groupId>${project.parent.groupId}</groupId>
-		<artifactId>core</artifactId>
 		<version>${project.parent.version}</version>
 		</dependency>
 

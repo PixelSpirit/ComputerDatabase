@@ -9,82 +9,87 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys</groupId>
 	<artifactId>webapp</artifactId>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>service</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>binding</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 
 		<!-- Tests -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-		</dependency>
+            <scope>test</scope>
+        </dependency>
 
 		<!-- Selenium -->
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server</artifactId>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-firefox-driver</artifactId>
-		</dependency>
-
+            <scope>compile</scope>
+        </dependency>
 
 	</dependencies>
 

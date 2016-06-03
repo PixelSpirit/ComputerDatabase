@@ -19,6 +19,11 @@ RemoteSystemsTempFiles
 ComputerDatabase/build
 ComputerDatabase/target
 ComputerDatabase/spec-cdb
+ComputerDatabase/*/target
+
+# IntelIJ
+ComputerDatabase/.idea
+*.iml
 
 # Eclipse Core
 .project
