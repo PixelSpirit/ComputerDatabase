@@ -10,7 +10,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>webapp</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<dependencies>
 		<dependency>
@@ -90,6 +90,14 @@
 			<artifactId>selenium-firefox-driver</artifactId>
             <scope>compile</scope>
         </dependency>
+
+		<!-- JSTL -->
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 
