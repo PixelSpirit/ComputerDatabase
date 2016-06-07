@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class DBInitialiser {
 
-    private static final String COMMAND = "./dbTestInit.sh";
+    private static final String COMMAND = "../spec-cdb/config/db-test/dbInit.sh";
 
     static final Logger LOGGER = LoggerFactory.getLogger(DBInitialiser.class);
 
