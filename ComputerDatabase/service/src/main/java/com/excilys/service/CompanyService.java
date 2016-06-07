@@ -1,18 +1,16 @@
 package com.excilys.service;
 
+import com.excilys.model.Company;
+import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.ComputerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.model.Company;
-import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.ComputerDAO;
-
 @Service
 public class CompanyService {
-
 
     @Autowired
     CompanyDAO cpnDao;
