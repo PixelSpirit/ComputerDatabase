@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class DTOComputer {
+public class ComputerDTO {
 
     private static final String DATE_REGEXP = "(^[0-9]{4}-(0[1-9]|1[012])-([0-2][0-9]|3[0-1])$)|(^$)";
     private static final String INT_REGEXP = "^\\d+$";
@@ -30,11 +30,11 @@ public class DTOComputer {
 
     private String companyName;
 
-    public DTOComputer() {
+    public ComputerDTO() {
     }
 
     /**
-     * Constructs a DTOComputer.
+     * Constructs a ComputerDTO.
      * @param id The id
      * @param name The name
      * @param introduced The introduced date
@@ -42,8 +42,8 @@ public class DTOComputer {
      * @param companyId The company id
      * @param companyName The company name
      */
-    public DTOComputer(String id, String name, String introduced, String discontinued, String companyId,
-            String companyName) {
+    public ComputerDTO(String id, String name, String introduced, String discontinued, String companyId,
+                       String companyName) {
         this.id = id;
         this.name = name;
         this.introduced = introduced;
@@ -143,7 +143,7 @@ public class DTOComputer {
      */
     @Override
     public String toString() {
-        return "DTOComputer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+        return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
                 + discontinued + ", companyId=" + companyId + ", companyName=" + companyName + "]";
     }
 

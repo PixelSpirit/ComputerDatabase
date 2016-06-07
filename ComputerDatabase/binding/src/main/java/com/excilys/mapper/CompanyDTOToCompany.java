@@ -2,13 +2,13 @@ package com.excilys.mapper;
 
 import org.springframework.core.convert.converter.Converter;
 
-import com.excilys.dto.DTOCompany;
+import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
-public class DTOCompanyToCompany implements Converter<DTOCompany, Company> {
+public class CompanyDTOToCompany implements Converter<CompanyDTO, Company> {
 
     @Override
-    public Company convert(DTOCompany dto) {
+    public Company convert(CompanyDTO dto) {
         // Check parseLong
         return new Company(Long.parseLong(dto.getId()), dto.getName());
     }
