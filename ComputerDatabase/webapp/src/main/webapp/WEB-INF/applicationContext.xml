@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
     http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	http://www.springframework.org/schema/security/spring-security-4.1.xsd">
 
 	<import resource="classpath:serviceApplicationContext.xml" />
 
@@ -21,25 +21,34 @@
 
 	<!-- Spring security -->
 
+	<bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
+	<bean id="userDetailsService" class="com.excilys.service.UserServiceImpl"/>
+
 	<secu:http auto-config="true">
-		<secu:intercept-url pattern="/admin**" access="hasRole('ROLE_USER')" />
-		<secu:form-login
-				login-page="/login"
-				default-target-url="/computer/list"
-				authentication-failure-url="/login?error"
-				username-parameter="username"
-				password-parameter="password" />
-		<secu:logout logout-success-url="/login?logout" />
-		<!-- enable csrf protection -->
+		<secu:http-basic/>
+		<secu:intercept-url pattern="/computer/list" access="hasRole('ROLE_USER')" />
+		<secu:intercept-url pattern="/computer/add" access="hasRole('ROLE_USER')" />
+		<secu:intercept-url pattern="computer/edit" access="hasRole('ROLE_USER')" />
 		<secu:csrf/>
+		<secu:custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
 	</secu:http>
 
+	<bean id="digestFilter" class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="authenticationEntryPoint" ref="digestEntryPoint" />
+		<property name="passwordAlreadyEncoded" value="true" />
+	</bean>
+
+	<bean id="digestEntryPoint" class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+		<property name="realmName" value="Http Digest Authentication" />
+		<property name="key" value="realmsalt" />
+	</bean>
+
 	<secu:authentication-manager>
-		<secu:authentication-provider>
-			<secu:user-service>
-				<secu:user name="nraymond" password="azertylol" authorities="ROLE_USER" />
-			</secu:user-service>
+		<secu:authentication-provider user-service-ref="userDetailsService" >
+			<secu:password-encoder hash="sha-256" />
 		</secu:authentication-provider>
 	</secu:authentication-manager>
+
 
 </beans>
