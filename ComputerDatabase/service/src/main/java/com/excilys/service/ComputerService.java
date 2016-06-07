@@ -32,7 +32,7 @@ public class ComputerService {
         return dao.findAll(pageRequest);
     }
 
-    // @Transactional
+    @Transactional
     public Computer insert(Computer entity) {
         return dao.save(entity);
     }

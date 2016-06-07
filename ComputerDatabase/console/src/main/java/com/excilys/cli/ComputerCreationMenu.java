@@ -20,7 +20,7 @@ public class ComputerCreationMenu extends Menu {
      * Constructs a ComputerCreationMenu.
      */
     private ComputerCreationMenu() {
-        super(" Computer Creation");
+        super(" computer Creation");
     }
 
     /**
@@ -44,7 +44,7 @@ public class ComputerCreationMenu extends Menu {
      * @return the name of the computer.
      */
     private static String createName() {
-        System.out.print("Enter Computer name > ");
+        System.out.print("Enter computer name > ");
         return scanner.nextLine();
     }
 
@@ -112,7 +112,7 @@ public class ComputerCreationMenu extends Menu {
     @Override
     protected void printContent() {
         new ComputerService().insert(createComputer());
-        System.out.println("Computer was succefully added");
+        System.out.println("computer was succefully added");
     }
 
     @Override

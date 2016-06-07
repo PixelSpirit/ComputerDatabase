@@ -1,17 +1,17 @@
-package com.excilys.controller;
+package com.excilys.controller.computer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.dto.ComputerDTO;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
-import com.excilys.dto.DTOCompany;
-import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.CompanyToDTOCompany;
-import com.excilys.mapper.DTOComputerToComputer;
+import com.excilys.dto.CompanyDTO;
+import com.excilys.mapper.CompanyToCompanyDTO;
+import com.excilys.mapper.ComputerDTOToComputer;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
@@ -29,9 +29,9 @@ public class ComputerUpdaterRequest {
      */
     public void saveAllCompanies(ModelMap model) {
         Iterable<Company> companies = companyService.findAll();
-        List<DTOCompany> dtoCompanies = new ArrayList<>();
+        List<CompanyDTO> dtoCompanies = new ArrayList<>();
         for (Company company : companies) {
-            dtoCompanies.add(new CompanyToDTOCompany().convert(company));
+            dtoCompanies.add(new CompanyToCompanyDTO().convert(company));
         }
         model.addAttribute("allCompanies", companyService.findAll());
     }
@@ -40,7 +40,7 @@ public class ComputerUpdaterRequest {
      * Gets computer information from POST request and saves it in the services.
      * @param model The map model
      */
-    public Computer getFormComputer(DTOComputer dtoComputer, ModelMap model) {
+    public Computer getFormComputer(ComputerDTO dtoComputer, ModelMap model) {
         if (dtoComputer.getId() == null) {
             dtoComputer.setId("");
         }
@@ -48,6 +48,6 @@ public class ComputerUpdaterRequest {
             String companyName = companyService.find(Long.parseLong(dtoComputer.getCompanyId())).getName();
             dtoComputer.setCompanyName(companyName);
         }
-        return new DTOComputerToComputer().convert(dtoComputer);
+        return new ComputerDTOToComputer().convert(dtoComputer);
     }
 }

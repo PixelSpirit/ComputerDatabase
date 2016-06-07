@@ -1,10 +1,10 @@
-package com.excilys.controller;
+package com.excilys.controller.computer;
 
 import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
-import com.zaxxer.hikari.HikariConfig;
+import com.excilys.dto.ComputerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.ComputerToDTOComputer;
+import com.excilys.mapper.ComputerToComputerDTO;
 import com.excilys.model.Computer;
 import com.excilys.service.ComputerService;
 
@@ -80,14 +79,14 @@ public class ComputerController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String computerAddGetView(ModelMap model) {
         logger.info("<computer/add> [doGet] received");
-        model.addAttribute("dtoComputer", new DTOComputer());
+        model.addAttribute("dtoComputer", new ComputerDTO());
         updater.saveAllCompanies(model);
 
         return "addComputer/main";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String computerAddPostView(@ModelAttribute("dtoComputer") @Valid DTOComputer dtoComputer,
+    public String computerAddPostView(@ModelAttribute("dtoComputer") @Valid ComputerDTO dtoComputer,
                                       BindingResult result, ModelMap model) {
         logger.info("<computer/add> [doPost] received");
         if (result.hasErrors()) {
@@ -96,7 +95,7 @@ public class ComputerController {
             }
             return "addComputer/main";
         } else {
-            logger.info("<computer/add> [Formulaire Submit] Computer To Add : " + dtoComputer);
+            logger.info("<computer/add> [Formulaire Submit] computer To Add : " + dtoComputer);
             Computer cpt = updater.getFormComputer(dtoComputer, model);
             computerService.insert(cpt);
             return "redirect:list";
@@ -106,14 +105,14 @@ public class ComputerController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String computerUpdateGetView(@RequestParam(EDIT) long id, ModelMap model) {
         logger.info("<computer/update> [doGet] received");
-        DTOComputer computerToEdit = new ComputerToDTOComputer().convert(computerService.find(id));
+        ComputerDTO computerToEdit = new ComputerToComputerDTO().convert(computerService.find(id));
         model.addAttribute("computerToEdit", computerToEdit);
         updater.saveAllCompanies(model);
         return "updateComputer/main";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String computerUpdatePostView(@ModelAttribute("computerToEdit") @Valid DTOComputer computerToEdit,
+    public String computerUpdatePostView(@ModelAttribute("computerToEdit") @Valid ComputerDTO computerToEdit,
                                          BindingResult result, ModelMap model) {
         logger.info("<computer/update> [doPost] received");
         if (result.hasErrors()) {
@@ -122,7 +121,7 @@ public class ComputerController {
             }
             return "updateComputer/main";
         } else {
-            logger.info("<computer/update> [Formulaire Submit] Computer To Update : " + computerToEdit);
+            logger.info("<computer/update> [Formulaire Submit] computer To Update : " + computerToEdit);
             Computer cpt = updater.getFormComputer(computerToEdit, model);
             computerService.update(cpt.getId(), cpt);
             return "redirect:list";

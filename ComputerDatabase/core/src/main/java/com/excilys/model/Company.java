@@ -17,9 +17,6 @@ public class Company {
 
     private String name = null;
 
-    @OneToMany(mappedBy = "company")
-    private Set<Computer> computers;
-
     /* Constructors */
 
     public Company() {
@@ -74,20 +71,6 @@ public class Company {
     }
 
     /* Object */
-
-    /**
-     * @return the computers
-     */
-    public Set<Computer> getComputers() {
-        return computers;
-    }
-
-    /**
-     * @param computers the computers to set
-     */
-    public void setComputers(Set<Computer> computers) {
-        this.computers = computers;
-    }
 
     @Override
     public String toString() {

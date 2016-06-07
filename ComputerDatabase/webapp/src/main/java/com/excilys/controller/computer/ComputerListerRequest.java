@@ -1,4 +1,4 @@
-package com.excilys.controller;
+package com.excilys.controller.computer;
 
 import java.util.regex.Pattern;
 
@@ -11,8 +11,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
-import com.excilys.dto.DTOComputer;
-import com.excilys.mapper.ComputerToDTOComputer;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.ComputerToComputerDTO;
 import com.excilys.service.ComputerService;
 
 @Component
@@ -53,7 +53,7 @@ public class ComputerListerRequest {
         }
         Direction direction = Direction.fromString(reqDirection);
         PageRequest pr = new PageRequest(page, limit, direction, reqOrderby);
-        Page<DTOComputer> dtoPage = computerService.findPage(pr).map(new ComputerToDTOComputer());
+        Page<ComputerDTO> dtoPage = computerService.findPage(pr).map(new ComputerToComputerDTO());
         long computerNumbers = dtoPage.getTotalElements();
 
         model.addAttribute("page", dtoPage);

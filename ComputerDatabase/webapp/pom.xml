@@ -99,6 +99,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- Rest -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

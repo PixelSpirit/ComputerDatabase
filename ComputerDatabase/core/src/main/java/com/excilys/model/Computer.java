@@ -36,7 +36,7 @@ public class Computer {
     }
 
     /**
-     * Constructs a Computer.
+     * Constructs a computer.
      * @param name The computer's name
      */
     public Computer(String name) {
@@ -60,8 +60,8 @@ public class Computer {
     }
 
     /**
-     * Constructs a Computer from a new Builder.
-     * @param builder The Computer builder configuration
+     * Constructs a computer from a new Builder.
+     * @param builder The computer builder configuration
      */
     public Computer(Builder builder) {
         this.id = builder.id;
@@ -144,7 +144,7 @@ public class Computer {
         }
 
         /**
-         * @return a fresh Computer with the current Builder settings
+         * @return a fresh computer with the current Builder settings
          */
         public Computer build() {
             return new Computer(this);
